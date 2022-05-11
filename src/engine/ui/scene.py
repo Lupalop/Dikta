@@ -5,7 +5,7 @@ class Scene:
         self.entities = {}
         print("Initialized: Scene - {}".format(name))
 
-    def update(self):
+    def update(self, events):
         for entityName in self.entities:
             entity = self.entities[entityName]
             entity.update()

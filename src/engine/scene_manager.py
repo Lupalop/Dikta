@@ -1,7 +1,6 @@
 class SceneManager:
-    def __init__(self, window):
+    def __init__(self):
         print("Initialized: Scene Manager")
-        self._window = window
         self._scene = None
 
     def get_scene(self):
@@ -14,14 +13,14 @@ class SceneManager:
         self._scene = scene
         scene.load_content()
 
-    def update(self):
+    def update(self, events):
         if not self._scene or not self._scene.enabled:
             return
 
-        self._scene.update()
+        self._scene.update(events)
 
-    def draw(self):
+    def draw(self, window):
         if not self._scene:
             return
 
-        self._scene.draw(self._window)
+        self._scene.draw(window)

@@ -7,28 +7,29 @@ class GameManager():
         print("Initialized: Game Manager")
         self.viewport_bounds = (800, 600)
         self.window = pygame.display.set_mode(self.viewport_bounds)
-        self.scenes = SceneManager(self.window)
+        self.scenes = SceneManager()
         self.fps_limit = 60
         self._clock = pygame.time.Clock()
         self._title = ""
         self._icon = None
 
     def run(self):
-        pygame.font.init()
-
         self.running = True
-
+        # Main game loop
         while self.running:
-            self._clock.tick(self.fps_limit)
+            # Consume the quit event first.
+            for event in pygame.event.get(pygame.QUIT):
+                self.running = False
+            # Consume all the remaining events and store them in a variable
+            # for use by the current scene.
+            events = pygame.event.get()
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-
-            self.scenes.update()
-            self.scenes.draw()
+            self.scenes.update(events)
+            self.scenes.draw(self.window)
 
             pygame.display.update()
+
+            self._clock.tick(self.fps_limit)
 
         pygame.quit()
 
