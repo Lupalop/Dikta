@@ -40,6 +40,9 @@ class GameManager():
         self._title = title
         pygame.display.set_caption(title)
 
+    def get_window_icon(self):
+        return self._icon
+
     def set_window_icon(self, icon):
         self._icon = icon
         pygame.display.set_icon(icon)
