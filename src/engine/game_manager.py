@@ -5,8 +5,8 @@ import pygame
 class GameManager():
     def __init__(self):
         print("Initialized: Game Manager")
-        self.viewport_bounds = (800, 600)
-        self.window = pygame.display.set_mode(self.viewport_bounds)
+        self.viewport_size = (800, 600)
+        self.window = pygame.display.set_mode(self.viewport_size)
         self.scenes = SceneManager()
         self.fps_limit = 60
         self._clock = pygame.time.Clock()
