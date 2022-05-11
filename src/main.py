@@ -2,17 +2,23 @@ import pygame
 import os
 pygame.font.init()
 
+def load_asset(aAssetName):
+    asset_path = os.path.join("assets", aAssetName);
+    return pygame.image.load(asset_path)
+
+def load_scene_asset(aSceneId, aAssetName):
+    scene_dir = "scene" + str(aSceneId) + "/"
+    asset_path = os.path.join("assets", scene_dir, aAssetName);
+    return pygame.image.load(asset_path)    
 
 WIDTH, HEIGHT = 800, 600
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
-MAIN_LOGO = pygame.image.load(os.path.join('ASSETS', 'mainBG.png'))
+MAIN_LOGO = load_asset('mainBG.png')
 
-WIN_MAIN_BACKGROUND = pygame.image.load(
-    os.path.join('ASSETS', 'mainBG.png'))
+WIN_MAIN_BACKGROUND = load_asset('mainBG.png')
 
-MAIN_LOGO_NAME = pygame.transform.scale(pygame.image.load(
-    os.path.join('ASSETS', 'logoName.png')), (300, 80))
+MAIN_LOGO_NAME = pygame.transform.scale(load_asset('logoName.png'), (300, 80))
 
 WHITE = (255, 255, 255)
 
@@ -24,7 +30,7 @@ LANDING_NEW_GAME_TEXT = START_GAME_FONT.render(
     "PRESS X FOR NEW GAME", 1, WHITE)
 
 
-pygame.display.set_caption("BAWAL SA MGA BBM SUPPORTERS")
+pygame.display.set_caption("Dikta")
 pygame.display.set_icon(MAIN_LOGO)
 
 
@@ -55,34 +61,34 @@ class Button():
 
 
 def start_game():
-    btn_try = pygame.image.load(os.path.join('ASSETS', 'hand.png'))
+    btn_try = load_scene_asset(1, 'hand.png')
     btn_try2 = pygame.transform.scale(btn_try, (66, 66))
 
     hand_button = Button(btn_try2, 160, 75)
 
     # HAND_BTN = Button(HAND_INIT, 120, 40)
 
-    SCENE_ONE_BG = pygame.transform.scale(pygame.image.load(
-        os.path.join('ASSETS', 'scene1_BG.png')), (800, 600))
+    SCENE_ONE_BG = pygame.transform.scale(
+        load_scene_asset(1, 'bg.png'), (800, 600))
 
-    PERSON_SAYING = pygame.transform.scale(pygame.image.load(
-        os.path.join('ASSETS', 'saying.png')), (461, 93))
+    PERSON_SAYING = pygame.transform.scale(
+        load_scene_asset(1, 'saying.png'), (461, 93))
     # HAND = pygame.transform.scale(pygame.image.load(
-    #     os.path.join('ASSETS', 'hand.png')), (66, 66))
-    ZOOM = pygame.transform.scale(pygame.image.load(
-        os.path.join('ASSETS', 'search.png')), (66, 66))
-    TASK = pygame.transform.scale(pygame.image.load(
-        os.path.join('ASSETS', 'task.png')), (106, 113))
-    MENU = pygame.transform.scale(pygame.image.load(
-        os.path.join('ASSETS', 'menu.png')), (107, 35))
-    BOOK = pygame.transform.scale(pygame.image.load(
-        os.path.join('ASSETS', 'paper.png')), (306, 306))
-    JOURNAL = pygame.transform.scale(pygame.image.load(
-        os.path.join('ASSETS', 'journal.png')), (203, 144))
-    EYEGLASS = pygame.transform.scale(pygame.image.load(
-        os.path.join('ASSETS', 'eyeglasses.png')), (140, 140))
-    LONG_PAPER = pygame.transform.scale(pygame.image.load(
-        os.path.join('ASSETS', 'longPaper.png')), (118, 117))
+    #     os.path.join('ASSETS', 'hand.png'), (66, 66))
+    ZOOM = pygame.transform.scale(
+        load_scene_asset(1, 'search.png'), (66, 66))
+    TASK = pygame.transform.scale(
+        load_scene_asset(1, 'task.png'), (106, 113))
+    MENU = pygame.transform.scale(
+        load_scene_asset(1, 'menu.png'), (107, 35))
+    BOOK = pygame.transform.scale(
+        load_scene_asset(1, 'paper.png'), (306, 306))
+    JOURNAL = pygame.transform.scale(
+        load_scene_asset(1, 'journal.png'), (203, 144))
+    EYEGLASS = pygame.transform.scale(
+        load_scene_asset(1, 'eyeglasses.png'), (140, 140))
+    LONG_PAPER = pygame.transform.scale(
+        load_scene_asset(1, 'longPaper.png'), (118, 117))
 
     WIN.blit(SCENE_ONE_BG, (0, 0))
     WIN.blit(PERSON_SAYING, (250, 20))

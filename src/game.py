@@ -1,10 +1,18 @@
 import pygame
 import os
 
+def load_asset(aAssetName):
+    asset_path = os.path.join("assets", aAssetName);
+    return pygame.image.load(asset_path)
+
+def load_scene_asset(aSceneId, aAssetName):
+    scene_dir = "scene" + str(aSceneId) + "/"
+    asset_path = os.path.join("assets", scene_dir, aAssetName);
+    return pygame.image.load(asset_path)    
 
 pygame.font.init()
 pygame.display.set_caption("DIKTA")
-# MAIN_LOGO = pygame.image.load(os.path.join('ASSETS', 'mainBG.png'))
+# MAIN_LOGO = load_asset('mainBG.png')
 # pygame.display.set_icon(MAIN_LOGO)
 
 
@@ -91,24 +99,24 @@ class Level(Game):
         FIND_ITEMS = []
         TASK_FONT = pygame.font.SysFont('bodoniblack', 13)
 
-        PERSON_SAYING = pygame.transform.scale(pygame.image.load(
-            os.path.join('ASSETS/scene1', 'saying.png')), (461, 93))
-        ZOOM = pygame.transform.scale(pygame.image.load(
-            os.path.join('ASSETS/scene1', 'search.png')), (66, 66))
-        HAND = pygame.transform.scale(pygame.image.load(
-            os.path.join('ASSETS/scene1', 'hand.png')), (66, 66))
-        TASK = pygame.transform.scale(pygame.image.load(
-            os.path.join('ASSETS/scene1', 'task.png')), (106, 113))
-        MENU = pygame.transform.scale(pygame.image.load(
-            os.path.join('ASSETS/scene1', 'menu.png')), (107, 35))
-        PAPER = pygame.transform.scale(pygame.image.load(
-            os.path.join('ASSETS/scene1', 'paper.png')), (306, 306))
-        JOURNAL = pygame.transform.scale(pygame.image.load(
-            os.path.join('ASSETS/scene1', 'journal.png')), (203, 144))
-        EYEGLASS = pygame.transform.scale(pygame.image.load(
-            os.path.join('ASSETS/scene1', 'eyeglasses.png')), (140, 140))
-        LONG_PAPER = pygame.transform.scale(pygame.image.load(
-            os.path.join('ASSETS/scene1', 'longPaper.png')), (118, 117))
+        PERSON_SAYING = pygame.transform.scale(
+            load_scene_asset(1, 'saying.png'), (461, 93))
+        ZOOM = pygame.transform.scale(
+            load_scene_asset(1, 'search.png'), (66, 66))
+        HAND = pygame.transform.scale(
+            load_scene_asset(1, 'hand.png'), (66, 66))
+        TASK = pygame.transform.scale(
+            load_scene_asset(1, 'task.png'), (106, 113))
+        MENU = pygame.transform.scale(
+            load_scene_asset(1, 'menu.png'), (107, 35))
+        PAPER = pygame.transform.scale(
+            load_scene_asset(1, 'paper.png'), (306, 306))
+        JOURNAL = pygame.transform.scale(
+            load_scene_asset(1, 'journal.png'), (203, 144))
+        EYEGLASS = pygame.transform.scale(
+            load_scene_asset(1, 'eyeglasses.png'), (140, 140))
+        LONG_PAPER = pygame.transform.scale(
+            load_scene_asset(1, 'longPaper.png'), (118, 117))
 
         if not self.inited_main_game:
             PERSON_SAYING_BUTTON = Button(
@@ -163,10 +171,8 @@ class Menu(Game):
         LANDING_NEW_GAME_TEXT = START_GAME_FONT.render(
             "PRESS X FOR NEW GAME", 1, WHITE)
 
-        MENU_BACKGROUND = pygame.image.load(
-            os.path.join('ASSETS', 'mainBG.png'))
-        MAIN_LOGO = pygame.transform.scale(pygame.image.load(
-            os.path.join('ASSETS', 'logoName.png')), (300, 80))
+        MENU_BACKGROUND = load_asset('mainBG.png')
+        MAIN_LOGO = pygame.transform.scale(load_asset('logoName.png'), (300, 80))
 
         self.win.blit(MENU_BACKGROUND, (0, 0))
         self.win.blit(MAIN_LOGO, (70, 80))
@@ -183,8 +189,7 @@ class Menu(Game):
         print('Help Here Soon')
 
 
-SCENE_ONE_BACKGROUND = pygame.image.load(
-    os.path.join('ASSETS/scene1', 'scene1_BG.png'))
+SCENE_ONE_BACKGROUND = load_scene_asset(1, 'bg.png')
 
 
 def lvlOne():
