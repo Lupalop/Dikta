@@ -67,6 +67,8 @@ class GameManager():
             self.render_layer = pygame.Surface(self.layer_size)
 
     def scaled_pos(self, position):
+        if self.ratio[0] == 1 and self.ratio[1] == 1:
+            return position
         return (position[0] / self.ratio[0], position[1] / self.ratio[1])
 
     def get_window_title(self):
