@@ -1,5 +1,6 @@
 from . import entities
-from . import ui
+
+from .scene import Scene
 
 from .content_manager import ContentManager
 from .scene_manager import SceneManager
