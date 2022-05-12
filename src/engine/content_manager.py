@@ -8,12 +8,12 @@ class ContentManager:
         pygame.font.init()
     @staticmethod
     def load_asset(aAssetName):
-        asset_path = os.path.join("app/assets", aAssetName);
+        asset_path = os.path.join("app", "assets", aAssetName);
         return pygame.image.load(asset_path).convert_alpha()
     @staticmethod
     def load_scene_asset(aSceneId, aAssetName):
-        scene_dir = "scene" + str(aSceneId) + "/"
-        asset_path = os.path.join("app/assets", scene_dir, aAssetName);
+        scene_dir = "scene" + str(aSceneId)
+        asset_path = os.path.join("app", "assets", scene_dir, aAssetName);
         return pygame.image.load(asset_path).convert_alpha()
     @staticmethod
     def load_font(font_name_or_file, font_size, is_system = True):
