@@ -14,7 +14,7 @@ class Label(Entity):
         self._surface = self._font.render(self._text, True, self._color, None)
         if compute_size:
             self._mask = pygame.mask.from_surface(self._surface)
-            if self._rect.size != (0, 0):
+            if self._rect.size == (0, 0):
                 self.set_size(self._font.size(self._text))
 
     def get_surface(self):
