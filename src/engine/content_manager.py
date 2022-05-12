@@ -2,6 +2,7 @@ import os
 import pygame
 
 font_cache = {}
+image_cache = {}
 
 class ContentManager:
     def __init__(self):
@@ -9,12 +10,23 @@ class ContentManager:
     @staticmethod
     def load_asset(aAssetName):
         asset_path = os.path.join("app", "assets", aAssetName);
-        return pygame.image.load(asset_path).convert_alpha()
+        asset = None
+        if asset_path in image_cache:
+            asset = image_cache[asset_path]
+        else:
+            asset = pygame.image.load(asset_path).convert_alpha()
+            image_cache[asset_path] = asset
+        return asset
     @staticmethod
     def load_scene_asset(aSceneId, aAssetName):
         scene_dir = "scene" + str(aSceneId)
         asset_path = os.path.join("app", "assets", scene_dir, aAssetName);
-        return pygame.image.load(asset_path).convert_alpha()
+        if asset_path in image_cache:
+            asset = image_cache[asset_path]
+        else:
+            asset = pygame.image.load(asset_path).convert_alpha()
+            image_cache[asset_path] = asset
+        return asset
     @staticmethod
     def load_font(font_name_or_file, font_size, is_system = True):
         font_name = font_name_or_file
