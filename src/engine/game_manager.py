@@ -29,7 +29,9 @@ class GameManager():
 
             self.render_layer.fill(pygame.Color("black"))
             self.scenes.draw(self.render_layer)
-            pygame.transform.scale(self.render_layer, self.window.get_rect().size, self.window)
+            self.scaler(self.render_layer,
+                        self.window.get_rect().size,
+                        self.window)
             pygame.display.update()
 
             self._clock.tick(self.fps_limit)
@@ -43,6 +45,7 @@ class GameManager():
         self.is_fullscreen = False
         self.is_resizable = False
         self.is_dpi_aware = True
+        self.is_scale_smooth = True
         # Prevent automatic scaling
         if self.is_dpi_aware:
             import ctypes
@@ -65,6 +68,10 @@ class GameManager():
             self.ratio = (ratio_x, ratio_y)
         if is_layer:
             self.render_layer = pygame.Surface(self.layer_size)
+        if self.is_scale_smooth:
+            self.scaler = pygame.transform.smoothscale
+        else:
+            self.scaler = pygame.transform.scale
 
     def scaled_pos(self, position):
         if self.ratio[0] == 1 and self.ratio[1] == 1:
