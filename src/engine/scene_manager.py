@@ -33,9 +33,9 @@ class SceneManager:
                 continue
             overlay.update(events)
 
-    def draw(self, window):
+    def draw(self, layer):
         if self._scene:
-            self._scene.draw(window)
+            self._scene.draw(layer)
 
         for overlay in self._overlays.values():
-            overlay.draw(window)
+            overlay.draw(layer)

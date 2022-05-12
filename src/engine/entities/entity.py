@@ -36,5 +36,5 @@ class Entity():
     def update(self):
         pass
         
-    def draw(self, window):
+    def draw(self, layer):
         pass

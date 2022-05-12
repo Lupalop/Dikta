@@ -10,10 +10,10 @@ class Scene:
             entity = self.entities[entityName]
             entity.update()
 
-    def draw(self, window):
+    def draw(self, layer):
         for entityName in self.entities:
             entity = self.entities[entityName]
-            entity.draw(window)
+            entity.draw(layer)
 
     def load_content(self):
         pass

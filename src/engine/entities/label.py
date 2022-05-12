@@ -45,5 +45,5 @@ class Label(Entity):
         return self._rect.collidepoint(point) and \
                self._mask.get_at(maskPosition)
 
-    def draw(self, window):
-        window.blit(self.get_surface(), self._rect)
+    def draw(self, layer):
+        layer.blit(self.get_surface(), self._rect)

@@ -5,8 +5,7 @@ import pygame
 class GameManager():
     def __init__(self):
         print("Initialized: Game Manager")
-        self.viewport_size = (800, 600)
-        self.window = pygame.display.set_mode(self.viewport_size)
+        self._init_display()
         self.scenes = SceneManager()
         self.fps_limit = 60
         self._clock = pygame.time.Clock()
@@ -17,21 +16,58 @@ class GameManager():
         self.running = True
         # Main game loop
         while self.running:
-            # Consume the quit event first.
-            for event in pygame.event.get(pygame.QUIT):
-                self.running = False
-            # Consume all the remaining events and store them in a variable
-            # for use by the current scene.
+            # Consume all events and store them for later use.
             events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.QUIT:
+                    self.running = False
+                if event.type == pygame.VIDEORESIZE:
+                    self.window_size = event.size
+                    self.update_display(True, False)
 
             self.scenes.update(events)
-            self.scenes.draw(self.window)
 
+            self.render_layer.fill(pygame.Color("black"))
+            self.scenes.draw(self.render_layer)
+            pygame.transform.scale(self.render_layer, self.window.get_rect().size, self.window)
             pygame.display.update()
 
             self._clock.tick(self.fps_limit)
 
         pygame.quit()
+
+    def _init_display(self):
+        # TODO: This should be configurable via preferences (pending impl)
+        self.window_size = (1024, 768)
+        self.layer_size = (800, 600)
+        self.is_fullscreen = False
+        self.is_resizable = False
+        self.is_dpi_aware = True
+        # Prevent automatic scaling
+        if self.is_dpi_aware:
+            import ctypes
+            ctypes.windll.user32.SetProcessDPIAware()
+        # Update display mode and render layer surface
+        self.update_display(True, True)
+
+    def update_display(self, is_window, is_layer):
+        if is_window:
+            # Determine flags to be used in current display mode
+            flags = pygame.SHOWN
+            if self.is_fullscreen:
+                flags |= pygame.FULLSCREEN
+            if self.is_resizable:
+                flags |= pygame.RESIZABLE
+
+            self.window = pygame.display.set_mode(self.window_size, flags)
+            ratio_x = self.window_size[0] / self.layer_size[0]
+            ratio_y = self.window_size[1] / self.layer_size[1]
+            self.ratio = (ratio_x, ratio_y)
+        if is_layer:
+            self.render_layer = pygame.Surface(self.layer_size)
+
+    def scaled_pos(self, position):
+        return (position[0] / self.ratio[0], position[1] / self.ratio[1])
 
     def get_window_title(self):
         return self._title
