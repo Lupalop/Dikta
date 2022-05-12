@@ -8,7 +8,7 @@ class Scene:
     def update(self, events):
         for entityName in self.entities:
             entity = self.entities[entityName]
-            entity.update()
+            entity.update(events)
 
     def draw(self, layer):
         for entityName in self.entities:
