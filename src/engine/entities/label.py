@@ -37,6 +37,13 @@ class Label(Entity):
     def get_text(self):
         return self._text
 
+    def get_font(self):
+        return self._font
+
+    def set_font(self, font):
+        self._font = font
+        self._update_surface()
+
     def set_color(self, color):
         self._color = color
         self._update_surface(False)
