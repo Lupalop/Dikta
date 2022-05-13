@@ -1,6 +1,6 @@
 from engine import *
 from engine.entities import *
-from app.utils import *
+from app import utils
 
 import pygame
 
@@ -15,7 +15,7 @@ class CoordinatesDebugOverlay(Scene):
         self.entities["xy"].set_text(scaled_pos)
 
     def load_content(self):
-        xy_counter = Label("0, 0", get_font("sm"), pygame.Color("white"), (0, 0))
+        xy_counter = Label("0, 0", utils.fonts["sm"], pygame.Color("white"), (0, 0))
 
         self.entities = {
             "xy": xy_counter
