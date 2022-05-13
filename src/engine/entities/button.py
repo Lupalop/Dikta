@@ -116,11 +116,14 @@ class Button(Entity):
 
         is_mb_down = False
         is_mb_up = False
+        button = None
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 is_mb_down = True
+                button = event.button
             if event.type == pygame.MOUSEBUTTONUP:
                 is_mb_up = True
+                button = event.button
 
         is_hovered = self.intersects_mask(game.get_mouse_pos())
         if is_hovered:
@@ -135,11 +138,11 @@ class Button(Entity):
                 # Execute click handlers only if the mouse button was
                 # released while hovering on this button.
                 if is_hovered:
-                    if event.button == 1:
+                    if button == 1:
                         self.on_left_click()
-                    elif event.button == 2:
+                    elif button == 2:
                         self.on_middle_click()
-                    elif event.button == 3:
+                    elif button == 3:
                         self.on_right_click()
 
         self._current_image = target_image
