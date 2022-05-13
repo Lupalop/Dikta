@@ -14,7 +14,7 @@ class CoordinatesDebugOverlay(Scene):
         self.entities["xy"].set_text(scaled_pos)
 
     def load_content(self):
-        counter_font = content.load_font('arial', 12)
+        counter_font = content.load_font("arial", 12)
         xy_counter = Label("0, 0", counter_font, pygame.Color("white"), (0, 0))
 
         self.entities = {
