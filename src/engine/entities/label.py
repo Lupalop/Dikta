@@ -10,6 +10,10 @@ class Label(Entity):
         self._text = text
         self._update_surface()
 
+    @classmethod
+    def fromEntity(cls, entity):
+        return cls(entity._text, entity._font, entity._color, entity._rect)
+
     def _update_surface(self, compute_size = True):
         self._surface = self._font.render(self._text, True, self._color, None)
         if compute_size:

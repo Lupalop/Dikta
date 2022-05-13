@@ -14,6 +14,10 @@ class Entity():
         if size:
             self._rect.size = size
 
+    @classmethod
+    def fromEntity(cls, entity):
+        return cls(entity._rect)
+
     def get_size(self):
         return self._rect.size
 

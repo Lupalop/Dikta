@@ -14,6 +14,10 @@ class Image(Entity):
             self._surface = pygame.transform.scale(self._surface_base, size)
         self._update_mask()
 
+    @classmethod
+    def fromEntity(cls, entity):
+        return cls(entity._surface_base, entity._rect)
+
     def get_surface(self):
         return self._surface
 
