@@ -8,10 +8,10 @@ class Image(Entity):
         self._surface_base = surface
         self._size_base = surface.get_rect().size
         self._surface = self._surface_base
-        if not size:
+        if self._rect.size == (0, 0):
             self._rect.size = self._size_base
         else:
-            self._surface = pygame.transform.scale(self._surface_base, size)
+            self._surface = pygame.transform.scale(self._surface_base, self._rect.size)
         self._update_mask()
 
     @classmethod
