@@ -42,10 +42,13 @@ class Image(Entity):
         self._rect.size = self._size_base
         self._update_mask()
 
-    def intersects_point(self, point):
+    def intersects_mask(self, point):
         maskPosition = point[0] - self._rect.x, point[1] - self._rect.y
         return self._rect.collidepoint(point) and \
                self._mask.get_at(maskPosition)
+
+    def intersects_rect(self, point):
+        return self._rect.collidepoint(point)
 
     def draw(self, layer):
         layer.blit(self.get_surface(), self._rect)
