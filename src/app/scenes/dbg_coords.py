@@ -7,8 +7,8 @@ class CoordinatesDebugOverlay(Scene):
     def __init__(self):
         super().__init__("DBGO - Coordinates")
 
-    def update(self, events):
-        super().update(events)
+    def update(self, game, events):
+        super().update(game, events)
 
         for event in events:
             if event.type == pygame.MOUSEMOTION:

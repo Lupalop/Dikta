@@ -25,7 +25,7 @@ class GameManager():
                     self.window_size = event.size
                     self.update_display(True, False)
 
-            self.scenes.update(events)
+            self.scenes.update(self, events)
 
             self.render_layer.fill(pygame.Color("black"))
             self.scenes.draw(self.render_layer)

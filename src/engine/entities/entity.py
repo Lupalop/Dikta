@@ -33,7 +33,7 @@ class Entity():
         self._rect.x = position[0]
         self._rect.y = position[1]
 
-    def update(self, events):
+    def update(self, game, events):
         pass
         
     def draw(self, layer):

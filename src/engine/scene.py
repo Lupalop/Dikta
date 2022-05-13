@@ -5,10 +5,10 @@ class Scene:
         self.entities = {}
         print("Initialized: Scene - {}".format(name))
 
-    def update(self, events):
+    def update(self, game, events):
         for entityName in self.entities:
             entity = self.entities[entityName]
-            entity.update(events)
+            entity.update(game, events)
 
     def draw(self, layer):
         for entityName in self.entities:

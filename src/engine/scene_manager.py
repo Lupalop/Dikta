@@ -24,14 +24,14 @@ class SceneManager:
     def get_overlay(self, id):
         return self._overlays.get(id, None)
 
-    def update(self, events):
+    def update(self, game, events):
         if self._scene and self._scene.enabled:
-            self._scene.update(events)
+            self._scene.update(game, events)
 
         for overlay in self._overlays.values():
             if not overlay.enabled:
                 continue
-            overlay.update(events)
+            overlay.update(game, events)
 
     def draw(self, layer):
         if self._scene:
