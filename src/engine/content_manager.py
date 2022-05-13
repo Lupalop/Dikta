@@ -18,10 +18,6 @@ class ContentManager:
             image_cache[image_path] = asset
         return asset
     @staticmethod
-    def load_area_image(scene_id, image_name):
-        scene_dir = "scene" + str(scene_id)
-        return ContentManager.load_image(image_name, scene_dir)
-    @staticmethod
     def load_font(font_name_or_file, font_size, is_system = True):
         font_name = font_name_or_file
         if not is_system:
