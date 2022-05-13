@@ -19,6 +19,8 @@ class GameManager():
             # Consume all events and store them for later use.
             events = pygame.event.get()
             for event in events:
+                if event.type == pygame.MOUSEMOTION:
+                    self._mouse_pos = event.pos
                 if event.type == pygame.QUIT:
                     self.running = False
                 if event.type == pygame.VIDEORESIZE:
@@ -73,11 +75,6 @@ class GameManager():
         else:
             self.scaler = pygame.transform.scale
 
-    def scaled_pos(self, position):
-        if self.ratio[0] == 1 and self.ratio[1] == 1:
-            return position
-        return (position[0] / self.ratio[0], position[1] / self.ratio[1])
-
     def get_window_title(self):
         return self._title
 
@@ -91,3 +88,12 @@ class GameManager():
     def set_window_icon(self, icon):
         self._icon = icon
         pygame.display.set_icon(icon)
+
+    # The following functions belong to an InputManager class
+    def get_scaled_pos(self, position):
+        if self.ratio[0] == 1 and self.ratio[1] == 1:
+            return position
+        return (position[0] / self.ratio[0], position[1] / self.ratio[1])
+
+    def get_mouse_pos(self):
+        return self.get_scaled_pos(self._mouse_pos)
