@@ -1,0 +1,131 @@
+from . import *
+
+import pygame
+
+class Button(Entity):
+    def __init__(self, button_states, text, font, color, position_or_rect, size = None):
+        super().__init__(position_or_rect, size)
+
+        if len(button_states) != 3:
+            raise ValueError("There must be 3 surfaces passed to the button_states parameter.")
+
+        self._button_states = button_states
+        self._images = []
+        for surface in button_states:
+            image = Image(surface, position_or_rect, size)
+            image.set_position(self.get_position())
+            if self.get_size() != (0, 0):
+                image.set_size(self.get_size())
+            self._images.append(image)
+        self._current_image = self._images[0]
+
+        if self.get_size() == (0, 0):
+            self._rect.size = self._current_image.get_size()
+
+        self._label = Label(text, font, color, (0, 0))
+        self._update_child_label()
+        self.active = False
+
+    @classmethod
+    def fromEntity(cls, entity):
+        return self.fromButton(entity, entity._label.get_text())
+    @classmethod
+    def fromButton(cls, entity, text, copy_handlers = False):
+        copiedEntity = cls(entity._button_states,
+                           text,
+                           entity._label.get_font(),
+                           entity._label.get_color(),
+                           entity._rect)
+        if copy_handlers:
+            copiedEntity.on_left_click = entity.on_left_click
+            copiedEntity.on_middle_click = entity.on_middle_click
+            copiedEntity.on_right_click = entity.on_right_click
+        return copiedEntity
+
+    def get_surface(self):
+        return self._current_image.get_surface()
+
+    def set_surface(self, surface):
+        print("Changing the surface of a Button entity is not allowed.")
+
+    def get_mask(self):
+        return self._current_image.get_mask()
+
+    def intersects_rect(self, point):
+        return self._current_image.intersects_rect(point)
+
+    def intersects_mask(self, point):
+        return self._current_image.intersects_mask(point)
+
+    # Overridden base entity setter functions
+
+    def _update_child_images(self, is_position_only = False):
+        if is_position_only:
+            for image in self._images:
+                image.set_position(self.get_position())
+            return
+
+        for image in self._images:
+            image.set_size(self.get_size())
+            image.set_position(self.get_position())
+
+    def _update_child_label(self):
+        label_pos = (self._current_image.get_rect().centerx - (self._label.get_rect().width / 2),
+                     self._current_image.get_rect().centery - (self._label.get_rect().height / 2))
+        self._label.set_position(label_pos)
+
+    def set_size(self, size):
+        super().set_size(size)
+        self._update_child_images()
+        self._update_child_label()
+
+    def set_rect(self, rect):
+        super().set_rect(rect)
+        self._update_child_images()
+        self._update_child_label()
+
+    def set_position(self, position):
+        super().set_position(position)
+        print (self.get_position())
+        self._update_child_images(True)
+        self._update_child_label()
+        print(self._label.get_position())
+
+    # Event handlers
+
+    def on_left_click(self):
+        pass
+
+    def on_middle_click(self):
+        pass
+
+    def on_right_click(self):
+        pass
+
+    def update(self, game, events):
+        target_image = self._images[0]
+
+        if self.intersects_mask(game.get_mouse_pos()):
+            target_image = self._images[1]
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.active = True
+
+        if self.active:
+            target_image = self._images[2]
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONUP:
+                    self.active = False
+                    target_image = self._images[0]
+                    if event.button == 1:
+                        self.on_left_click()
+                    elif event.button == 2:
+                        self.on_middle_click()
+                    elif event.button == 3:
+                        self.on_right_click()
+
+        self._current_image = target_image
+
+    def draw(self, layer):
+        self._current_image.draw(layer)
+        self._label.draw(layer)
