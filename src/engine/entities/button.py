@@ -6,18 +6,27 @@ class Button(Entity):
     def __init__(self, button_states, text, font, color, position_or_rect, size = None):
         super().__init__(position_or_rect, size)
 
-        if len(button_states) != 3:
-            raise ValueError("There must be 3 surfaces passed to the button_states parameter.")
+        if not "normal" in button_states:
+            raise ValueError("A 'normal' state should be present in the specified button states.")
 
         self._button_states = button_states
-        self._images = []
-        for surface in button_states:
+
+        self._images = {}
+        for key in button_states:
+            surface = button_states[key]
             image = Image(surface, position_or_rect, size)
             image.set_position(self.get_position())
             if self.get_size() != (0, 0):
                 image.set_size(self.get_size())
-            self._images.append(image)
-        self._current_image = self._images[0]
+            self._images[key] = image
+
+        if not "hover" in button_states:
+            self._images["hover"] = self._images["normal"]
+
+        if not "active" in button_states:
+            self._images["active"] = self._images["normal"]
+
+        self._current_image = self._images["normal"]
 
         if self.get_size() == (0, 0):
             self._rect.size = self._current_image.get_size()
@@ -61,11 +70,11 @@ class Button(Entity):
 
     def _update_child_images(self, is_position_only = False):
         if is_position_only:
-            for image in self._images:
+            for image in self._images.values():
                 image.set_position(self.get_position())
             return
 
-        for image in self._images:
+        for image in self._images.values():
             image.set_size(self.get_size())
             image.set_position(self.get_position())
 
@@ -103,20 +112,20 @@ class Button(Entity):
         pass
 
     def update(self, game, events):
-        target_image = self._images[0]
+        target_image = self._images["normal"]
 
         if self.intersects_mask(game.get_mouse_pos()):
-            target_image = self._images[1]
+            target_image = self._images["hover"]
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.active = True
 
         if self.active:
-            target_image = self._images[2]
+            target_image = self._images["active"]
             for event in events:
                 if event.type == pygame.MOUSEBUTTONUP:
                     self.active = False
-                    target_image = self._images[0]
+                    target_image = self._images["normal"]
                     if event.button == 1:
                         self.on_left_click()
                     elif event.button == 2:
