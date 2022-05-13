@@ -1,10 +1,11 @@
 import os
 import pygame
+import pygame.freetype
 
 font_cache = {}
 image_cache = {}
 
-pygame.font.init()
+pygame.freetype.init()
 
 def load_image(image_name, *subdirectories):
     image_path = os.path.join("app", "assets", *subdirectories, image_name);
@@ -40,5 +41,5 @@ def load_font(font_name_or_file, font_size, is_system = True):
 
 def load_new_font(font_name_or_file, font_size, is_system = True):
     if is_system:
-        return pygame.font.SysFont(font_name_or_file, font_size)
-    return pygame.font.Font(font_name_or_file, font_size)
+        return pygame.freetype.SysFont(font_name_or_file, font_size)
+    return pygame.freetype.Font(font_name_or_file, font_size)

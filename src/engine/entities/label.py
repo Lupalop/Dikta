@@ -15,11 +15,12 @@ class Label(Entity):
         return cls(entity._text, entity._font, entity._color, entity._rect)
 
     def _update_surface(self, compute_size = True):
-        self._surface = self._font.render(self._text, True, self._color, None)
+        rendered_text = self._font.render(self._text, self._color)
+        self._surface = rendered_text[0]
         if compute_size:
             self._mask = pygame.mask.from_surface(self._surface, 0)
             if self._rect.size == (0, 0):
-                self.set_size(self._font.size(self._text))
+                self.set_size(rendered_text[1].size)
 
     def get_surface(self):
         return self._surface
