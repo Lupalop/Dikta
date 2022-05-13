@@ -30,7 +30,7 @@ class Image(Entity):
         return self._mask
 
     def _update_mask(self):
-        self._mask = pygame.mask.from_surface(self._surface)
+        self._mask = pygame.mask.from_surface(self._surface, 0)
 
     def set_size(self, size):
         super().set_size(size)
