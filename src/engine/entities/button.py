@@ -95,10 +95,8 @@ class Button(Entity):
 
     def set_position(self, position):
         super().set_position(position)
-        print (self.get_position())
         self._update_child_images(True)
         self._update_child_label()
-        print(self._label.get_position())
 
     # Event handlers
 
