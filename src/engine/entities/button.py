@@ -79,6 +79,8 @@ class Button(Entity):
             image.set_position(self.get_position())
 
     def _update_child_label(self):
+        if not self._label:
+            return
         label_pos = (self._current_image.get_rect().centerx - (self._label.get_rect().width / 2),
                      self._current_image.get_rect().centery - (self._label.get_rect().height / 2))
         self._label.set_position(label_pos)
@@ -97,6 +99,25 @@ class Button(Entity):
         super().set_position(position)
         self._update_child_images(True)
         self._update_child_label()
+
+    # Label
+    def get_text(self):
+        return self._label.get_text()
+
+    def set_text(self, text):
+        self._label.set_text(text)
+
+    def get_font(self):
+        return self._label.get_font()
+
+    def set_font(self, font):
+        self._label.set_font(font)
+
+    def get_color(self):
+        return self._label.get_color()
+
+    def set_color(self, color):
+        self._label.set_color(color)
 
     # Event handlers
 
