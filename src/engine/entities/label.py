@@ -11,7 +11,7 @@ class Label(Entity):
         self._update_surface()
 
     @classmethod
-    def fromEntity(cls, entity):
+    def from_entity(cls, entity):
         return cls(entity._text, entity._font, entity._color, entity._rect)
 
     def _update_surface(self, compute_size = True):

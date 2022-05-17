@@ -25,7 +25,7 @@ class MainMenuScene(Scene):
         label_copyright = Label(
             "© 2022 Pacific Tech", utils.fonts["sm"], pygame.Color("white"), (35, 565))
         
-        button_new_game = Button.fromButton(utils.button_default, "New Game")
+        button_new_game = Button.from_button(utils.button_default, "New Game")
         button_new_game.set_position((510, 100))
         def on_new_game_click():
             pass

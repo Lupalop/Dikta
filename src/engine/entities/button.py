@@ -36,10 +36,10 @@ class Button(Entity):
         self.active = False
 
     @classmethod
-    def fromEntity(cls, entity):
-        return self.fromButton(entity, entity._label.get_text())
+    def from_entity(cls, entity):
+        return self.from_button(entity, entity._label.get_text())
     @classmethod
-    def fromButton(cls, entity, text, copy_handlers = False):
+    def from_button(cls, entity, text, copy_handlers = False):
         copiedEntity = cls(entity._button_states,
                            text,
                            entity._label.get_font(),

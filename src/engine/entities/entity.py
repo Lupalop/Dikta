@@ -15,7 +15,7 @@ class Entity():
             self._rect.size = size
 
     @classmethod
-    def fromEntity(cls, entity):
+    def from_entity(cls, entity):
         return cls(entity._rect)
 
     def get_size(self):

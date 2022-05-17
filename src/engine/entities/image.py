@@ -15,7 +15,7 @@ class Image(Entity):
         self._update_mask()
 
     @classmethod
-    def fromEntity(cls, entity):
+    def from_entity(cls, entity):
         return cls(entity._surface_base, entity._rect)
 
     def get_surface(self):
