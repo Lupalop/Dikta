@@ -8,6 +8,9 @@ class Label(Entity):
         self._font = font
         self._color = color
         self._text = text
+        if not font or not color or not text:
+            self._surface = None
+            return
         self._update_surface()
 
     @classmethod
@@ -61,4 +64,6 @@ class Label(Entity):
         return self._rect.collidepoint(point)
 
     def draw(self, layer):
+        if not self.get_surface():
+            return
         layer.blit(self.get_surface(), self._rect)
