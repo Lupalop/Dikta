@@ -8,7 +8,8 @@ class GameManager():
         self._init_display()
         self.scenes = SceneManager()
         self.fps_limit = 60
-        self._clock = pygame.time.Clock()
+        self.timers = []
+        self.clock = pygame.time.Clock()
         self._title = ""
         self._icon = None
 
@@ -27,6 +28,9 @@ class GameManager():
                     self.window_size = event.size
                     self.update_display(True, False)
 
+            for timer in self.timers:
+                timer.update(self, events)
+
             self.scenes.update(self, events)
 
             self.render_layer.fill(pygame.Color("black"))
@@ -36,7 +40,7 @@ class GameManager():
                         self.window)
             pygame.display.update()
 
-            self._clock.tick(self.fps_limit)
+            self.clock.tick(self.fps_limit)
 
         pygame.quit()
 
