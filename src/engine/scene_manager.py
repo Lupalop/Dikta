@@ -1,6 +1,7 @@
 class SceneManager:
     def __init__(self):
         print("Initialized: Scene Manager")
+        self.all_scenes = {}
         self._scene = None
         self._overlays = {}
 
@@ -8,11 +9,19 @@ class SceneManager:
         return self._scene
 
     def set_scene(self, scene):
+        pending_scene = scene
+
+        if isinstance(scene, str):
+            if pending_scene in self.all_scenes:
+                pending_scene = self.all_scenes[scene]
+            else:
+                return
+
         if self._scene:
             self._scene.dispose()
 
-        self._scene = scene
-        scene.load_content()
+        self._scene = pending_scene
+        pending_scene.load_content()
 
     def add_overlay(self, id, scene):
         scene.load_content()
