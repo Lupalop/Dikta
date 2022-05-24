@@ -24,7 +24,14 @@ class MainMenuScene(Scene):
             "Version 1.0.0a1 - For testing purposes only.", utils.fonts["sm"], pygame.Color("white"), (35, 555))
         label_copyright = Label(
             "© 2022 Pacific Tech", utils.fonts["sm"], pygame.Color("white"), (35, 565))
-        
+        self.timer = Timer(1500, True, True)
+        def update_time():
+            # label_version.set_text(str((self.timer.get_remaining())))
+            alpha = 0 + (255 * (self.timer.get_elapsed() / self.timer.interval))
+            label_copyright.set_text(str(alpha))
+            label_version.get_surface().set_alpha(alpha)
+        self.timer.on_tick = update_time
+
         button_new_game = Button.from_button(utils.button_default, "New Game")
         button_new_game.set_position((510, 100))
         def on_new_game_click():
