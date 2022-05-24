@@ -11,6 +11,7 @@ class GameManager():
         self.timers = []
         self.clock = pygame.time.Clock()
         self._title = ""
+        self._mouse_pos = (0, 0)
         self._icon = None
 
     def run(self):
