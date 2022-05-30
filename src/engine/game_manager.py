@@ -47,8 +47,8 @@ class GameManager():
 
     def _init_display(self):
         # TODO: This should be configurable via preferences (pending impl)
-        self.window_size = (1024, 768)
-        self.layer_size = (800, 600)
+        self.window_size = (1600, 900)
+        self.layer_size = (1360, 765)
         self.is_fullscreen = False
         self.is_resizable = False
         self.is_dpi_aware = True
