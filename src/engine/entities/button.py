@@ -1,5 +1,6 @@
 from engine.entities import Entity, Image, Label
 from engine.enums import MouseButton, ButtonState
+from engine.event_handler import EventHandler
 
 import pygame
 
@@ -34,7 +35,10 @@ class Button(Entity):
 
         self._label = Label(text, font, color, (0, 0))
         self._update_child_label()
-        self.state = ButtonState.NORMAL
+        self._state = ButtonState.NORMAL
+        # Event handlers
+        self.click = EventHandler()
+        self.state_changed = EventHandler()
 
     @classmethod
     def from_entity(cls, entity):
@@ -121,55 +125,61 @@ class Button(Entity):
         self._label.set_color(color)
 
     # Event handlers
+    def _on_click(self, button):
+        self.click(self, button)
 
-    def on_left_click(self):
-        pass
-
-    def on_middle_click(self):
-        pass
-
-    def on_right_click(self):
-        pass
+    def _on_state_changed(self, state):
+        if state == ButtonState.NORMAL:
+            self._current_image = self._images["normal"]
+        elif state == ButtonState.HOVER:
+            self._current_image = self._images["hover"]
+        elif state == ButtonState.ACTIVE:
+            self._current_image = self._images["active"]
+        elif state == ButtonState.RELEASED:
+            pass
+        else:
+            raise ValueError("unexpected button state")
+        self._state = state
+        self.state_changed(self, state)
 
     def update(self, game, events):
         is_mb_down = False
         is_mb_up = False
-        button = None
+        mb_target = None
+
+        # Determine if a mouse button is being pressed and its state.
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 is_mb_down = True
-                button = event.button
+                mb_target = event.button
             if event.type == pygame.MOUSEBUTTONUP:
                 is_mb_up = True
-                button = event.button
+                mb_target = event.button
 
+        # Determine if the pointer is hovering over the button.
         is_hovered = self.intersects_mask(game.get_mouse_pos())
 
-        if self.state == ButtonState.ACTIVE:
+        # Handle if the a mouse button is being pressed and if it's released.
+        if self._state == ButtonState.ACTIVE:
             if is_mb_up:
-                self.state = ButtonState.RELEASED
+                self._on_state_changed(ButtonState.RELEASED)
                 # Execute click handlers only if the mouse button was
                 # released while hovering on this button.
                 if is_hovered:
-                    if button == MouseButton.LEFT:
-                        self.on_left_click()
-                    elif button == MouseButton.MIDDLE:
-                        self.on_middle_click()
-                    elif button == MouseButton.RIGHT:
-                        self.on_right_click()
+                    self._on_click(mb_target)
             else:
+                # Return early to prevent unwanted state changes.
                 return
 
+        # Handle if the pointer is hovering over the button, if a mouse button
+        # is being pressed while hovering, and restoring the normal state.
         if is_hovered:
-            if self.state != ButtonState.HOVER:
-                self.state = ButtonState.HOVER
-                self._current_image = self._images["hover"]
+            if self._state != ButtonState.HOVER:
+                self._on_state_changed(ButtonState.HOVER)
             elif is_mb_down:
-                self.state = ButtonState.ACTIVE
-                self._current_image = self._images["active"]
-        elif self.state != ButtonState.NORMAL:
-            self.state = ButtonState.NORMAL
-            self._current_image = self._images["normal"]
+                self._on_state_changed(ButtonState.ACTIVE)
+        elif self._state != ButtonState.NORMAL:
+            self._on_state_changed(ButtonState.NORMAL)
 
     def draw(self, layer):
         self._current_image.draw(layer)
