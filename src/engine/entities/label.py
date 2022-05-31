@@ -11,17 +11,17 @@ class Label(Entity):
         if not font or not color or not text:
             self._surface = None
             return
-        self._update_surface()
+        self.entity_dirty()
 
     @classmethod
     def from_entity(cls, entity):
         return cls(entity._text, entity._font, entity._color, entity._rect)
 
-    def _update_surface(self, compute_size = True):
+    def entity_dirty(self, resize = True):
         rendered_text = self._font.render(self._text, self._color)
         self._surface = rendered_text[0]
-        if compute_size:
-            self._mask = pygame.mask.from_surface(self._surface, 0)
+        if resize:
+            self._mask = None
             if self._rect.size == (0, 0):
                 self.set_size(rendered_text[1].size)
 
@@ -31,12 +31,9 @@ class Label(Entity):
     def set_surface(self, texture):
         print("Changing the surface of a Label entity is not allowed.")
 
-    def get_mask(self):
-        return self._mask
-
     def set_text(self, text):
         self._text = text
-        self._update_surface()
+        self.entity_dirty()
 
     def get_text(self):
         return self._text
@@ -46,24 +43,17 @@ class Label(Entity):
 
     def set_font(self, font):
         self._font = font
-        self._update_surface()
+        self.entity_dirty()
 
     def set_color(self, color):
         self._color = color
-        self._update_surface(False)
+        self.entity_dirty(False)
 
     def get_color(self):
         return self._color
 
-    def intersects_mask(self, point):
-        maskPosition = point[0] - self._rect.x, point[1] - self._rect.y
-        return self._rect.collidepoint(point) and \
-               self._mask.get_at(maskPosition)
-
-    def intersects_rect(self, point):
-        return self._rect.collidepoint(point)
-
     def draw(self, layer):
         if not self.get_surface():
             return
+
         layer.blit(self.get_surface(), self._rect)
