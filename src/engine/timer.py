@@ -3,6 +3,8 @@ from engine import *
 import pygame
 import time
 
+timers = []
+
 class Timer():
     def __init__(self, interval = None, enabled = False, auto_reset = False):
         if interval:
@@ -12,7 +14,7 @@ class Timer():
         self.elapsed = 0
         self.enabled = enabled
         self.auto_reset = auto_reset
-        game.timers.append(self)
+        timers.append(self)
 
     def __del__(self):
         self.close()
@@ -27,7 +29,7 @@ class Timer():
         self.elapsed = 0
 
     def close(self):
-        game.timers.remove(self)
+        timers.remove(self)
 
     def on_elapsed(self):
         pass

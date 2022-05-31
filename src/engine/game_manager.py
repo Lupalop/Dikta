@@ -8,7 +8,6 @@ class GameManager():
         self._init_display()
         self.scenes = SceneManager()
         self.fps_limit = 60
-        self.timers = []
         self.clock = pygame.time.Clock()
         self._title = ""
         self._mouse_pos = (0, 0)
@@ -29,7 +28,7 @@ class GameManager():
                     self.window_size = event.size
                     self.update_display(True, False)
 
-            for timer in self.timers:
+            for timer in timers:
                 timer.update(self, events)
 
             self.scenes.update(self, events)
