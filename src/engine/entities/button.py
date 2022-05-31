@@ -5,7 +5,7 @@ from engine.event_handler import EventHandler
 import pygame
 
 class Button(ClickableEntity):
-    def __init__(self, bg_list, text, font, color, position_or_rect, size = None):
+    def __init__(self, bg_list, label, position_or_rect, size = None):
         super().__init__(position_or_rect, size)
 
         if not "normal" in bg_list:
@@ -18,22 +18,34 @@ class Button(ClickableEntity):
         if is_zero_size:
             self._rect.size = self._bg_list[self._bg_current].get_size()    
 
-        self.label = Label(text, font, color, (0, 0))
+        self.set_label(label)
         self._on_entity_dirty(is_zero_size)
 
     @classmethod
     def from_entity(cls, entity, text, copy_handlers = False):
-        if not text:
-            text = entity.label.get_text()
+        label = Label.from_entity(entity.get_label())
+        if text:
+            label.set_text(text)
         entity_copy = cls(entity._bg_list,
-                          text,
-                          entity.label.get_font(),
-                          entity.label.get_color(),
+                          label,
                           entity._rect)
         if copy_handlers:
             entity_copy.click = entity.click
             entity_copy.state_changed = entity.state_changed
         return entity_copy
+
+    # Label
+    def get_label(self):
+        return self._label
+
+    def set_label(self, label):
+        self._label = label
+        self._label.entity_dirty += self._on_label_dirty
+
+    def _on_label_dirty(self, sender, resize):
+        if not resize:
+            return
+        self._on_entity_dirty(resize)
 
     # Overridden base entity setter functions
     def _on_entity_dirty(self, resize):
@@ -44,10 +56,10 @@ class Button(ClickableEntity):
                 surface_rz = pygame.transform.scale(surface, self._rect.size)
                 self._bg_list[key] = surface_rz
 
-        if self.label:
-            label_pos = (self.get_rect().centerx - (self.label.get_rect().width / 2),
-                         self.get_rect().centery - (self.label.get_rect().height / 2))
-            self.label.set_position(label_pos)
+        if self.get_label():
+            label_pos = (self.get_rect().centerx - (self.get_label().get_rect().width / 2),
+                         self.get_rect().centery - (self.get_label().get_rect().height / 2))
+            self.get_label().set_position(label_pos)
 
         self.entity_dirty(self, resize)
 
@@ -73,5 +85,5 @@ class Button(ClickableEntity):
 
     def draw(self, layer):
         super().draw(layer)
-        if self.label:
-            self.label.draw(layer)
+        if self.get_label():
+            self.get_label().draw(layer)
