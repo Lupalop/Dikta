@@ -29,19 +29,17 @@ class SceneManager:
             pending_scene.load_content()
             self._scene = pending_scene
 
-            self.fade_timer = Timer(1000)
+            self.fade_timer = Timer(1000, True)
             self.fade_timer.tick += lambda: animator.to_alpha( \
                 self.fade_surface, 0, self.fade_timer)
-            self.fade_timer.start()
 
         if self._scene:
             self._scene.dispose()
 
-            self.fade_timer = Timer(1000)
+            self.fade_timer = Timer(1000, True)
             self.fade_timer.tick += lambda: animator.to_alpha( \
                 self.fade_surface, 255, self.fade_timer)
             self.fade_timer.elapsed += _fade_in_done
-            self.fade_timer.start()
         else:
             _fade_in_done()
 
