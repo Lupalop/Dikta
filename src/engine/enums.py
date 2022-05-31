@@ -5,7 +5,7 @@ class MouseButton(IntEnum):
     MIDDLE = 2
     RIGHT = 3
 
-class ButtonState(IntEnum):
+class ClickState(IntEnum):
     NORMAL = 1
     HOVER = 2
     ACTIVE = 3

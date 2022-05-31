@@ -1,4 +1,5 @@
 from .entity import Entity
+from .clickable_entity import ClickableEntity
 
 from .image import Image
 from .label import Label
