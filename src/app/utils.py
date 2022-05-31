@@ -3,9 +3,13 @@ from engine.entities import *
 
 import pygame
 
+# Utility functions for retrieving images from the assets folder
 def load_area_image(scene_id, image_name):
     scene_dir = "area" + str(scene_id)
     return content.load_image(image_name, scene_dir)
+
+def load_mm_image(image_name):
+    return content.load_image(image_name, "mainmenu")
 
 font_default = "franklingothicmediumcond"
 
