@@ -11,19 +11,21 @@ class Label(Entity):
         if not font or not color or not text:
             self._surface = None
             return
-        self.entity_dirty()
+        self._on_entity_dirty()
 
     @classmethod
     def from_entity(cls, entity):
         return cls(entity._text, entity._font, entity._color, entity._rect)
 
-    def entity_dirty(self, resize = True):
+    def _on_entity_dirty(self, resize = True):
         rendered_text = self._font.render(self._text, self._color)
         self._surface = rendered_text[0]
+
         if resize:
             self._mask = None
-            if self._rect.size == (0, 0):
-                self.set_size(rendered_text[1].size)
+            self._rect.size = rendered_text[1].size
+
+        self.entity_dirty(self, resize)
 
     def get_surface(self):
         return self._surface
@@ -33,7 +35,7 @@ class Label(Entity):
 
     def set_text(self, text):
         self._text = text
-        self.entity_dirty()
+        self._on_entity_dirty()
 
     def get_text(self):
         return self._text
@@ -43,11 +45,11 @@ class Label(Entity):
 
     def set_font(self, font):
         self._font = font
-        self.entity_dirty()
+        self._on_entity_dirty()
 
     def set_color(self, color):
         self._color = color
-        self.entity_dirty(False)
+        self._on_entity_dirty(False)
 
     def get_color(self):
         return self._color

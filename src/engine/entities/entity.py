@@ -1,3 +1,5 @@
+from engine.event_handler import EventHandler
+
 import pygame
 
 # Defines the base class for entities.
@@ -25,29 +27,32 @@ class Entity:
         # Assume surface size if the entity is sized to zero
         elif surface:
             self._rect.size = surface.get_rect().size
+        self.entity_dirty = EventHandler()
 
     @classmethod
     def from_entity(cls, entity):
         return cls(entity.get_surface(), entity._rect)
 
-    def entity_dirty(self, resize):
+    def _on_entity_dirty(self, resize):
         if resize:
             self._surface = pygame.transform.scale(self.get_surface(), self._rect.size)
             self._mask = None
+
+        self.entity_dirty(self, resize)
 
     def get_size(self):
         return self._rect.size
 
     def set_size(self, size, resize = True):
         self._rect.size = size
-        self.entity_dirty(resize)
+        self._on_entity_dirty(resize)
 
     def get_rect(self):
         return self._rect
 
     def set_rect(self, rect, resize = True):
         self._rect = rect
-        self.entity_dirty(resize)
+        self._on_entity_dirty(resize)
 
     def get_position(self):
         return (self._rect.x, self._rect.y)
@@ -55,7 +60,7 @@ class Entity:
     def set_position(self, position):
         self._rect.x = position[0]
         self._rect.y = position[1]
-        self.entity_dirty(False)
+        self._on_entity_dirty(False)
 
     def get_surface(self):
         return self._surface

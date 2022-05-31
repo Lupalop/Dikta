@@ -19,7 +19,7 @@ class Button(ClickableEntity):
             self._rect.size = self._bg_list[self._bg_current].get_size()    
 
         self.label = Label(text, font, color, (0, 0))
-        self.entity_dirty(is_zero_size)
+        self._on_entity_dirty(is_zero_size)
 
     @classmethod
     def from_entity(cls, entity, text, copy_handlers = False):
@@ -36,7 +36,7 @@ class Button(ClickableEntity):
         return entity_copy
 
     # Overridden base entity setter functions
-    def entity_dirty(self, resize):
+    def _on_entity_dirty(self, resize):
         if resize:
             self._mask = None
             for key in self._bg_list:
@@ -44,12 +44,12 @@ class Button(ClickableEntity):
                 surface_rz = pygame.transform.scale(surface, self._rect.size)
                 self._bg_list[key] = surface_rz
 
-        if not self.label:
-            return
+        if self.label:
+            label_pos = (self.get_rect().centerx - (self.label.get_rect().width / 2),
+                         self.get_rect().centery - (self.label.get_rect().height / 2))
+            self.label.set_position(label_pos)
 
-        label_pos = (self.get_rect().centerx - (self.label.get_rect().width / 2),
-                     self.get_rect().centery - (self.label.get_rect().height / 2))
-        self.label.set_position(label_pos)
+        self.entity_dirty(self, resize)
 
     def get_surface(self):
         return self._bg_list[self._bg_current]
