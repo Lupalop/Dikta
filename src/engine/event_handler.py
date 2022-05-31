@@ -20,3 +20,6 @@ class EventHandler:
 
     def __len__(self):
         return len(self.handlers)
+
+    def clear(self):
+        self.handlers.clear()
