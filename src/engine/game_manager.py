@@ -29,7 +29,7 @@ class GameManager():
                     self.update_display(True, False)
 
             for timer in timers:
-                timer.update(self, events)
+                timer.update(self.clock)
 
             self.scenes.update(self, events)
 

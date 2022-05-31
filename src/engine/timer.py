@@ -1,5 +1,3 @@
-from engine import *
-
 import pygame
 import time
 
@@ -13,6 +11,7 @@ class Timer():
             self.interval = 100.0
         self.elapsed = 0
         self.enabled = enabled
+        self.removed = False
         self.auto_reset = auto_reset
         timers.append(self)
 
@@ -25,11 +24,15 @@ class Timer():
     def stop(self):
         self.enabled = False
 
-    def reset(self):
+    def reset(self, stop = False):
+        if stop:
+            self.stop()
         self.elapsed = 0
 
     def close(self):
-        timers.remove(self)
+        if not self.removed:
+            timers.remove(self)
+            self.removed = True
 
     def on_elapsed(self):
         pass
@@ -37,11 +40,11 @@ class Timer():
     def on_tick(self):
         pass
 
-    def update(self, game, events):
+    def update(self, clock):
         if not self.enabled:
             return
 
-        self.elapsed += game.clock.get_time()
+        self.elapsed += clock.get_time()
 
         if self.elapsed >= self.interval:
             self.on_elapsed()
