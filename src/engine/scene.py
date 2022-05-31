@@ -19,4 +19,4 @@ class Scene:
         pass
 
     def dispose(self):
-        self.entities = None
+        pass
