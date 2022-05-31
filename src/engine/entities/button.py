@@ -1,4 +1,5 @@
-from . import *
+from engine.entities import Entity, Image, Label
+from engine.enums import MouseButton, ButtonState
 
 import pygame
 
@@ -33,7 +34,7 @@ class Button(Entity):
 
         self._label = Label(text, font, color, (0, 0))
         self._update_child_label()
-        self.active = False
+        self.state = ButtonState.NORMAL
 
     @classmethod
     def from_entity(cls, entity):
@@ -131,8 +132,6 @@ class Button(Entity):
         pass
 
     def update(self, game, events):
-        target_image = self._images["normal"]
-
         is_mb_down = False
         is_mb_up = False
         button = None
@@ -145,26 +144,32 @@ class Button(Entity):
                 button = event.button
 
         is_hovered = self.intersects_mask(game.get_mouse_pos())
-        if is_hovered:
-            target_image = self._images["hover"]
-            if is_mb_down:
-                self.active = True
 
-        if self.active:
-            target_image = self._images["active"]
+        if self.state == ButtonState.ACTIVE:
             if is_mb_up:
-                self.active = False
+                self.state = ButtonState.RELEASED
                 # Execute click handlers only if the mouse button was
                 # released while hovering on this button.
                 if is_hovered:
-                    if button == 1:
+                    if button == MouseButton.LEFT:
                         self.on_left_click()
-                    elif button == 2:
+                    elif button == MouseButton.MIDDLE:
                         self.on_middle_click()
-                    elif button == 3:
+                    elif button == MouseButton.RIGHT:
                         self.on_right_click()
+            else:
+                return
 
-        self._current_image = target_image
+        if is_hovered:
+            if self.state != ButtonState.HOVER:
+                self.state = ButtonState.HOVER
+                self._current_image = self._images["hover"]
+            elif is_mb_down:
+                self.state = ButtonState.ACTIVE
+                self._current_image = self._images["active"]
+        elif self.state != ButtonState.NORMAL:
+            self.state = ButtonState.NORMAL
+            self._current_image = self._images["normal"]
 
     def draw(self, layer):
         self._current_image.draw(layer)
