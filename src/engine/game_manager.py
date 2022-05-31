@@ -12,6 +12,7 @@ class GameManager():
         self._title = ""
         self._mouse_pos = (0, 0)
         self._icon = None
+        self.running = False
 
     def run(self):
         self.running = True
@@ -43,6 +44,9 @@ class GameManager():
             self.clock.tick(self.fps_limit)
 
         pygame.quit()
+
+    def exit(self):
+        self.running = False
 
     def _init_display(self):
         # TODO: This should be configurable via preferences (pending impl)
