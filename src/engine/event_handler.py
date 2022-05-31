@@ -2,19 +2,24 @@
 class EventHandler:
     def __init__(self):
         self.handlers = set()
+        self._pending_adds = set()
+        self._pending_removes = set()
 
     def __iadd__(self, handler):
-        self.handlers.add(handler)
+        self._pending_adds.add(handler)
         return self
 
     def __isub__(self, handler):
-        try:
-            self.handlers.remove(handler)
-        except:
-            raise ValueError
+        self._pending_removes.add(handler)
         return self
 
     def __call__(self, *args, **kargs):
+        for handler_to_add in self._pending_adds:
+            self.handlers.add(handler_to_add)
+        self._pending_adds.clear()
+        for handler_to_remove in self._pending_removes:
+            self.handlers.remove(handler_to_remove)
+        self._pending_removes.clear()
         for handler in self.handlers:
             handler(*args, **kargs)
 
