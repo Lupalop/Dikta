@@ -9,7 +9,7 @@ class FadeButton(ClickableEntity):
     def __init__(self, surface, position_or_rect = (0, 0), size = None):
         super().__init__(position_or_rect, size, surface)
         self._timer = Timer(1000)
-        self.get_surface().set_alpha(70)
+        self.get_surface().set_alpha(100)
 
     @classmethod
     def from_entity(cls, entity, copy_handlers = False):
