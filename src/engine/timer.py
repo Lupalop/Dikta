@@ -1,3 +1,5 @@
+from engine.event_handler import EventHandler
+
 import pygame
 import time
 
@@ -9,10 +11,12 @@ class Timer():
             self.interval = interval
         else:
             self.interval = 100.0
-        self.elapsed = 0
+        self.time_elapsed = 0
         self.enabled = enabled
         self.removed = False
         self.auto_reset = auto_reset
+        self.elapsed = EventHandler()
+        self.tick = EventHandler()
         timers.append(self)
 
     def __del__(self):
@@ -27,7 +31,7 @@ class Timer():
     def reset(self, stop = False):
         if stop:
             self.stop()
-        self.elapsed = 0
+        self.time_elapsed = 0
 
     def close(self):
         if not self.removed:
@@ -35,18 +39,18 @@ class Timer():
             self.removed = True
 
     def on_elapsed(self):
-        pass
+        self.elapsed()
 
     def on_tick(self):
-        pass
+        self.tick()
 
     def update(self, clock):
         if not self.enabled:
             return
 
-        self.elapsed += clock.get_time()
+        self.time_elapsed += clock.get_time()
 
-        if self.elapsed >= self.interval:
+        if self.time_elapsed >= self.interval:
             self.on_elapsed()
             if self.auto_reset:
                 self.reset()
@@ -56,12 +60,12 @@ class Timer():
             self.on_tick()
 
     def get_remaining(self, in_seconds = False):
-        remaining = (self.interval - self.elapsed)
+        remaining = (self.interval - self.time_elapsed)
         if in_seconds:
             return remaining / 1000
         return remaining
 
     def get_elapsed(self, in_seconds = False):
         if in_seconds:
-            return self.elapsed / 1000
-        return self.elapsed
+            return self.time_elapsed / 1000
+        return self.time_elapsed

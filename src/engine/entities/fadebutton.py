@@ -26,15 +26,18 @@ class FadeButton(ClickableEntity):
     def _on_state_changed(self, state):
         if state == ClickState.NORMAL:
             self._timer.reset(True)
-            self._timer.on_tick = lambda: self._fade_to_target(100)
+            self._timer.tick.clear()
+            self._timer.tick += lambda: self._fade_to_target(100)
             self._timer.start()
         elif state == ClickState.HOVER:
             self._timer.reset(True)
-            self._timer.on_tick = lambda: self._fade_to_target(255)
+            self._timer.tick.clear()
+            self._timer.tick += lambda: self._fade_to_target(255)
             self._timer.start()
         elif state == ClickState.ACTIVE:
             self._timer.reset(True)
-            self._timer.on_tick = lambda: self._fade_to_target(175)
+            self._timer.tick.clear()
+            self._timer.tick += lambda: self._fade_to_target(175)
             self._timer.start()
         elif state == ClickState.RELEASED:
             pass
