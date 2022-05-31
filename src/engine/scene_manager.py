@@ -1,4 +1,5 @@
 from engine.timer import Timer
+from engine import animator
 
 import pygame
 
@@ -24,26 +25,21 @@ class SceneManager:
             else:
                 return
 
-        # TODO: Should be in a utility/animation/transition module
-        def _fade_to_target(target_alpha):
-            alpha = self.fade_surface.get_alpha()
-            time_ratio = self.fade_timer.get_elapsed() / self.fade_timer.interval
-            alpha += ((target_alpha - alpha) * time_ratio)
-            self.fade_surface.set_alpha(alpha)
-
         def _fade_in_done():
             pending_scene.load_content()
             self._scene = pending_scene
 
             self.fade_timer = Timer(1000)
-            self.fade_timer.tick += lambda: _fade_to_target(0)
+            self.fade_timer.tick += lambda: animator.to_alpha( \
+                self.fade_surface, 0, self.fade_timer)
             self.fade_timer.start()
 
         if self._scene:
             self._scene.dispose()
 
             self.fade_timer = Timer(1000)
-            self.fade_timer.tick += lambda: _fade_to_target(255)
+            self.fade_timer.tick += lambda: animator.to_alpha( \
+                self.fade_surface, 255, self.fade_timer)
             self.fade_timer.elapsed += _fade_in_done
             self.fade_timer.start()
         else:

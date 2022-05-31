@@ -2,6 +2,7 @@ from engine.entities import ClickableEntity
 from engine.enums import MouseButton, ClickState
 from engine.event_handler import EventHandler
 from engine.timer import Timer
+from engine import animator
 
 import pygame
 
@@ -27,26 +28,23 @@ class FadeButton(ClickableEntity):
         if state == ClickState.NORMAL:
             self._timer.reset(True)
             self._timer.tick.clear()
-            self._timer.tick += lambda: self._fade_to_target(100)
+            self._timer.tick += lambda: animator.to_alpha( \
+                self.get_surface(), 100, self._timer)
             self._timer.start()
         elif state == ClickState.HOVER:
             self._timer.reset(True)
             self._timer.tick.clear()
-            self._timer.tick += lambda: self._fade_to_target(255)
+            self._timer.tick += lambda: animator.to_alpha( \
+                self.get_surface(), 255, self._timer)
             self._timer.start()
         elif state == ClickState.ACTIVE:
             self._timer.reset(True)
             self._timer.tick.clear()
-            self._timer.tick += lambda: self._fade_to_target(175)
+            self._timer.tick += lambda: animator.to_alpha( \
+                self.get_surface(), 175, self._timer)
             self._timer.start()
         elif state == ClickState.RELEASED:
             pass
         else:
             raise ValueError("unexpected button state")
         super()._on_state_changed(state)
-
-    def _fade_to_target(self, target):
-        alpha = self.get_surface().get_alpha()
-        time_ratio = self._timer.get_elapsed() / self._timer.interval
-        alpha += ((target - alpha) * time_ratio)
-        self.get_surface().set_alpha(alpha)
