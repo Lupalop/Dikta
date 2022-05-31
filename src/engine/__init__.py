@@ -5,6 +5,7 @@ from .enums import *
 from .scene import Scene
 from .timer import Timer
 from .timer import timers
+from .event_handler import EventHandler
 
 from .scene_manager import SceneManager
 from .game_manager import GameManager
