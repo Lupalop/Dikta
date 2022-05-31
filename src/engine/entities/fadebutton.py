@@ -14,11 +14,11 @@ class FadeButton(ClickableEntity):
 
     @classmethod
     def from_entity(cls, entity, copy_handlers = False):
-        copiedEntity = cls(entity.get_surface(), entity._rect)
+        entity_copy = cls(entity.get_surface(), entity._rect)
         if copy_handlers:
-            copiedEntity.click = entity.click
-            copiedEntity.state_changed = entity.state_changed
-        return copiedEntity
+            entity_copy.click = entity.click
+            entity_copy.state_changed = entity.state_changed
+        return entity_copy
 
     def get_state(self):
         return self._state
