@@ -3,7 +3,7 @@ from . import *
 import pygame
 
 class Label(Entity):
-    def __init__(self, text, font, color, position_or_rect, size = None):
+    def __init__(self, text, font, color, position_or_rect = (0, 0), size = None):
         super().__init__(position_or_rect, size)
         self._font = font
         self._color = color

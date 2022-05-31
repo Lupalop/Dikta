@@ -6,7 +6,7 @@ from engine.timer import Timer
 import pygame
 
 class FadeButton(ClickableEntity):
-    def __init__(self, surface, position_or_rect, size = None):
+    def __init__(self, surface, position_or_rect = (0, 0), size = None):
         super().__init__(position_or_rect, size, surface)
         self._timer = Timer(1000)
         self.get_surface().set_alpha(70)

@@ -4,7 +4,7 @@ import pygame
 
 # Defines the base class for entities.
 class Entity:
-    def __init__(self, position_or_rect, target_size = None, surface = None):
+    def __init__(self, position_or_rect = (0, 0), target_size = None, surface = None):
         # Initialize this entity instance
         self._surface = surface
         self._rect = pygame.Rect(0, 0, 0, 0)

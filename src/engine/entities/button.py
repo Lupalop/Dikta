@@ -5,7 +5,7 @@ from engine.event_handler import EventHandler
 import pygame
 
 class Button(ClickableEntity):
-    def __init__(self, bg_list, label, position_or_rect, size = None):
+    def __init__(self, bg_list, label, position_or_rect = (0, 0), size = None):
         super().__init__(position_or_rect, size)
 
         if not "normal" in bg_list:

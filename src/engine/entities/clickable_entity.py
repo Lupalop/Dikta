@@ -5,7 +5,7 @@ from engine.event_handler import EventHandler
 import pygame
 
 class ClickableEntity(Entity):
-    def __init__(self, position_or_rect, size = None, surface = None):
+    def __init__(self, position_or_rect = (0, 0), size = None, surface = None):
         super().__init__(position_or_rect, size, surface)
         self._state = ClickState.NORMAL
         # Event handlers
