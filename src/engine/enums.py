@@ -9,3 +9,4 @@ class ButtonState(IntEnum):
     NORMAL = 1
     HOVER = 2
     ACTIVE = 3
+    RELEASED = 4
