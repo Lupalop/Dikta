@@ -13,6 +13,9 @@ def load_em_image(episode_id, mission_id, image_name):
 def load_mm_image(image_name):
     return content.load_image(image_name + EXT_PNG, "mainmenu")
 
+def load_ui_image(image_name):
+    return content.load_image(image_name + EXT_PNG, "ui")
+
 font_default = "franklingothicmediumcond"
 
 fonts = {
@@ -21,9 +24,9 @@ fonts = {
 }
 
 button_default_states = {
-    "normal": content.load_image("btn_sm_normal.png"),
-    "hover": content.load_image("btn_sm_hover.png"),
-    "active": content.load_image("btn_sm_active.png")
+    "normal": load_ui_image("btn_sm_normal"),
+    "hover": load_ui_image("btn_sm_hover"),
+    "active": load_ui_image("btn_sm_active")
 }
 
 button_default = Button(
