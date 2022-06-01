@@ -42,13 +42,6 @@ class MainMenuScene(Scene):
         btn_exit = FadeButton(utils.load_mm_image("btn-exit"), (1280, 280))
         btn_exit.click += lambda sender, button: game.exit()
 
-        btn_test = Button.from_entity(utils.button_default, "Test")
-        btn_test.set_position((510, 100))
-        def on_btn_test_click(sender, button):
-            import uuid
-            btn_test.get_label().set_text(str(uuid.uuid4()))
-        btn_test.click += on_btn_test_click
-
         self.entities = {
             "background": background,
             "logo": logo,
@@ -59,5 +52,4 @@ class MainMenuScene(Scene):
             "btn_options": btn_options,
             "btn_credits": btn_credits,
             "btn_exit": btn_exit,
-            #"btn_test": btn_test,
         }
