@@ -8,6 +8,7 @@ class ClickableEntity(Entity):
     def __init__(self, position_or_rect = (0, 0), size = None, surface = None):
         super().__init__(position_or_rect, size, surface)
         self._state = ClickState.NORMAL
+        self.is_rect_intersection = False
         # Event handlers
         self.click = EventHandler()
         self.state_changed = EventHandler()
@@ -50,7 +51,7 @@ class ClickableEntity(Entity):
                 mb_target = event.button
 
         # Determine if the pointer is hovering over the button.
-        is_hovered = self.intersects(game.get_mouse_pos())
+        is_hovered = self.intersects(game.get_mouse_pos(), self.is_rect_intersection)
 
         # Handle if the a mouse button is being pressed and if it's released.
         if self._state == ClickState.ACTIVE:
