@@ -20,9 +20,6 @@ class FadeButton(ClickableEntity):
             entity_copy.state_changed = entity.state_changed
         return entity_copy
 
-    def get_state(self):
-        return self._state
-
     # Event handlers
     def _on_state_changed(self, state):
         if state == ClickState.NORMAL:
