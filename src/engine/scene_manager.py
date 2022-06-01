@@ -8,15 +8,20 @@ class SceneManager:
         print("Initialized: Scene Manager")
         self.all_scenes = {}
         self._scene = None
+        self._switching = False
         self._overlays = {}
         self.fade_surface = pygame.Surface((1360, 765)) # FIXME: Resolution should not be hardcoded
         self.fade_surface.fill(pygame.Color("black"))
         self.fade_surface.set_alpha(255)
 
+    def _toggle_switching(self):
+        self._switching = not self._switching
+
     def get_scene(self):
         return self._scene
 
     def set_scene(self, scene):
+        self._toggle_switching()
         pending_scene = scene
 
         if isinstance(scene, str):
@@ -32,6 +37,7 @@ class SceneManager:
             self.fade_timer = Timer(1000, True)
             self.fade_timer.tick += lambda: animator.to_alpha( \
                 self.fade_surface, 0, self.fade_timer)
+            self.fade_timer.elapsed += lambda: self._toggle_switching()
 
         if self._scene:
             self._scene.dispose()
@@ -54,7 +60,9 @@ class SceneManager:
         return self._overlays.get(id, None)
 
     def update(self, game, events):
-        if self._scene and self._scene.enabled:
+        if self._scene and \
+           self._scene.enabled and not \
+           self._switching:
             self._scene.update(game, events)
 
         for overlay in self._overlays.values():
