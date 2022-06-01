@@ -1,18 +1,17 @@
-from engine import *
-
 import pygame
 
 class GameManager():
     def __init__(self):
         print("Initialized: Game Manager")
         self._init_display()
-        self.scenes = SceneManager()
         self.fps_limit = 60
         self.clock = pygame.time.Clock()
         self._title = ""
         self._mouse_pos = (0, 0)
         self._icon = None
         self.running = False
+        self.updateable = set()
+        self.drawable = set()
 
     def run(self):
         self.running = True
@@ -29,16 +28,18 @@ class GameManager():
                     self.window_size = event.size
                     self.update_display(True, False)
 
-            for timer in timers:
-                timer.update(self.clock)
-
-            self.scenes.update(self, events)
+            for component in self.updateable:
+                component.update(self, events)
 
             self.render_layer.fill(pygame.Color("black"))
-            self.scenes.draw(self.render_layer)
+            
+            for component in self.drawable:
+                component.draw(self.render_layer)
+            
             self.scaler(self.render_layer,
                         self.window.get_rect().size,
                         self.window)
+
             pygame.display.update()
 
             self.clock.tick(self.fps_limit)

@@ -3,7 +3,18 @@ from engine.event_handler import EventHandler
 import pygame
 import time
 
-timers = []
+class TimerManager():
+    timers = []
+    @classmethod
+    def update(cls, game, events):
+        for timer in cls.timers:
+            timer.update(game.clock)
+    @classmethod
+    def add(cls, timer):
+        cls.timers.append(timer)
+    @classmethod
+    def remove(cls, timer):
+        cls.timers.remove(timer)
 
 class Timer():
     def __init__(self, interval = None, enabled = False, auto_reset = False):
@@ -17,7 +28,7 @@ class Timer():
         self.auto_reset = auto_reset
         self.elapsed = EventHandler()
         self.tick = EventHandler()
-        timers.append(self)
+        TimerManager.add(self)
 
     def __del__(self):
         self.close()
@@ -35,7 +46,7 @@ class Timer():
 
     def close(self):
         if not self.removed:
-            timers.remove(self)
+            TimerManager.remove(self)
             self.removed = True
 
     def on_elapsed(self):
