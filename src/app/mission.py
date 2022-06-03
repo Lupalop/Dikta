@@ -4,11 +4,11 @@ from app.utils import get_ep_string, load_em_image
 from app.dialog import Dialog, DialogSide, DialogEmitter
 
 class Mission(Scene):
-    def __init__(self, episode_id, mission_id, default_side = DialogSide.TOP):
+    def __init__(self, episode_id, mission_id, mission_child_id = "", default_side = DialogSide.TOP):
         self.episode_id = episode_id
         self.mission_id = mission_id
         self.emitter = DialogEmitter(self, default_side)
-        name = "Episode {} - Mission {}".format(episode_id, mission_id)
+        name = "Episode {} - Mission {}{}".format(episode_id, mission_id, mission_child_id)
         super().__init__(name)
 
     def get_string(self, character_id, text_id):
