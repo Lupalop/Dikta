@@ -21,7 +21,14 @@ RECT_DISPLAY = pygame.Rect(0, 0, 1360, 765) # FIXME: this should not be hardcode
 
 class DialogSide(IntEnum):
     TOP = 1
-    BOTTOM = 2
+    TOP_LEFT = 2
+    TOP_RIGHT = 3
+    MIDDLE_LEFT = 4
+    MIDDLE = 5
+    MIDDLE_RIGHT = 6
+    BOTTOM_LEFT = 7
+    BOTTOM = 8
+    BOTTOM_RIGHT = 9
 
 class DialogFlags(IntFlag):
     CLOSEABLE = 1
@@ -148,13 +155,35 @@ class DialogEmitter():
         if not side:
             side = self.default_side
         position = (0, 0)
-        dialog_center = (RECT_DISPLAY.width / 2) - (RECT_DIALOG.width / 2)
-        if side == DialogSide.TOP:
-            position = (dialog_center, 25)
+
+        dialog_centerx = (RECT_DISPLAY.width / 2) - (RECT_DIALOG.width / 2)
+        dialog_centery = (RECT_DISPLAY.height / 2) - (RECT_DIALOG.height / 2)
+        dialog_leftx = 25
+        dialog_topy = 25
+        dialog_rightx = RECT_DISPLAY.width - RECT_DIALOG.width - 25
+        dialog_bottomy = RECT_DISPLAY.height - 60 - RECT_DIALOG.height
+
+        if side == DialogSide.TOP_LEFT:
+            position = (dialog_leftx, dialog_topy)
+        elif side == DialogSide.TOP:
+            position = (dialog_centerx, dialog_topy)
+        elif side == DialogSide.TOP_RIGHT:
+            position = (dialog_rightx, dialog_topy)
+        elif side == DialogSide.MIDDLE_LEFT:
+            position = (dialog_leftx, dialog_centery)
+        elif side == DialogSide.MIDDLE:
+            position = (dialog_centerx, dialog_centery)
+        elif side == DialogSide.MIDDLE_RIGHT:
+            position = (dialog_rightx, dialog_centery)
+        elif side == DialogSide.BOTTOM_LEFT:
+            position = (dialog_leftx, dialog_bottomy)
         elif side == DialogSide.BOTTOM:
-            position = (dialog_center, RECT_DISPLAY.height - 60 - RECT_DIALOG.height)
+            position = (dialog_centerx, dialog_bottomy)
+        elif side == DialogSide.BOTTOM_RIGHT:
+            position = (dialog_rightx, dialog_bottomy)
         else:
             raise("unexpected dialog side")
+
         dialog = Dialog(self, position, name, text, portrait_id, flags, callback)
         self._queue.put(dialog)
         if not self.current:
