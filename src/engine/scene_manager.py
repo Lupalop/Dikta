@@ -31,13 +31,14 @@ class SceneManager:
                 return
 
         def _fade_in_done():
-            pending_scene.load_content()
             self._scene = pending_scene
 
             self.fade_timer = Timer(1000, True)
             self.fade_timer.tick += lambda: animator.to_alpha( \
                 self.fade_surface, 0, self.fade_timer)
             self.fade_timer.elapsed += lambda: self._toggle_switching()
+
+        pending_scene.load_content()
 
         if self._scene:
             self._scene.dispose()
