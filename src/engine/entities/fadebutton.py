@@ -25,19 +25,19 @@ class FadeButton(ClickableEntity):
         if state == ClickState.NORMAL:
             self._timer.reset(True)
             self._timer.tick.clear()
-            self._timer.tick += lambda: animator.to_alpha( \
+            self._timer.tick += lambda sender: animator.to_alpha( \
                 self.get_surface(), 100, self._timer)
             self._timer.start()
         elif state == ClickState.HOVER:
             self._timer.reset(True)
             self._timer.tick.clear()
-            self._timer.tick += lambda: animator.to_alpha( \
+            self._timer.tick += lambda sender: animator.to_alpha( \
                 self.get_surface(), 255, self._timer)
             self._timer.start()
         elif state == ClickState.ACTIVE:
             self._timer.reset(True)
             self._timer.tick.clear()
-            self._timer.tick += lambda: animator.to_alpha( \
+            self._timer.tick += lambda sender: animator.to_alpha( \
                 self.get_surface(), 175, self._timer)
             self._timer.start()
         elif state == ClickState.RELEASED:

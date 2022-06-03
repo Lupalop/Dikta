@@ -50,10 +50,10 @@ class Timer():
             self.removed = True
 
     def on_elapsed(self):
-        self.elapsed()
+        self.elapsed(self)
 
     def on_tick(self):
-        self.tick()
+        self.tick(self)
 
     def update(self, clock):
         if not self.enabled:
