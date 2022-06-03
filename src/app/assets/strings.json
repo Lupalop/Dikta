@@ -1,0 +1,62 @@
+{
+    "items": {
+        "journal": "Journal",
+        "pen": "Pen",
+        "pbadge": "Press Badge",
+        "wallet": "Wallet",
+        "flashlight": "Flashlight",
+        "note": "Note"
+    },
+    "e1": {
+        "m1": {
+            "joe_1": {
+                "text": "I need to make sure that I didn’t forget anything before I go.",
+                "style": "chat"
+            },
+            "tutorial_1": {
+                "text": "Hover over the items in your screen to perform an action on them. The cursor changes based on its location."
+            },
+            "joe_2": {
+                "text": "Yes, that’s me. Joe Constantino, reporting for The Times."
+            },
+            "joe_3": {
+                "text": "I’m heading out."
+            }
+        },
+        "m2": {
+            "joe_1": {
+                "text": "Manong, take me to the Congress building."
+            },
+            "driver_1": {
+                "text": "I can only give you a ride until Luneta. The entire stretch of the road is occupied by demonstrators."
+            },
+            "joe_2": {
+                "text": "Manong, take me to Luneta Park."
+            },
+            "driver_2": {
+                "text": "Okay."
+            },
+            "joe_3": {
+                "text": "Manong, take me home."
+            },
+            "joe_4": {
+                "text": "On second thought, I don’t need to go home right now."
+            },
+            "driver_3": {
+                "text": "You talking to me?"
+            },
+            "joe_5": {
+                "text": "No, don’t mind me."
+            },
+            "driver_4": {
+                "text": "Where are you headed to, then?"
+            },
+            "driver_5": {
+                "text": "We’re here, sir. Pay up, please."
+            },
+            "joe_6": {
+                "text": "I forgot my wallet."
+            }
+        }
+    }
+}
