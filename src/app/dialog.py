@@ -18,7 +18,7 @@ RECT_NAME_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_NAME.y, RECT_NAME.width, RE
 RECT_SPEECH_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_SPEECH.y, RECT_SPEECH.width, RECT_SPEECH.height)
 
 class Dialog(ClickableEntity):
-    def __init__(self, emitter, position, name, text, portrait_id = None, callback = None):
+    def __init__(self, emitter, position, name, text, portrait_id = None, closable = True, callback = None):
         super().__init__(
             position,
             RECT_DIALOG.size,
@@ -27,6 +27,7 @@ class Dialog(ClickableEntity):
 
         self.emitter = emitter
         self.callback = callback
+        self.closable = closable
 
         rect_speech_final = RECT_SPEECH
         rect_name_final = RECT_NAME
@@ -80,7 +81,8 @@ class Dialog(ClickableEntity):
 
     # Event handlers
     def _on_click(self, button):
-        self.emitter.next()
+        if self.closable:
+            self.emitter.next()
         super()._on_click(button)
 
     def draw(self, layer):
@@ -112,18 +114,19 @@ class DialogEmitter():
             self.next()
         if self.current:
             self.current.update(game, events)
+        if self.current and self.current.closable:
             for event in events:
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_KP_ENTER or \
-                       event.key == pygame.K_RETURN or \
-                       event.key == pygame.K_SPACE:
-                        self.next()
+                if event.type == pygame.KEYUP and \
+                   (event.key == pygame.K_KP_ENTER or \
+                    event.key == pygame.K_RETURN or \
+                    event.key == pygame.K_SPACE):
+                    self.next()
 
     def draw(self, layer):
         if self.current:
             self.current.draw(layer)
 
-    def add(self, side, name, text, portrait_id = None, callback = None):
+    def add(self, side, name, text, portrait_id = None, closable = True, callback = None):
         position = (0, 0)
         dialog_center = (RECT_DISPLAY.width / 2) - (RECT_DIALOG.width / 2)
         if side == DialogSide.TOP:
@@ -132,7 +135,7 @@ class DialogEmitter():
             position = (dialog_center, RECT_DISPLAY.height - 60 - RECT_DIALOG.height)
         else:
             raise("unexpected dialog side")
-        dialog = Dialog(self, position, name, text, portrait_id, callback)
+        dialog = Dialog(self, position, name, text, portrait_id, closable, callback)
         self._queue.put(dialog)
         if not self.current:
             self.next()
