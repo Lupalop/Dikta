@@ -7,7 +7,7 @@ from app import utils
 import pygame
 
 from queue import Queue
-from enum import IntEnum
+from enum import IntEnum, IntFlag
 
 RECT_NAME = pygame.Rect(0, 0, 155, 38)
 RECT_BASE = pygame.Rect(0, RECT_NAME.height, 765, 90)
@@ -17,8 +17,19 @@ RECT_PORTRAIT = pygame.Rect(RECT_DIALOG.x, RECT_DIALOG.y, RECT_DIALOG.height, RE
 RECT_NAME_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_NAME.y, RECT_NAME.width, RECT_NAME.height)
 RECT_SPEECH_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_SPEECH.y, RECT_SPEECH.width, RECT_SPEECH.height)
 
+RECT_DISPLAY = pygame.Rect(0, 0, 1360, 765) # FIXME: this should not be hardcoded
+
+class DialogSide(IntEnum):
+    TOP = 1
+    BOTTOM = 2
+
+class DialogFlags(IntFlag):
+    CLOSEABLE = 1
+    SKIPPABLE = 2
+    NORMAL = 3
+
 class Dialog(ClickableEntity):
-    def __init__(self, emitter, position, name, text, portrait_id = None, closable = True, skippable = True, callback = None):
+    def __init__(self, emitter, position, name, text, portrait_id = None, flags = DialogFlags.NORMAL, callback = None):
         super().__init__(
             position,
             RECT_DIALOG.size,
@@ -27,8 +38,7 @@ class Dialog(ClickableEntity):
 
         self.emitter = emitter
         self.callback = callback
-        self.closable = closable
-        self.skippable = skippable
+        self.flags = flags
 
         rect_speech_final = RECT_SPEECH
         rect_name_final = RECT_NAME
@@ -96,17 +106,11 @@ class Dialog(ClickableEntity):
         self.label_name.update(game, events)
 
     def next_or_skip(self):
-        if self.label_speech.completed and self.closable:
+        if self.label_speech.completed and self.flags & DialogFlags.CLOSEABLE:
             self.emitter.next()
             return
-        if self.skippable:
+        if self.flags & DialogFlags.SKIPPABLE:
             self.label_speech.skip()
-
-class DialogSide(IntEnum):
-    TOP = 1
-    BOTTOM = 2
-
-RECT_DISPLAY = pygame.Rect(0, 0, 1360, 765) # FIXME: this should not be hardcoded
 
 class DialogEmitter():
     def __init__(self, parent, default_side):
@@ -140,7 +144,7 @@ class DialogEmitter():
             self.current.draw(layer)
 
     # Add dialogue with all features
-    def add_custom(self, name, text, portrait_id = None, side = None, closable = True, skippable = True, callback = None):
+    def add_custom(self, name, text, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
         if not side:
             side = self.default_side
         position = (0, 0)
@@ -151,20 +155,19 @@ class DialogEmitter():
             position = (dialog_center, RECT_DISPLAY.height - 60 - RECT_DIALOG.height)
         else:
             raise("unexpected dialog side")
-        dialog = Dialog(self, position, name, text, portrait_id, closable, skippable, callback)
+        dialog = Dialog(self, position, name, text, portrait_id, flags, callback)
         self._queue.put(dialog)
         if not self.current:
             self.next()
 
     # Add dialogue with all features except with custom text/name
-    def add(self, character_id, text_id, portrait_id = None, side = None, closable = True, skippable = True, callback = None):
+    def add(self, character_id, text_id, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
         string = self.parent.get_string(character_id, text_id)
         self.add_custom(
             string[0],
             string[1],
             portrait_id,
             side,
-            closable,
-            skippable,
+            flags,
             callback
         )
