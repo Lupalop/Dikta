@@ -24,50 +24,27 @@ class E1M0Scene(Mission):
         intro1.get_surface().set_alpha(0)
         intro2.get_surface().set_alpha(0)
 
-        def _fade_in_done2(sender):
-            sender.close()
-            self.fade_timer = Timer(2000, True)
-            self.fade_timer.elapsed += _fade_out2
-
-        def _fade_in2(sender):
-            sender.close()
-            self.fade_timer = Timer(1000, True)
-            self.fade_timer.tick += lambda sender: animator.entity_to_alpha( \
-                intro2, 255, self.fade_timer)
-            self.fade_timer.elapsed += _fade_in_done2
-
-        def _fade_out2(sender):
-            sender.close()
-            self.fade_timer = Timer(1000, True)
-            self.fade_timer.tick += lambda sender: animator.entity_to_alpha( \
-                intro2, 0, self.fade_timer)
-            self.fade_timer.elapsed += lambda sender: game.scenes.set_scene("e1m1")
-
-        def _fade_in_done1(sender):
-            sender.close()
-            self.fade_timer = Timer(2000, True)
-            self.fade_timer.elapsed += _fade_out1
-
-        def _fade_in1():
-            self.fade_timer = Timer(1000, True)
-            self.fade_timer.tick += lambda sender: animator.entity_to_alpha( \
-                intro1, 255, self.fade_timer)
-            self.fade_timer.elapsed += _fade_in_done1
-
-        def _fade_out1(sender):
-            sender.close()
-            self.fade_timer = Timer(1000, True)
-            self.fade_timer.tick += lambda sender: animator.entity_to_alpha( \
-               intro1, 0, self.fade_timer)
-            self.fade_timer.elapsed += _fade_in2
-
-        _fade_in1()
+        animator.entity_fadein(
+            intro1,
+            1000,
+            lambda: animator.entity_fadeout(
+                intro1,
+                1000,
+                lambda: animator.entity_fadein(
+                    intro2,
+                    1000,
+                    lambda: animator.entity_fadeout(
+                        intro2,
+                        1000,
+                        lambda: game.scenes.set_scene("e1m1")
+                    ),
+                    2000
+                )
+            ),
+            2000
+        )
 
         self.entities = {
             "intro1": intro1,
             "intro2": intro2,
         }
-
-    def dispose(self):
-        if self.fade_timer:
-            self.fade_timer.close()

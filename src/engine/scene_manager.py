@@ -13,6 +13,7 @@ class SceneManager:
         self.fade_surface = pygame.Surface(prefs.default.get("app.display.layer_size", (0, 0)))
         self.fade_surface.fill(pygame.Color("black"))
         self.fade_surface.set_alpha(255)
+        self.fade_duration = prefs.default.get("app.misc.fade_duration", 1000)
 
     def _toggle_switching(self):
         self._switching = not self._switching
@@ -30,25 +31,25 @@ class SceneManager:
             else:
                 return
 
-        def _fade_in_done(sender):
+        def _fade_in_done():
             self._scene = pending_scene
-
-            self.fade_timer = Timer(1000, True)
-            self.fade_timer.tick += lambda sender: animator.to_alpha( \
-                self.fade_surface, 0, self.fade_timer)
-            self.fade_timer.elapsed += lambda sender: self._toggle_switching()
+            animator.fadeout(
+                self.fade_surface,
+                self.fade_duration,
+                self._toggle_switching
+            )
 
         pending_scene.load_content()
 
         if self._scene:
             self._scene.dispose()
-
-            self.fade_timer = Timer(1000, True)
-            self.fade_timer.tick += lambda sender: animator.to_alpha( \
-                self.fade_surface, 255, self.fade_timer)
-            self.fade_timer.elapsed += _fade_in_done
+            animator.fadein(
+                self.fade_surface,
+                self.fade_duration,
+                _fade_in_done
+            )
         else:
-            _fade_in_done(None)
+            _fade_in_done()
 
     def add_overlay(self, id, scene):
         scene.load_content()
