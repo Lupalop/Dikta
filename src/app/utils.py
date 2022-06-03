@@ -25,7 +25,10 @@ def get_ep_string(episode_id, mission_id, character_id, text_id):
     episode_key = "e{}".format(episode_id)
     mission_key = "m{}".format(mission_id)
     text_key = "{}_{}".format(character_id, text_id)
-    return strings[episode_key][mission_key][text_key]["text"]
+    return (
+        strings["characters"][character_id],
+        strings[episode_key][mission_key][text_key]["text"]
+    )
 
 def get_item_string(item_name):
     return strings["items"][item_name]

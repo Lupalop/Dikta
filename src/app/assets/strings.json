@@ -7,6 +7,9 @@
         "flashlight": "Flashlight",
         "note": "Note"
     },
+    "characters": {
+        "joe": "Joe"
+    },
     "e1": {
         "m1": {
             "joe_1": {
