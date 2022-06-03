@@ -229,3 +229,6 @@ local.properties
 
 .vscode/
 .code-workspace
+
+# Game files
+prefs.json
