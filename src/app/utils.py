@@ -25,10 +25,16 @@ def get_ep_string(episode_id, mission_id, character_id, text_id):
     episode_key = "e{}".format(episode_id)
     mission_key = "m{}".format(mission_id)
     text_key = "{}_{}".format(character_id, text_id)
-    return (
-        strings["characters"][character_id],
-        strings[episode_key][mission_key][text_key]["text"]
-    )
+    try:
+        return (
+            strings["characters"][character_id],
+            strings[episode_key][mission_key][text_key]["text"]
+        )
+    except KeyError:
+        return (
+            "XXXmissing: [{}]".format(character_id),
+            "XXXmissing: [{}][{}][{}]".format(episode_key, mission_key, text_key)
+        )
 
 def get_item_string(item_name):
     return strings["items"][item_name]
