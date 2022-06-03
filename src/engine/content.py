@@ -1,6 +1,7 @@
 import os
 import pygame
 import pygame.freetype
+import json
 
 font_cache = {}
 image_cache = {}
@@ -43,3 +44,11 @@ def load_new_font(font_name_or_file, font_size, is_system = True):
     if is_system:
         return pygame.freetype.SysFont(font_name_or_file, font_size)
     return pygame.freetype.Font(font_name_or_file, font_size)
+
+def load_json(file_name, *subdirectories):
+    file_name = file_name + ".json"
+    file_path = os.path.join("app", "assets", *subdirectories, file_name);
+    file = open(file_path, "r", encoding="utf-8")
+    data = json.load(file)
+    file.close()
+    return data
