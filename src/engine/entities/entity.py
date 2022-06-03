@@ -23,7 +23,7 @@ class Entity:
             self._rect.size = size
             # Resize surface to given size if available
             if surface:
-                self._surface = pygame.transform.scale(surface, self._rect.size)
+                self._surface = pygame.transform.smoothscale(surface, self._rect.size)
         # Assume surface size if the entity is sized to zero
         elif surface:
             self._rect.size = surface.get_rect().size
@@ -35,7 +35,7 @@ class Entity:
 
     def _on_entity_dirty(self, resize):
         if resize:
-            self._surface = pygame.transform.scale(self.get_surface(), self._rect.size)
+            self._surface = pygame.transform.smoothscale(self.get_surface(), self._rect.size)
             self._mask = None
 
         self.entity_dirty(self, resize)
