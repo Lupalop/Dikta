@@ -122,10 +122,10 @@ class DialogEmitter():
             self.current.update(game, events)
             for event in events:
                 if event.type == pygame.KEYUP:
-                   if event.key == pygame.K_KP_ENTER or \
-                      event.key == pygame.K_RETURN or \
-                      event.key == pygame.K_SPACE:
-                    self.next()
+                    if event.key == pygame.K_KP_ENTER or \
+                       event.key == pygame.K_RETURN or \
+                       event.key == pygame.K_SPACE:
+                        self.next()
 
     def draw(self, layer):
         if self.current:
