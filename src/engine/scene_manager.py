@@ -22,7 +22,6 @@ class SceneManager:
         return self._scene
 
     def set_scene(self, scene):
-        self._toggle_switching()
         pending_scene = scene
 
         if isinstance(scene, str):
@@ -30,6 +29,8 @@ class SceneManager:
                 pending_scene = self.all_scenes[scene]
             else:
                 return
+
+        self._toggle_switching()
 
         def _fade_in_done():
             self._scene = pending_scene
