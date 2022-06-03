@@ -1,6 +1,7 @@
 from .debug import DebugOverlay
 from .main_menu import MainMenuScene
 
+from .e0mtest import E0MTestScene
 from .e1m0 import E1M0Scene
 from .e1m1 import E1M1Scene
 # from .e1m2 import E1M2Scene

@@ -3,6 +3,7 @@ from app.scenes import *
 
 game.scenes.add_overlay("debug", DebugOverlay())
 game.scenes.all_scenes["main_menu"] = MainMenuScene()
+game.scenes.all_scenes["test"] = E0MTestScene()
 game.scenes.all_scenes["e1m0"] = E1M0Scene()
 game.scenes.all_scenes["e1m1"] = E1M1Scene()
 # game.scenes.all_scenes["e1m2"] = E1M2Scene()
