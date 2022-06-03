@@ -1,13 +1,13 @@
-from engine import *
-from engine.entities import *
-from app import utils
-
-from engine.entities import ClickableEntity, Label
+from engine.entities import ClickableEntity, Label, SequenceLabel, Image
 from engine.enums import MouseButton, ClickState
 from engine.event_handler import EventHandler
 
+from app import utils
+
 import pygame
+
 from queue import Queue
+from enum import IntEnum
 
 RECT_NAME = pygame.Rect(0, 0, 155, 38)
 RECT_BASE = pygame.Rect(0, RECT_NAME.height, 765, 90)
