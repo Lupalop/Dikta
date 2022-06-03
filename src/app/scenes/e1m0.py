@@ -9,6 +9,7 @@ import pygame
 class E1M0Scene(Mission):
     def __init__(self):
         super().__init__(1, 0)
+        self.fade_timer = None
 
     def update(self, game, events):
         super().update(game, events)
@@ -24,27 +25,43 @@ class E1M0Scene(Mission):
         intro1.get_surface().set_alpha(0)
         intro2.get_surface().set_alpha(0)
 
-        animator.entity_fadein(
-            intro1,
-            1000,
-            lambda: animator.entity_fadeout(
+        def fadeout_intro2():
+            self.fade_timer = animator.entity_fadeout(
+                intro2,
+                1000,
+                lambda: game.scenes.set_scene("e1m1")
+            )
+
+        def fadein_intro2():
+            self.fade_timer = animator.entity_fadein(
+                intro2,
+                1000,
+                fadeout_intro2,
+                2000
+            )
+
+        def fadeout_intro1():
+            self.fade_timer = animator.entity_fadeout(
                 intro1,
                 1000,
-                lambda: animator.entity_fadein(
-                    intro2,
-                    1000,
-                    lambda: animator.entity_fadeout(
-                        intro2,
-                        1000,
-                        lambda: game.scenes.set_scene("e1m1")
-                    ),
-                    2000
-                )
-            ),
-            2000
-        )
+                fadein_intro2,
+            )
+
+        def fadein_intro1():
+            self.fade_timer = animator.entity_fadein(
+                intro1,
+                1000,
+                fadeout_intro1,
+                2000
+            )
+
+        fadein_intro1()
 
         self.entities = {
             "intro1": intro1,
             "intro2": intro2,
         }
+
+    def dispose(self):
+        if self.fade_timer:
+            self.fade_timer.close()
