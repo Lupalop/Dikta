@@ -109,7 +109,9 @@ class DialogSide(IntEnum):
 RECT_DISPLAY = pygame.Rect(0, 0, 1360, 765) # FIXME: this should not be hardcoded
 
 class DialogEmitter():
-    def __init__(self):
+    def __init__(self, parent, default_side):
+        self.parent = parent
+        self.default_side = default_side
         self._queue = Queue()
         self.current = None
 
@@ -137,7 +139,9 @@ class DialogEmitter():
         if self.current:
             self.current.draw(layer)
 
-    def add(self, side, name, text, portrait_id = None, closable = True, skippable = True, callback = None):
+    def add(self, name, text, portrait_id = None, side = None, closable = True, skippable = True, callback = None):
+        if not side:
+            side = self.default_side
         position = (0, 0)
         dialog_center = (RECT_DISPLAY.width / 2) - (RECT_DIALOG.width / 2)
         if side == DialogSide.TOP:
