@@ -24,8 +24,7 @@ class PreferencesManager:
         try:
             value = self.all[name]
         except:
-            print(self.all)
-            if not default_value:
+            if default_value is None:
                 raise("unexpected preference name")
             self.all[name] = default_value
             return default_value
