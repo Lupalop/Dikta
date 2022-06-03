@@ -64,3 +64,7 @@ class E1M0Scene(Scene):
             "intro1": intro1,
             "intro2": intro2,
         }
+
+    def dispose(self):
+        if self.fade_timer:
+            self.fade_timer.close()
