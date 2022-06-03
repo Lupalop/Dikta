@@ -139,7 +139,8 @@ class DialogEmitter():
         if self.current:
             self.current.draw(layer)
 
-    def add(self, name, text, portrait_id = None, side = None, closable = True, skippable = True, callback = None):
+    # Add dialogue with all features
+    def add_custom(self, name, text, portrait_id = None, side = None, closable = True, skippable = True, callback = None):
         if not side:
             side = self.default_side
         position = (0, 0)
@@ -154,3 +155,16 @@ class DialogEmitter():
         self._queue.put(dialog)
         if not self.current:
             self.next()
+
+    # Add dialogue with all features except with custom text/name
+    def add(self, character_id, text_id, portrait_id = None, side = None, closable = True, skippable = True, callback = None):
+        string = self.parent.get_string(character_id, text_id)
+        self.add_custom(
+            string[0],
+            string[1],
+            portrait_id,
+            side,
+            closable,
+            skippable,
+            callback
+        )
