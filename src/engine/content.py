@@ -47,8 +47,21 @@ def load_new_font(font_name_or_file, font_size, is_system = True):
 
 def load_json(file_name, *subdirectories):
     file_name = file_name + ".json"
-    file_path = os.path.join("app", "assets", *subdirectories, file_name);
+    file_path = os.path.join(*subdirectories, file_name);
     file = open(file_path, "r", encoding="utf-8")
     data = json.load(file)
     file.close()
     return data
+
+def save_json(file_name, data, *subdirectories):
+    file_name = file_name + ".json"
+    file_path = os.path.join(*subdirectories, file_name);
+    file = open(file_path, "w", encoding="utf-8")
+    json.dump(data, file)
+    file.close()
+
+def load_json_asset(file_name, *subdirectories):
+    return load_json(file_name, "app", "assets", *subdirectories)
+
+def save_json_asset(file_name, data, *subdirectories):
+    save_json(file_name, data, "app", "assets", *subdirectories)

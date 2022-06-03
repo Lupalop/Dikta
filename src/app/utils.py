@@ -19,7 +19,7 @@ def load_ui_image(image_name):
 def load_ca_image(image_name):
     return content.load_image(image_name + EXT_PNG, "ca")
 
-strings = content.load_json("strings")
+strings = content.load_json_asset("strings")
 
 def get_ep_string(episode_id, mission_id, character_id, text_id):
     episode_key = "e{}".format(episode_id)
