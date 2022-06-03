@@ -16,6 +16,20 @@ def load_mm_image(image_name):
 def load_ui_image(image_name):
     return content.load_image(image_name + EXT_PNG, "ui")
 
+def load_ca_image(image_name):
+    return content.load_image(image_name + EXT_PNG, "ca")
+
+strings = content.load_json("strings")
+
+def get_ep_string(episode_id, mission_id, character_id, text_id):
+    episode_key = "e{}".format(episode_id)
+    mission_key = "m{}".format(mission_id)
+    text_key = "{}_{}".format(character_id, text_id)
+    return strings[episode_key][mission_key][text_key]["text"]
+
+def get_item_string(item_name):
+    return strings["items"][item_name]
+
 font_default = "franklingothicmediumcond"
 
 fonts = {
