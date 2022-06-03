@@ -6,3 +6,4 @@ from .label import Label
 from .button import Button
 from .fadebutton import FadeButton
 from .labelbutton import LabelButton
+from .sequencelabel import SequenceLabel

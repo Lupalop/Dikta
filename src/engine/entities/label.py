@@ -1,6 +1,4 @@
-from . import *
-
-import pygame
+from engine.entities import Entity
 
 class Label(Entity):
     def __init__(self, text, font, color, position_or_rect = (0, 0), size = None):
