@@ -18,7 +18,7 @@ RECT_NAME_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_NAME.y, RECT_NAME.width, RE
 RECT_SPEECH_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_SPEECH.y, RECT_SPEECH.width, RECT_SPEECH.height)
 
 class Dialog(ClickableEntity):
-    def __init__(self, emitter, position, name, text, portrait_id = None, closable = True, callback = None):
+    def __init__(self, emitter, position, name, text, portrait_id = None, closable = True, skippable = True, callback = None):
         super().__init__(
             position,
             RECT_DIALOG.size,
@@ -28,6 +28,7 @@ class Dialog(ClickableEntity):
         self.emitter = emitter
         self.callback = callback
         self.closable = closable
+        self.skippable = skippable
 
         rect_speech_final = RECT_SPEECH
         rect_name_final = RECT_NAME
@@ -50,7 +51,7 @@ class Dialog(ClickableEntity):
         )
         self.label_name.set_position(label_name_pos)
         # Initialize speech text and its position
-        self.label_speech = Label(text, utils.get_font(24), pygame.Color("white"))
+        self.label_speech = SequenceLabel(text, utils.get_font(24), pygame.Color("white"))
         label_speech_pos = (
             position[0] + rect_speech_final.x,
             position[1] + rect_speech_final.y + (rect_speech_final.height / 2) - self.label_speech.get_rect().height / 2
@@ -81,14 +82,25 @@ class Dialog(ClickableEntity):
 
     # Event handlers
     def _on_click(self, button):
-        if self.closable:
-            self.emitter.next()
+        self.next_or_skip()
         super()._on_click(button)
 
     def draw(self, layer):
         super().draw(layer)
         self.label_speech.draw(layer)
         self.label_name.draw(layer)
+
+    def update(self, game, events):
+        super().update(game, events)
+        self.label_speech.update(game, events)
+        self.label_name.update(game, events)
+
+    def next_or_skip(self):
+        if self.label_speech.completed and self.closable:
+            self.emitter.next()
+            return
+        if self.skippable:
+            self.label_speech.skip()
 
 class DialogSide(IntEnum):
     TOP = 1
@@ -114,19 +126,18 @@ class DialogEmitter():
             self.next()
         if self.current:
             self.current.update(game, events)
-        if self.current and self.current.closable:
             for event in events:
                 if event.type == pygame.KEYUP and \
                    (event.key == pygame.K_KP_ENTER or \
                     event.key == pygame.K_RETURN or \
                     event.key == pygame.K_SPACE):
-                    self.next()
+                    self.current.next_or_skip()
 
     def draw(self, layer):
         if self.current:
             self.current.draw(layer)
 
-    def add(self, side, name, text, portrait_id = None, closable = True, callback = None):
+    def add(self, side, name, text, portrait_id = None, closable = True, skippable = True, callback = None):
         position = (0, 0)
         dialog_center = (RECT_DISPLAY.width / 2) - (RECT_DIALOG.width / 2)
         if side == DialogSide.TOP:
@@ -135,7 +146,7 @@ class DialogEmitter():
             position = (dialog_center, RECT_DISPLAY.height - 60 - RECT_DIALOG.height)
         else:
             raise("unexpected dialog side")
-        dialog = Dialog(self, position, name, text, portrait_id, closable, callback)
+        dialog = Dialog(self, position, name, text, portrait_id, closable, skippable, callback)
         self._queue.put(dialog)
         if not self.current:
             self.next()
