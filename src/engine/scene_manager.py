@@ -1,5 +1,5 @@
 from engine.timer import Timer
-from engine import animator
+from engine import animator, prefs
 
 import pygame
 
@@ -10,7 +10,7 @@ class SceneManager:
         self._scene = None
         self._switching = False
         self._overlays = {}
-        self.fade_surface = pygame.Surface((1360, 765)) # FIXME: Resolution should not be hardcoded
+        self.fade_surface = pygame.Surface(prefs.default.get("app.display.layer_size", (0, 0)))
         self.fade_surface.fill(pygame.Color("black"))
         self.fade_surface.set_alpha(255)
 

@@ -1,6 +1,7 @@
 from engine.entities import ClickableEntity, Label, SequenceLabel, Image
 from engine.enums import MouseButton, ClickState
 from engine.event_handler import EventHandler
+from engine import game
 
 from app import utils
 
@@ -16,8 +17,6 @@ RECT_DIALOG = pygame.Rect(0, 0, RECT_BASE.width, RECT_NAME.height + RECT_BASE.he
 RECT_PORTRAIT = pygame.Rect(RECT_DIALOG.x, RECT_DIALOG.y, RECT_DIALOG.height, RECT_DIALOG.height)
 RECT_NAME_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_NAME.y, RECT_NAME.width, RECT_NAME.height)
 RECT_SPEECH_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_SPEECH.y, RECT_SPEECH.width, RECT_SPEECH.height)
-
-RECT_DISPLAY = pygame.Rect(0, 0, 1360, 765) # FIXME: this should not be hardcoded
 
 class DialogSide(IntEnum):
     TOP = 1
@@ -156,12 +155,12 @@ class DialogEmitter():
             side = self.default_side
         position = (0, 0)
 
-        dialog_centerx = (RECT_DISPLAY.width / 2) - (RECT_DIALOG.width / 2)
-        dialog_centery = (RECT_DISPLAY.height / 2) - (RECT_DIALOG.height / 2)
+        dialog_centerx = (game.layer_size[0] / 2) - (RECT_DIALOG.width / 2)
+        dialog_centery = (game.layer_size[1] / 2) - (RECT_DIALOG.height / 2)
         dialog_leftx = 25
         dialog_topy = 25
-        dialog_rightx = RECT_DISPLAY.width - RECT_DIALOG.width - 25
-        dialog_bottomy = RECT_DISPLAY.height - 60 - RECT_DIALOG.height
+        dialog_rightx = game.layer_size[0] - RECT_DIALOG.width - 25
+        dialog_bottomy = game.layer_size[1] - 60 - RECT_DIALOG.height
 
         if side == DialogSide.TOP_LEFT:
             position = (dialog_leftx, dialog_topy)

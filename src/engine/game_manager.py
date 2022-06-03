@@ -1,8 +1,11 @@
+from engine import prefs
+
 import pygame
 
 class GameManager():
     def __init__(self):
         print("Initialized: Game Manager")
+        prefs.default.load()
         self._init_display()
         self.fps_limit = 60
         self.clock = pygame.time.Clock()
@@ -45,18 +48,18 @@ class GameManager():
             self.clock.tick(self.fps_limit)
 
         pygame.quit()
+        prefs.default.save()
 
     def exit(self):
         self.running = False
 
     def _init_display(self):
-        # TODO: This should be configurable via preferences (pending impl)
-        self.window_size = (1600, 900)
-        self.layer_size = (1360, 765)
-        self.is_fullscreen = False
-        self.is_resizable = False
-        self.is_dpi_aware = True
-        self.is_scale_smooth = True
+        self.window_size = prefs.default.get("app.display.window_size", (1360, 765))
+        self.layer_size = prefs.default.get("app.display.layer_size", (1360, 765))
+        self.is_fullscreen = prefs.default.get("app.display.fullscreen", False)
+        self.is_resizable = prefs.default.get("app.display.resizable", False)
+        self.is_dpi_aware = prefs.default.get("app.display.dpi_aware", True)
+        self.is_scale_smooth = prefs.default.get("app.display.use_smoothscale", True)
         # Prevent automatic scaling
         if self.is_dpi_aware:
             import ctypes
