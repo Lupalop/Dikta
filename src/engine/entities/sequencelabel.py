@@ -41,18 +41,6 @@ class SequenceLabel(Label):
 
         self.entity_dirty(self, resize)
 
-    def set_text(self, text):
-        self._text = text
-        self._on_entity_dirty()
-
-    def set_font(self, font):
-        self._font = font
-        self._on_entity_dirty()
-
-    def set_color(self, color):
-        self._color = color
-        self._on_entity_dirty(False)
-
     def draw(self, layer):
         if not self.get_surface():
             return
