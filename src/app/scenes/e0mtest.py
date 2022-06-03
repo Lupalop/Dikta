@@ -8,7 +8,7 @@ import pygame
 
 class E0MTestScene(Mission):
     def __init__(self):
-        super().__init__(1, 1)
+        super().__init__(0, "test")
 
     def update(self, game, events):
         super().update(game, events)
@@ -35,7 +35,7 @@ class E0MTestScene(Mission):
         print(utils.get_item_string("pbadge"))
 
         bg_main = Image(
-            self.get_image("bg-joe"))
+            utils.load_em_image(1, 1, "bg-main"))
 
         self.entities = {
             "bg_main": bg_main,
