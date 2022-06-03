@@ -45,7 +45,7 @@ class DebugOverlay(Scene):
             btn_tp = LabelButton(
                 Label(
                     key,
-                    utils.fonts["md"],
+                    utils.get_font(20),
                     pygame.Color("white"),
                 ),
                 (5, current_y)
@@ -59,7 +59,7 @@ class DebugOverlay(Scene):
     def generate_xy_counter(self):
         self.entities["xy"] = Label(
             "0, 0",
-            utils.fonts["sm"],
+            utils.get_font(16),
             pygame.Color("white"),
             (0, 0)
         )

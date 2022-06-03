@@ -32,10 +32,13 @@ def get_item_string(item_name):
 
 font_default = "franklingothicmediumcond"
 
-fonts = {
-    "sm": content.load_font(font_default, 12),
-    "md": content.load_font(font_default, 20)
-}
+fonts = {}
+
+def get_font(size):
+    key = "{}_{}".format(font_default, size)
+    if key not in fonts:
+        fonts[key] = content.load_font(font_default, size)
+    return fonts[key]
 
 button_default_states = {
     "normal": load_ui_image("btn_sm_normal"),
@@ -46,6 +49,6 @@ button_default_states = {
 button_default = Button(
     button_default_states,
     Label("",
-          fonts["md"],
+          get_font(20),
           pygame.Color("white")),
     (0, 0))

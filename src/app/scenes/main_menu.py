@@ -23,7 +23,7 @@ class MainMenuScene(Scene):
             (930, 590))
         label_version = Label(
             "Version 1.0.0a1 - For testing purposes only.",
-            utils.fonts["sm"],
+            utils.get_font(12),
             pygame.Color("white"),
             (20, 690))
         logo_company = Image(
