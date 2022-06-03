@@ -1,12 +1,14 @@
 from engine import *
 from engine.entities import *
 from app import utils
+from app.mission import Mission
+from app.dialog import DialogSide, DialogFlags
 
 import pygame
 
-class E1M1Scene(Scene):
+class E1M6Scene(Mission):
     def __init__(self):
-        super().__init__("E1M1")
+        super().__init__(1, 6)
 
     def update(self, game, events):
         super().update(game, events)
