@@ -9,10 +9,13 @@ from engine.event_handler import EventHandler
 import pygame
 from queue import Queue
 
-RECT_DIALOG = pygame.Rect(0, 0, 768, 128)
-RECT_NAME = pygame.Rect(140, 0, 155, 38)
-RECT_BASE = pygame.Rect(0, 38, 628, 90)
-RECT_PORTRAIT = pygame.Rect(0, 0, 128, 128)
+RECT_NAME = pygame.Rect(0, 0, 155, 38)
+RECT_BASE = pygame.Rect(0, RECT_NAME.height, 765, 90)
+RECT_SPEECH = pygame.Rect(20, RECT_NAME.height, RECT_BASE.width - 140, RECT_BASE.height)
+RECT_DIALOG = pygame.Rect(0, 0, RECT_BASE.width, RECT_NAME.height + RECT_BASE.height)
+RECT_PORTRAIT = pygame.Rect(RECT_DIALOG.x, RECT_DIALOG.y, RECT_DIALOG.height, RECT_DIALOG.height)
+RECT_NAME_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_NAME.y, RECT_NAME.width, RECT_NAME.height)
+RECT_SPEECH_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_SPEECH.y, RECT_SPEECH.width, RECT_SPEECH.height)
 
 class Dialog(ClickableEntity):
     def __init__(self, emitter, position, name, text, portrait_id = None, callback = None):
@@ -25,34 +28,34 @@ class Dialog(ClickableEntity):
         self.emitter = emitter
         self.callback = callback
 
-        label_main_offset = 20
-        box_label_name_offset = 0
+        rect_speech_final = RECT_SPEECH
+        rect_name_final = RECT_NAME
+        # Determine if we have a portrait and adjust position accordingly
         self.portrait = None
         if portrait_id:
-            portrait = utils.load_ca_image(portrait_id)
-            self.portrait = Image(portrait, RECT_PORTRAIT)
-            label_main_offset = RECT_PORTRAIT.width
-            box_label_name_offset = RECT_NAME.x
-
-        self.box_name = Image(utils.load_ui_image("dialog-box-nametag"), (box_label_name_offset, RECT_NAME.y))
-        self.box_name.draw(self._surface)
+            self.portrait = Image(utils.load_ca_image(portrait_id), RECT_PORTRAIT)
+            rect_speech_final = RECT_SPEECH_WP
+            rect_name_final = RECT_NAME_WP
+        # Draw boxes to entity surface
+        self.box_name = utils.load_ui_image("dialog-box-nametag")
+        self._surface.blit(self.box_name, rect_name_final)
         self.box_base = utils.load_ui_image("dialog-box-main")
         self._surface.blit(self.box_base, RECT_BASE)
-
+        # Initialize name tag and its position
         self.label_name = Label(name, utils.get_font(28), pygame.Color("white"))
         label_name_pos = (
-            position[0] + box_label_name_offset + (RECT_NAME.width / 2) - self.label_name.get_rect().width / 2,
-            position[1] + (RECT_NAME.height / 2) - self.label_name.get_rect().height / 2
+            position[0] + rect_name_final.x + (rect_name_final.width / 2) - self.label_name.get_rect().width / 2,
+            position[1] + rect_name_final.y + (rect_name_final.height / 2) - self.label_name.get_rect().height / 2
         )
         self.label_name.set_position(label_name_pos)
-
-        self.label_main = Label(text, utils.get_font(24), pygame.Color("white"))
-        label_main_pos = (
-            position[0] + label_main_offset,
-            position[1] + RECT_NAME.height + (RECT_BASE.height / 2) - self.label_main.get_rect().height / 2
+        # Initialize speech text and its position
+        self.label_speech = Label(text, utils.get_font(24), pygame.Color("white"))
+        label_speech_pos = (
+            position[0] + rect_speech_final.x,
+            position[1] + rect_speech_final.y + (rect_speech_final.height / 2) - self.label_speech.get_rect().height / 2
         )
-        self.label_main.set_position(label_main_pos)
-
+        self.label_speech.set_position(label_speech_pos)
+        # Draw portrait to entity surface
         if self.portrait:
             self.portrait.draw(self._surface)
 
@@ -82,7 +85,7 @@ class Dialog(ClickableEntity):
 
     def draw(self, layer):
         super().draw(layer)
-        self.label_main.draw(layer)
+        self.label_speech.draw(layer)
         self.label_name.draw(layer)
 
 class DialogSide(IntEnum):
