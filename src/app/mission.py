@@ -1,4 +1,5 @@
 from engine import Scene
+from engine.entities import ClickableEntity
 
 from app.utils import get_ep_string, load_em_image
 from app.dialog import Dialog, DialogSide, DialogEmitter
@@ -8,6 +9,7 @@ class Mission(Scene):
         self.episode_id = episode_id
         self.mission_id = mission_id
         self.emitter = DialogEmitter(self, default_side)
+        self.background = ClickableEntity(hit_rect = True)
         name = "Episode {} - Mission {}{}".format(episode_id, mission_id, mission_child_id)
         super().__init__(name)
 
@@ -18,9 +20,13 @@ class Mission(Scene):
         return load_em_image(self.episode_id, self.mission_id, image_name)
 
     def update(self, game, events):
+        if self.background:
+            self.background.update(game, events)
         super().update(game, events)
         self.emitter.update(game, events)
 
     def draw(self, layer):
+        if self.background:
+            self.background.draw(layer)
         super().draw(layer)
         self.emitter.draw(layer)
