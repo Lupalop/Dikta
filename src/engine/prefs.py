@@ -1,6 +1,7 @@
 from engine import content
 
-PREF_FILENAME = "prefs"
+PF_DEFAULT = "prefs"
+PF_SAVEDGAME = "savedgame"
 
 class PreferencesManager:
     def __init__(self, file_name):
@@ -34,4 +35,5 @@ class PreferencesManager:
     def set(self, name, value):
         self.all[name] = value
 
-default = PreferencesManager(PREF_FILENAME)
+default = PreferencesManager(PF_DEFAULT)
+savedgame = PreferencesManager(PF_SAVEDGAME)
