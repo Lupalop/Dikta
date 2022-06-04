@@ -128,14 +128,12 @@ class DialogEmitter():
     def next(self):
         if self.current and self.current.callback:
             self.current.callback()
-        if not self._queue.empty():
-            self.current = self._queue.get()
-        else:
+        if self._queue.empty():
             self.current = None
+        else:
+            self.current = self._queue.get()
 
     def update(self, game, events):
-        if not self.current:
-            self.next()
         if self.current:
             self.current.update(game, events)
             for event in events:
