@@ -11,13 +11,14 @@ class PreferencesManager:
     def load(self):
         try:
             self.all = content.load_json(self.file_name)
+            print("Loading preferences file: {}".format(self.file_name))
         except:
-            print("Failed to load preferences file")
+            print("Failed to load preferences file: {}".format(self.file_name))
             self.all = {}
 
     def save(self):
         content.save_json(self.file_name, self.all)
-        print("Saving preferences file")
+        print("Saving preferences file: {}".format(self.file_name))
 
     def get(self, name, default_value = None):
         value = default_value
