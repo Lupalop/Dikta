@@ -13,16 +13,18 @@
     "e1": {
         "m1": {
             "joe_1": {
-                "text": "I need to make sure that I didn’t forget anything before I go.",
-                "style": "chat"
-            },
-            "tutorial_1": {
-                "text": "Hover over the items in your screen to perform an action on them. The cursor changes based on its location."
+                "text": "Another day, another report."
             },
             "joe_2": {
-                "text": "Yes, that’s me. Joe Constantino, reporting for The Times."
+                "text": "I need to make sure that I didn’t forget anything before I go."
+            },
+            "joe_tut1": {
+                "text": "Hover over the items in your screen to perform an action on them. The cursor changes based on its location."
             },
             "joe_3": {
+                "text": "Yes, that’s me. Joe Constantino, reporting for The Times."
+            },
+            "joe_4": {
                 "text": "I’m heading out."
             }
         },
