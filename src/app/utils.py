@@ -62,3 +62,21 @@ button_default = Button(
           get_font(20),
           pygame.Color("white")),
     (0, 0))
+
+def load_cursor(cursor_name):
+    surface = load_png_image(cursor_name, "cursors")
+    return pygame.cursors.Cursor((0, 0), surface)
+
+cursors = {
+    "default": load_cursor("cursor_default"),
+    "select": load_cursor("cursor_select"),
+    "zoomin": load_cursor("cursor_zomming"),
+    "zoomout": load_cursor("cursor_zoomout"),
+    "grab": load_cursor("cursor_grab"),
+    "grabbing": load_cursor("cursor_grabbing"),
+    "unavailable": load_cursor("cursor_unavailable"),
+    "work": load_cursor("cursor_work1"),
+}
+
+def set_cursor(cursor_name):
+    pygame.mouse.set_cursor(cursors[cursor_name])

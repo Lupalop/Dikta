@@ -1,6 +1,8 @@
 from engine import game
 from app.scenes import scene_list
+from app import utils
 
+utils.set_cursor("default")
 game.scenes.all_scenes = game.scenes.all_scenes | scene_list
 game.scenes.add_overlay("debug", scene_list["debug"])
 
