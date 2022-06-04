@@ -64,8 +64,7 @@ button_default = Button(
     (0, 0))
 
 def load_cursor(cursor_name):
-    surface = load_png_image(cursor_name, "cursors")
-    return pygame.cursors.Cursor((0, 0), surface)
+    return load_png_image(cursor_name, "cursors")
 
 cursors = {
     "default": load_cursor("cursor_default"),
@@ -78,5 +77,12 @@ cursors = {
     "work": load_cursor("cursor_work1"),
 }
 
+# PyGame's color cursors don't scale properly. Instead, we draw our own cursor
+# via an overlay, which then references this module's current cursor variable.
+cursor_current = None
 def set_cursor(cursor_name):
-    pygame.mouse.set_cursor(cursors[cursor_name])
+    global cursor_current
+    cursor_current = cursors[cursor_name]
+
+# The following disables hardware cursors.
+pygame.mouse.set_visible(False)

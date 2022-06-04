@@ -1,3 +1,4 @@
+from .mouse import MouseOverlay
 from .debug import DebugOverlay
 from .main_menu import MainMenuScene
 
@@ -14,6 +15,7 @@ from .e1m8 import E1M8Scene
 from .e1m9 import E1M9Scene
 
 scene_list = {
+    "mouse": MouseOverlay(),
     "debug": DebugOverlay(),
     "main_menu": MainMenuScene(),
     "test": E0MTestScene(),
