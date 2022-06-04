@@ -53,7 +53,7 @@ class DebugOverlay(Scene):
             btn_tp.click += lambda sender, state, bound_key=key: \
                 game.scenes.set_scene(bound_key)
             current_y += 30
-            btn_key = "btn_{}".format(key)
+            btn_key = "scb_{}".format(key)
             self.entities[btn_key] = btn_tp
 
     def generate_xy_counter(self):
