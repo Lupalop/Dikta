@@ -97,6 +97,13 @@ class Dialog(ClickableEntity):
         raise("Changing the surface of a dialog is not allowed.")
 
     # Event handlers
+    def _on_state_changed(self, state):
+        if state == ClickState.HOVER and not self.label_speech.completed:
+            utils.set_cursor("work")
+        elif state == ClickState.NORMAL:
+            utils.set_cursor("default")
+        super()._on_state_changed(state)
+
     def _on_click(self, button):
         self.next_or_skip()
         super()._on_click(button)
