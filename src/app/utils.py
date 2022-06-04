@@ -3,21 +3,22 @@ from engine.entities import *
 
 import pygame
 
-EXT_PNG = ".png"
-
 # Utility functions for retrieving images from the assets folder
+def load_png_image(image_name, *subdirectories):
+    return content.load_image(image_name + ".png", *subdirectories)
+
 def load_em_image(episode_id, mission_id, image_name):
     scene_dir = "e{}m{}".format(episode_id, mission_id)
-    return content.load_image(image_name + EXT_PNG, scene_dir)
+    return load_png_image(image_name, scene_dir)
 
 def load_mm_image(image_name):
-    return content.load_image(image_name + EXT_PNG, "mainmenu")
+    return load_png_image(image_name, "mainmenu")
 
 def load_ui_image(image_name):
-    return content.load_image(image_name + EXT_PNG, "ui")
+    return load_png_image(image_name, "ui")
 
 def load_ca_image(image_name):
-    return content.load_image(image_name + EXT_PNG, "ca")
+    return load_png_image(image_name, "ca")
 
 strings = content.load_json_asset("strings")
 
