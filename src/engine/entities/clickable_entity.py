@@ -5,10 +5,10 @@ from engine.event_handler import EventHandler
 import pygame
 
 class ClickableEntity(Entity):
-    def __init__(self, position_or_rect = (0, 0), size = None, surface = None):
+    def __init__(self, position_or_rect = (0, 0), size = None, surface = None, hit_rect = False):
         super().__init__(position_or_rect, size, surface)
         self._state = ClickState.NORMAL
-        self.is_rect_intersection = False
+        self.hit_rect = hit_rect
         # Event handlers
         self.click = EventHandler()
         self.state_changed = EventHandler()
@@ -51,7 +51,7 @@ class ClickableEntity(Entity):
                 mb_target = event.button
 
         # Determine if the pointer is hovering over the button.
-        is_hovered = self.intersects(game.get_mouse_pos(), self.is_rect_intersection)
+        is_hovered = self.intersects(game.get_mouse_pos(), self.hit_rect)
 
         # Handle if the a mouse button is being pressed and if it's released.
         if self._state == ClickState.ACTIVE:

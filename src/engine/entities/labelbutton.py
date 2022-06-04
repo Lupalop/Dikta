@@ -9,7 +9,7 @@ class LabelButton(ClickableEntity):
         super().__init__(position_or_rect, size)
         self.set_label(label)
         self._on_entity_dirty(True)
-        self.is_rect_intersection = True
+        self.hit_rect = True
 
     @classmethod
     def from_entity(cls, entity, text, copy_handlers = False):
