@@ -101,7 +101,7 @@ class Dialog(ClickableEntity):
         if state == ClickState.HOVER and not self.label_speech.completed:
             utils.set_cursor("work")
         elif state == ClickState.NORMAL:
-            utils.set_cursor("default")
+            utils.reset_cursor()
         super()._on_state_changed(state)
 
     def _on_click(self, button):
@@ -120,6 +120,7 @@ class Dialog(ClickableEntity):
 
     def next_or_skip(self):
         if self.label_speech.completed and self.flags & DialogFlags.CLOSEABLE:
+            utils.reset_cursor()
             self.emitter.next()
             return
         if self.flags & DialogFlags.SKIPPABLE:
