@@ -1,4 +1,3 @@
-from engine.timer import Timer
 from engine import animator, prefs
 
 import pygame

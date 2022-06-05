@@ -1,5 +1,5 @@
 from engine.entities import Entity, Label
-from engine.timer import Timer
+from engine import timer
 
 import pygame
 
@@ -31,7 +31,7 @@ class SequenceLabel(Label):
         self._surface = pygame.Surface(rendered_text[1].size, pygame.SRCALPHA, 32)
         self._text_surface = rendered_text[0]
         self._rect_offset = pygame.Rect(0, 0, PIXEL_INCREMENT, rendered_text[1].height)
-        self._timer = Timer(1, False, True)
+        self._timer = timer.default.add(1, False, True)
         self._timer.elapsed += self._add_char_to_surface
         self.completed = False
 

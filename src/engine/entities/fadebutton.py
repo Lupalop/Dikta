@@ -1,15 +1,14 @@
 from engine.entities import ClickableEntity
 from engine.enums import MouseButton, ClickState
 from engine.event_handler import EventHandler
-from engine.timer import Timer
-from engine import animator
+from engine import animator, timer
 
 import pygame
 
 class FadeButton(ClickableEntity):
     def __init__(self, surface, position_or_rect = (0, 0), size = None):
         super().__init__(position_or_rect, size, surface)
-        self._timer = Timer(1000)
+        self._timer = timer.default.add(1000)
         self.get_surface().set_alpha(100)
 
     @classmethod

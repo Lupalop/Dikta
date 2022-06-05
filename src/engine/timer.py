@@ -4,20 +4,24 @@ import pygame
 import time
 
 class TimerManager():
-    timers = []
-    @classmethod
-    def update(cls, game, events):
-        for timer in cls.timers:
+    def __init__(self):
+        self.timers = []
+
+    def update(self, game, events):
+        for timer in self.timers:
             timer.update(game.clock)
-    @classmethod
-    def add(cls, timer):
-        cls.timers.append(timer)
-    @classmethod
-    def remove(cls, timer):
-        cls.timers.remove(timer)
+
+    def add(self, interval = None, enabled = False, auto_reset = False):
+        timer = Timer(self, interval, enabled, auto_reset)
+        self.timers.append(timer)
+        return timer
+
+    def remove(self, timer):
+        self.timers.remove(timer)
 
 class Timer():
-    def __init__(self, interval = None, enabled = False, auto_reset = False):
+    def __init__(self, owner, interval = None, enabled = False, auto_reset = False):
+        self.owner = owner
         if interval:
             self.interval = interval
         else:
@@ -28,7 +32,6 @@ class Timer():
         self.auto_reset = auto_reset
         self.elapsed = EventHandler()
         self.tick = EventHandler()
-        TimerManager.add(self)
 
     def __del__(self):
         self.close()
@@ -46,7 +49,7 @@ class Timer():
 
     def close(self):
         if not self.removed:
-            TimerManager.remove(self)
+            self.owner.remove(self)
             self.removed = True
 
     def on_elapsed(self):
@@ -80,3 +83,5 @@ class Timer():
         if in_seconds:
             return self.time_elapsed / 1000
         return self.time_elapsed
+
+default = TimerManager()

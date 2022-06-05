@@ -1,4 +1,4 @@
-from engine.timer import Timer
+from engine import timer as utils_timer
 
 import pygame
 
@@ -7,7 +7,7 @@ def _cleanup_and_call(sender, callback, callback_delay):
     if not callback_delay:
         callback()
         return
-    timer = Timer(callback_delay, True)
+    timer = utils_timer.default.add(callback_delay, True)
     timer.elapsed += lambda sender: callback()
 
 def to_alpha(surface, target_alpha, timer):
@@ -18,7 +18,7 @@ def to_alpha(surface, target_alpha, timer):
 
 def fromto_alpha(surface, duration, val_from, val_to, callback, callback_delay = None):
     surface.set_alpha(val_from)
-    timer = Timer(duration, True)
+    timer = utils_timer.default.add(duration, True)
     timer.tick += lambda sender: \
         to_alpha(surface, val_to, timer)
     timer.elapsed += lambda sender, callback_bound=callback: \
