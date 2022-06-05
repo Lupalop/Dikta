@@ -19,6 +19,9 @@ class TimerManager():
     def remove(self, timer):
         self.timers.remove(timer)
 
+    def clear(self):
+        self.timers.clear()
+
 class Timer():
     def __init__(self, owner, interval = None, enabled = False, auto_reset = False):
         self.owner = owner
