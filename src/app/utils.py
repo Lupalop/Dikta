@@ -84,5 +84,8 @@ def set_cursor(cursor_name):
     global cursor_current
     cursor_current = cursors[cursor_name]
 
+def reset_cursor():
+    set_cursor("default")
+
 # The following disables hardware cursors.
 pygame.mouse.set_visible(False)
