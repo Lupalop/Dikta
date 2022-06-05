@@ -52,7 +52,10 @@ class Timer():
 
     def close(self):
         if not self.removed:
-            self.owner.remove(self)
+            # It is possible that we've been closed already if the
+            # timer manager was cleared (e.g. scene disposed)
+            if self in self.owner.timers:
+              self.owner.remove(self)
             self.removed = True
 
     def on_elapsed(self):
