@@ -82,15 +82,24 @@ cursors = {
 # PyGame's color cursors don't scale properly. Instead, we draw our own cursor
 # via an overlay, which then references this module's current cursor variable.
 cursor_current = None
+cursor_locked = False
 def set_cursor(cursor_name):
     global cursor_current
+    global cursor_locked
+    if cursor_locked:
+        return
     cursor_current = cursors[cursor_name]
+    print(cursor_name)
 
 def reset_cursor():
+    global cursor_locked
+    cursor_locked = False
     set_cursor("default")
 
 def hide_cursor():
+    global cursor_locked
     set_cursor("none")
+    cursor_locked = True
 
 # The following disables hardware cursors.
 pygame.mouse.set_visible(False)
