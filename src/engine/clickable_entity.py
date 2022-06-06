@@ -57,6 +57,7 @@ class ClickableEntity(Entity):
                 # released while hovering on this button.
                 if self.is_hovered:
                     self._on_click(mb_target)
+                return
             else:
                 # Return early to prevent unwanted state changes.
                 return
