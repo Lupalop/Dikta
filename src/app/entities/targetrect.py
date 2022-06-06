@@ -21,10 +21,12 @@ class TargetRect(ClickableEntity):
     def _on_state_changed(self, state):
         if state == ClickState.NORMAL:
             utils.reset_cursor()
-        elif state == ClickState.HOVER:
-            utils.set_cursor("zoomin")
 
         super()._on_state_changed(state)
+
+    def _on_mousemove(self):
+        utils.set_cursor("zoomin")
+        super()._on_mousemove()
 
     def draw(self, layer):
         # Prevent drawing a target area.
