@@ -10,7 +10,10 @@ class Mission(Scene):
         self.mission_id = mission_id
         self.emitter = DialogEmitter(self, default_side)
         self.background = ClickableEntity(self, hit_rect = True)
-        name = "Episode {} - Mission {}{}".format(episode_id, mission_id, mission_child_id)
+        if mission_child_id:
+            name = "Episode {} - Mission {} - {}".format(episode_id, mission_id, mission_child_id)
+        else:
+            name = "Episode {} - Mission {}".format(episode_id, mission_id)
         super().__init__(name)
 
     def get_string(self, character_id, text_id):
