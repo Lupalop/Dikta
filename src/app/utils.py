@@ -79,6 +79,14 @@ cursors = {
     "work": load_cursor("cursor_work1"),
 }
 
+# Inventory and Clues
+
+def get_inventory_key(episode_id):
+    return "inventory.ep{}".format(episode_id)
+
+def get_clues_key(episode_id):
+    return "clues.ep{}".format(episode_id)
+
 # PyGame's color cursors don't scale properly. Instead, we draw our own cursor
 # via an overlay, which then references this module's current cursor variable.
 cursor_current = None
