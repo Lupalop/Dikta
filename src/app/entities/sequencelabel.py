@@ -1,5 +1,6 @@
 from engine import Entity
 from app.entities import Label
+from engine.event_handler import EventHandler
 
 import pygame
 
@@ -8,13 +9,18 @@ PIXEL_INCREMENT = 5
 class SequenceLabel(Label):
     def __init__(self, owner, text, font, color, position_or_rect = (0, 0), size = None):
         super().__init__(owner, text, font, color, position_or_rect, size)
+        self.completed = EventHandler()
+
+    def _on_completed(self):
+        self.is_completed = True
+        self.completed(self)
 
     def skip(self):
-        if self.completed:
+        if self.is_completed:
             return
 
         self._timer.close()
-        self.completed = True
+        self._on_completed()
         self._reset_placeholder_suface()
         self._blit_lines()
 
@@ -26,7 +32,7 @@ class SequenceLabel(Label):
         if render_dest.x >= self._render_size[0]:
             if self._render_index >= len(self._renders) - 1:
                 sender.close()
-                self.completed = True
+                self._on_completed()
                 return
             self._render_index += 1
 
@@ -55,7 +61,7 @@ class SequenceLabel(Label):
 
         self._timer = self.owner.timers.add(1, False, True)
         self._timer.elapsed += self._add_char_to_surface
-        self.completed = False
+        self.is_completed = False
 
         if resize:
             self._mask = None
@@ -64,5 +70,5 @@ class SequenceLabel(Label):
         self.entity_dirty(self, resize)
 
     def update(self, game, events):
-        if not self.completed and not self._timer.enabled:
+        if not self.is_completed and not self._timer.enabled:
             self._timer.start()
