@@ -1,5 +1,5 @@
 from engine import *
-from engine.entities import *
+from app.entities import *
 
 import pygame
 

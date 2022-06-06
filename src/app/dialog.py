@@ -1,9 +1,9 @@
-from engine.entities import ClickableEntity, Label, SequenceLabel, Image
 from engine.enums import MouseButton, ClickState
 from engine.event_handler import EventHandler
-from engine import game
+from engine import game, ClickableEntity
 
 from app import utils
+from app.entities import Label, SequenceLabel, Image
 
 import pygame
 

@@ -1,5 +1,4 @@
-from engine import Scene
-from engine.entities import ClickableEntity
+from engine import Scene, ClickableEntity
 
 from app.utils import get_ep_string, load_em_image
 from app.dialog import Dialog, DialogSide, DialogEmitter

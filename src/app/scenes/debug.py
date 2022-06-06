@@ -1,6 +1,6 @@
 from engine import Scene
-from engine.entities import *
 from app import utils
+from app.entities import *
 
 import pygame
 

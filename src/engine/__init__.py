@@ -1,4 +1,6 @@
-from . import entities
+from .entity import Entity
+from .clickable_entity import ClickableEntity
+
 from . import content
 
 from .enums import *

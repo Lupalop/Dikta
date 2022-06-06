@@ -1,4 +1,5 @@
-from engine.entities import Entity, Label
+from engine import Entity
+from app.entities import Label
 
 import pygame
 

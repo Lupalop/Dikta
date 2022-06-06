@@ -1,4 +1,4 @@
-from engine.entities import ClickableEntity
+from engine import ClickableEntity
 from engine.enums import MouseButton, ClickState
 from engine.event_handler import EventHandler
 
