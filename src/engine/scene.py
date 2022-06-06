@@ -1,4 +1,5 @@
 from engine.timer import TimerManager
+from engine.animator import Animator
 
 class Scene:
     def __init__(self, name):
@@ -6,6 +7,7 @@ class Scene:
         self.enabled = True
         self.entities = {}
         self.timers = TimerManager()
+        self.animator = Animator(self.timers)
         print("Initialized: Scene - {}".format(name))
 
     def update(self, game, events):

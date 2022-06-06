@@ -33,7 +33,7 @@ class SceneManager:
 
         def _fade_in_done():
             self._scene = pending_scene
-            animator.fadeout(
+            animator.default.fadeout(
                 self.fade_surface,
                 self.fade_duration,
                 self._toggle_switching
@@ -43,7 +43,7 @@ class SceneManager:
 
         if self._scene:
             self._scene.dispose()
-            animator.fadein(
+            animator.default.fadein(
                 self.fade_surface,
                 self.fade_duration,
                 _fade_in_done

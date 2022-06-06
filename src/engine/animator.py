@@ -1,44 +1,49 @@
-from engine import timer as utils_timer
-
 import pygame
+from engine import timer
 
-def _cleanup_and_call(sender, callback, callback_delay):
-    sender.close()
-    if not callback_delay:
-        callback()
-        return
-    timer = utils_timer.default.add(callback_delay, True)
-    timer.elapsed += lambda sender: callback()
+class Animator:
+    def __init__(self, timer_manager):
+        self.timers = timer_manager
 
-def to_alpha(surface, target_alpha, timer):
-    alpha = surface.get_alpha()
-    time_ratio = timer.get_elapsed() / timer.interval
-    alpha += ((target_alpha - alpha) * time_ratio)
-    surface.set_alpha(alpha)
+    def _cleanup_and_call(self, sender, callback, callback_delay):
+        sender.close()
+        if not callback_delay:
+            callback()
+            return
+        anim_timer = self.timers.add(callback_delay, True)
+        anim_timer.elapsed += lambda sender: callback()
 
-def fromto_alpha(surface, duration, val_from, val_to, callback, callback_delay = None):
-    surface.set_alpha(val_from)
-    timer = utils_timer.default.add(duration, True)
-    timer.tick += lambda sender: \
-        to_alpha(surface, val_to, timer)
-    timer.elapsed += lambda sender, callback_bound=callback: \
-        _cleanup_and_call(sender, callback, callback_delay)
-    return timer
+    def to_alpha(self, surface, target_alpha, anim_timer):
+        alpha = surface.get_alpha()
+        time_ratio = anim_timer.get_elapsed() / anim_timer.interval
+        alpha += ((target_alpha - alpha) * time_ratio)
+        surface.set_alpha(alpha)
 
-def fadein(surface, duration, callback, callback_delay = None):
-    return fromto_alpha(surface, duration, 0, 255, callback, callback_delay)
+    def fromto_alpha(self, surface, duration, val_from, val_to, callback, callback_delay = None):
+        surface.set_alpha(val_from)
+        anim_timer = self.timers.add(duration, True)
+        anim_timer.tick += lambda sender: \
+            self.to_alpha(surface, val_to, anim_timer)
+        anim_timer.elapsed += lambda sender, callback_bound=callback: \
+            self._cleanup_and_call(sender, callback, callback_delay)
+        return anim_timer
 
-def fadeout(surface, duration, callback, callback_delay = None):
-    return fromto_alpha(surface, duration, 255, 0, callback, callback_delay)
+    def fadein(self, surface, duration, callback, callback_delay = None):
+        return self.fromto_alpha(surface, duration, 0, 255, callback, callback_delay)
 
-def entity_to_alpha(entity, target_alpha, timer):
-    to_alpha(entity.get_surface(), target_alpha, timer)
+    def fadeout(self, surface, duration, callback, callback_delay = None):
+        return self.fromto_alpha(surface, duration, 255, 0, callback, callback_delay)
 
-def entity_fromto_alpha(entity, duration, val_from, val_to, callback, callback_delay = None):
-    return fromto_alpha(entity.get_surface(), duration, val_from, val_to, callback, callback_delay)
+    def entity_to_alpha(self, entity, target_alpha, anim_timer):
+        self.to_alpha(entity.get_surface(), target_alpha, anim_timer)
 
-def entity_fadein(entity, duration, callback, callback_delay = None):
-    return fromto_alpha(entity.get_surface(), duration, 0, 255, callback, callback_delay)
+    def entity_fromto_alpha(self, entity, duration, val_from, val_to, callback, callback_delay = None):
+        return self.fromto_alpha(entity.get_surface(), duration, val_from, val_to, callback, callback_delay)
 
-def entity_fadeout(entity, duration, callback, callback_delay = None):
-    return fromto_alpha(entity.get_surface(), duration, 255, 0, callback, callback_delay)
+    def entity_fadein(self, entity, duration, callback, callback_delay = None):
+        return self.fromto_alpha(entity.get_surface(), duration, 0, 255, callback, callback_delay)
+
+    def entity_fadeout(self, entity, duration, callback, callback_delay = None):
+        return self.fromto_alpha(entity.get_surface(), duration, 255, 0, callback, callback_delay)
+
+default = Animator(timer.default)
