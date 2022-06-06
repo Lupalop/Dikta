@@ -22,9 +22,13 @@ class Mission(Scene):
         return load_em_image(self.episode_id, self.mission_id, image_name)
 
     def update(self, game, events):
-        if self.background:
-            self.background.update(game, events)
-        super().update(game, events)
+        # Only timers can update if a dialog is currently on-screen.
+        if not self.emitter.current:
+            if self.background:
+                self.background.update(game, events)
+            super().update(game, events)
+        else:
+            self.timers.update(game, events)
         self.emitter.update(game, events)
 
     def draw(self, layer):
