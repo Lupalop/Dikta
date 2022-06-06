@@ -1,6 +1,7 @@
 from engine import ClickableEntity
 from engine.enums import MouseButton, ClickState
 from engine.event_handler import EventHandler
+from app import utils
 
 import pygame
 
@@ -26,12 +27,14 @@ class FadeButton(ClickableEntity):
             self._timer.tick += lambda sender: self.owner.animator.to_alpha( \
                 self.get_surface(), 100, self._timer)
             self._timer.start()
+            utils.reset_cursor()
         elif state == ClickState.HOVER:
             self._timer.reset(True)
             self._timer.tick.clear()
             self._timer.tick += lambda sender: self.owner.animator.to_alpha( \
                 self.get_surface(), 255, self._timer)
             self._timer.start()
+            utils.set_cursor("select")
         elif state == ClickState.ACTIVE:
             self._timer.reset(True)
             self._timer.tick.clear()
