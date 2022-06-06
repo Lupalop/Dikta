@@ -14,29 +14,51 @@ class SequenceLabel(Label):
 
         self._timer.close()
         self.completed = True
-        self._surface = self._text_surface
+        self._reset_placeholder_suface()
+        self._blit_lines()
 
     def _add_char_to_surface(self, sender):
-        if self._rect_offset.x >= self._rect.width:
-            sender.close()
-            self.completed = True
-            return
+        render = self._renders[self._render_index]
+        render_dest = self._render_dests[self._render_index]
+        render_area = self._render_areas[self._render_index]
 
-        self.get_surface().blit(self._text_surface, self._rect_offset, self._rect_offset)
-        self._rect_offset.x += PIXEL_INCREMENT
+        if render_dest.x >= self._render_size[0]:
+            if self._render_index >= len(self._renders) - 1:
+                sender.close()
+                self.completed = True
+                return
+            self._render_index += 1
+
+        self._surface.blit(render[0], render_dest, render_area)
+        render_dest.x += PIXEL_INCREMENT
+        render_area.x += PIXEL_INCREMENT
+
+    def _render_lines(self):
+        super()._render_lines()
+        # Generate render offsets
+        self._render_index = 0
+        self._render_dests = []
+        self._render_areas = []
+        desty = 0
+        for i in range(len(self._renders)):
+            if i >= 1 and i < len(self._renders):
+                desty += self.line_height
+            dest_rect = pygame.Rect(0, desty, PIXEL_INCREMENT, self._renders[i][1].height)
+            area_rect = pygame.Rect(0, 0, PIXEL_INCREMENT, self._renders[i][1].height)
+            desty += self._renders[i][1].height
+            self._render_dests.append(dest_rect)
+            self._render_areas.append(area_rect)
 
     def _on_entity_dirty(self, resize = True):
-        rendered_text = self.get_font().render(self.get_text(), self.get_color())
-        self._surface = pygame.Surface(rendered_text[1].size, pygame.SRCALPHA, 32)
-        self._text_surface = rendered_text[0]
-        self._rect_offset = pygame.Rect(0, 0, PIXEL_INCREMENT, rendered_text[1].height)
+        self._render_lines()
+
         self._timer = self.owner.timers.add(1, False, True)
         self._timer.elapsed += self._add_char_to_surface
         self.completed = False
 
         if resize:
             self._mask = None
-            self._rect.size = rendered_text[1].size
+            self._rect.size = self._render_size
 
         self.entity_dirty(self, resize)
 
