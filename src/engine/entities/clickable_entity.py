@@ -5,8 +5,8 @@ from engine.event_handler import EventHandler
 import pygame
 
 class ClickableEntity(Entity):
-    def __init__(self, position_or_rect = (0, 0), size = None, surface = None, hit_rect = False):
-        super().__init__(position_or_rect, size, surface)
+    def __init__(self, owner, position_or_rect = (0, 0), size = None, surface = None, hit_rect = False):
+        super().__init__(owner, position_or_rect, size, surface)
         self._state = ClickState.NORMAL
         self.hit_rect = hit_rect
         # Event handlers
@@ -14,12 +14,8 @@ class ClickableEntity(Entity):
         self.state_changed = EventHandler()
 
     @classmethod
-    def from_entity(cls, entity):
-        return self.from_clickable_entity(entity)
-
-    @classmethod
-    def from_clickable_entity(cls, entity, copy_handlers = False):
-        entity_copy = cls(entity._rect)
+    def from_entity(cls, owner, entity, copy_handlers = False):
+        entity_copy = cls(owner, entity._rect, None, entity.surface, entity.hit_rect)
         if copy_handlers:
             entity_copy.click = entity.click
             entity_copy.state_changed = entity.state_changed

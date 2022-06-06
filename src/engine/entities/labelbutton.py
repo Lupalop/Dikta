@@ -5,18 +5,19 @@ from engine.event_handler import EventHandler
 import pygame
 
 class LabelButton(ClickableEntity):
-    def __init__(self, label, position_or_rect = (0, 0), size = None):
-        super().__init__(position_or_rect, size)
+    def __init__(self, owner, label, position_or_rect = (0, 0), size = None):
+        super().__init__(owner, position_or_rect, size)
         self.set_label(label)
         self._on_entity_dirty(True)
         self.hit_rect = True
 
     @classmethod
-    def from_entity(cls, entity, text, copy_handlers = False):
-        label = Label.from_entity(entity.get_label())
+    def from_entity(cls, owner, entity, text, copy_handlers = False):
+        label = Label.from_entity(owner, entity.get_label())
         if text:
             label.set_text(text)
-        entity_copy = cls(label,
+        entity_copy = cls(owner,
+                          label,
                           entity._rect)
         if copy_handlers:
             entity_copy.click = entity.click

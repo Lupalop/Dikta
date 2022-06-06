@@ -37,6 +37,7 @@ class DialogFlags(IntFlag):
 class Dialog(ClickableEntity):
     def __init__(self, emitter, position, name, text, portrait_id = None, flags = DialogFlags.NORMAL, callback = None):
         super().__init__(
+            emitter.owner,
             position,
             RECT_DIALOG.size,
             pygame.Surface(RECT_DIALOG.size, pygame.SRCALPHA, 32)
@@ -51,7 +52,7 @@ class Dialog(ClickableEntity):
         # Determine if we have a portrait and adjust position accordingly
         self.portrait = None
         if portrait_id:
-            self.portrait = Image(utils.load_ca_image(portrait_id), RECT_PORTRAIT)
+            self.portrait = Image(self.owner, utils.load_ca_image(portrait_id), RECT_PORTRAIT)
             rect_speech_final = RECT_SPEECH_WP
             rect_name_final = RECT_NAME_WP
         # Draw boxes to entity surface
@@ -60,14 +61,14 @@ class Dialog(ClickableEntity):
         self.box_base = utils.load_ui_image("dialog-box-main")
         self._surface.blit(self.box_base, RECT_BASE)
         # Initialize name tag and its position
-        self.label_name = Label(name, utils.get_font(28), pygame.Color("white"))
+        self.label_name = Label(self.owner, name, utils.get_font(28), pygame.Color("white"))
         label_name_pos = (
             position[0] + rect_name_final.x + (rect_name_final.width / 2) - self.label_name.get_rect().width / 2,
             position[1] + rect_name_final.y + (rect_name_final.height / 2) - self.label_name.get_rect().height / 2
         )
         self.label_name.set_position(label_name_pos)
         # Initialize speech text and its position
-        self.label_speech = SequenceLabel(text, utils.get_font(24), pygame.Color("white"))
+        self.label_speech = SequenceLabel(self.owner, text, utils.get_font(24), pygame.Color("white"))
         label_speech_pos = (
             position[0] + rect_speech_final.x,
             position[1] + rect_speech_final.y + (rect_speech_final.height / 2) - self.label_speech.get_rect().height / 2
@@ -127,8 +128,8 @@ class Dialog(ClickableEntity):
             self.label_speech.skip()
 
 class DialogEmitter():
-    def __init__(self, parent, default_side):
-        self.parent = parent
+    def __init__(self, owner, default_side):
+        self.owner = owner
         self.default_side = default_side
         self._queue = Queue()
         self.current = None
@@ -196,7 +197,7 @@ class DialogEmitter():
 
     # Add dialogue with all features except with custom text/name
     def add(self, character_id, text_id, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
-        string = self.parent.get_string(character_id, text_id)
+        string = self.owner.get_string(character_id, text_id)
         self.add_custom(
             string[0],
             string[1],

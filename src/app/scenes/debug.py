@@ -30,7 +30,7 @@ class DebugOverlay(Scene):
         pass
 
     def generate_test_button(self):
-        btn_test = Button.from_entity(utils.button_default, "Test")
+        btn_test = Button.from_entity(self, utils.button_default, "Test")
         btn_test.set_position((510, 100))
         def on_btn_test_click(sender, button):
             import uuid
@@ -43,7 +43,9 @@ class DebugOverlay(Scene):
         t = False
         for key in game.scenes.all_scenes:
             btn_tp = LabelButton(
+                self,
                 Label(
+                    self,
                     key,
                     utils.get_font(20),
                     pygame.Color("white"),
@@ -58,6 +60,7 @@ class DebugOverlay(Scene):
 
     def generate_xy_counter(self):
         self.entities["xy"] = Label(
+            self,
             "0, 0",
             utils.get_font(16),
             pygame.Color("white"),

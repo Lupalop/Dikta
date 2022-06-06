@@ -1,13 +1,12 @@
 from engine.entities import Entity, Label
-from engine import timer
 
 import pygame
 
 PIXEL_INCREMENT = 5
 
 class SequenceLabel(Label):
-    def __init__(self, text, font, color, position_or_rect = (0, 0), size = None):
-        super().__init__(text, font, color, position_or_rect, size)
+    def __init__(self, owner, text, font, color, position_or_rect = (0, 0), size = None):
+        super().__init__(owner, text, font, color, position_or_rect, size)
 
     def skip(self):
         if self.completed:
@@ -31,7 +30,7 @@ class SequenceLabel(Label):
         self._surface = pygame.Surface(rendered_text[1].size, pygame.SRCALPHA, 32)
         self._text_surface = rendered_text[0]
         self._rect_offset = pygame.Rect(0, 0, PIXEL_INCREMENT, rendered_text[1].height)
-        self._timer = timer.default.add(1, False, True)
+        self._timer = self.owner.timers.add(1, False, True)
         self._timer.elapsed += self._add_char_to_surface
         self.completed = False
 
@@ -40,12 +39,6 @@ class SequenceLabel(Label):
             self._rect.size = rendered_text[1].size
 
         self.entity_dirty(self, resize)
-
-    def draw(self, layer):
-        if not self.get_surface():
-            return
-
-        layer.blit(self.get_surface(), self._rect)
 
     def update(self, game, events):
         if not self.completed and not self._timer.enabled:

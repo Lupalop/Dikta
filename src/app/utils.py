@@ -57,8 +57,9 @@ button_default_states = {
 }
 
 button_default = Button(
+    None,
     button_default_states,
-    Label("",
+    Label(None, "",
           get_font(20),
           pygame.Color("white")),
     (0, 0))

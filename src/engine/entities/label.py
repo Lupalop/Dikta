@@ -1,8 +1,8 @@
 from engine.entities import Entity
 
 class Label(Entity):
-    def __init__(self, text, font, color, position_or_rect = (0, 0), size = None):
-        super().__init__(position_or_rect, size)
+    def __init__(self, owner, text, font, color, position_or_rect = (0, 0), size = None):
+        super().__init__(owner, position_or_rect, size)
         self._font = font
         self._color = color
         self._text = text
@@ -12,8 +12,8 @@ class Label(Entity):
         self._on_entity_dirty()
 
     @classmethod
-    def from_entity(cls, entity):
-        return cls(entity._text, entity._font, entity._color, entity._rect)
+    def from_entity(cls, owner, entity):
+        return cls(owner, entity._text, entity._font, entity._color, entity._rect)
 
     def _on_entity_dirty(self, resize = True):
         rendered_text = self._font.render(self._text, self._color)
@@ -51,9 +51,3 @@ class Label(Entity):
 
     def get_color(self):
         return self._color
-
-    def draw(self, layer):
-        if not self.get_surface():
-            return
-
-        layer.blit(self.get_surface(), self._rect)

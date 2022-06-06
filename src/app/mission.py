@@ -9,7 +9,7 @@ class Mission(Scene):
         self.episode_id = episode_id
         self.mission_id = mission_id
         self.emitter = DialogEmitter(self, default_side)
-        self.background = ClickableEntity(hit_rect = True)
+        self.background = ClickableEntity(self, hit_rect = True)
         name = "Episode {} - Mission {}{}".format(episode_id, mission_id, mission_child_id)
         super().__init__(name)
 

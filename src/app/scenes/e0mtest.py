@@ -35,6 +35,7 @@ class E0MTestScene(Mission):
         print(utils.get_item_string("pbadge"))
 
         bg_main = Image(
+            self,
             utils.load_em_image(1, 1, "bg-main"))
 
         self.entities = {

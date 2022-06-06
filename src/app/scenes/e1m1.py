@@ -23,7 +23,7 @@ class E1M1BScene(Mission):
     def load_content(self):
         self.emitter.add("joe", "tut1", "joe-faceright", callback=lambda: game.scenes.set_scene(""))
 
-        target1 = ClickableEntity(pygame.Rect(0, 0, 700, 320), hit_rect=True)
+        target1 = ClickableEntity(self, pygame.Rect(0, 0, 700, 320), hit_rect=True)
         target1.click += lambda sender, state: print("test")
         self.background.set_surface(self.get_image("bg-main"))
 

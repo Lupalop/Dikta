@@ -4,8 +4,9 @@ import pygame
 
 # Defines the base class for entities.
 class Entity:
-    def __init__(self, position_or_rect = (0, 0), target_size = None, surface = None):
+    def __init__(self, owner, position_or_rect = (0, 0), target_size = None, surface = None):
         # Initialize this entity instance
+        self.owner = owner
         self._surface = surface
         self._rect = pygame.Rect(0, 0, 0, 0)
         self._mask = None
@@ -30,8 +31,8 @@ class Entity:
         self.entity_dirty = EventHandler()
 
     @classmethod
-    def from_entity(cls, entity):
-        return cls(entity.get_surface(), entity._rect)
+    def from_entity(cls, owner, entity):
+        return cls(owner, entity.get_surface(), entity._rect)
 
     def _on_entity_dirty(self, resize):
         if resize:

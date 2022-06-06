@@ -19,9 +19,9 @@ class E1M0Scene(Mission):
 
     def load_content(self):
         intro1 = Image(
-            utils.load_em_image(1, 0, "intro-1"))
+            self, utils.load_em_image(1, 0, "intro-1"))
         intro2 = Image(
-            utils.load_em_image(1, 0, "intro-2"))
+            self, utils.load_em_image(1, 0, "intro-2"))
         intro1.get_surface().set_alpha(0)
         intro2.get_surface().set_alpha(0)
 
@@ -61,7 +61,3 @@ class E1M0Scene(Mission):
             "intro1": intro1,
             "intro2": intro2,
         }
-
-    def dispose(self):
-        if self.fade_timer:
-            self.fade_timer.close()
