@@ -131,16 +131,16 @@ class DialogEmitter():
     def __init__(self, owner, default_side):
         self.owner = owner
         self.default_side = default_side
-        self._queue = Queue()
+        self.queue = Queue()
         self.current = None
 
     def next(self):
         if self.current and self.current.callback:
             self.current.callback()
-        if self._queue.empty():
+        if self.queue.empty():
             self.current = None
         else:
-            self.current = self._queue.get()
+            self.current = self.queue.get()
 
     def update(self, game, events):
         if self.current:
@@ -191,7 +191,7 @@ class DialogEmitter():
             raise("unexpected dialog side")
 
         dialog = Dialog(self, position, name, text, portrait_id, flags, callback)
-        self._queue.put(dialog)
+        self.queue.put(dialog)
         if not self.current:
             self.next()
 
