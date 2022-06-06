@@ -89,7 +89,6 @@ def set_cursor(cursor_name):
     if cursor_locked:
         return
     cursor_current = cursors[cursor_name]
-    print(cursor_name)
 
 def reset_cursor():
     global cursor_locked
