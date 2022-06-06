@@ -74,6 +74,10 @@ class Dialog(ClickableEntity):
             position[1] + rect_speech_final.y + (rect_speech_final.height / 2) - self.label_speech.get_rect().height / 2
         )
         self.label_speech.set_position(label_speech_pos)
+        def _update_cursor(sender):
+            if self.is_hovered:
+                utils.set_cursor("select")
+        self.label_speech.completed += _update_cursor
         # Draw portrait to entity surface
         if self.portrait:
             self.portrait.draw(self._surface)
@@ -99,8 +103,11 @@ class Dialog(ClickableEntity):
 
     # Event handlers
     def _on_state_changed(self, state):
-        if state == ClickState.HOVER and not self.label_speech.completed:
-            utils.set_cursor("work")
+        if state == ClickState.HOVER:
+            if self.label_speech.is_completed:
+                utils.set_cursor("select")
+            else:
+                utils.set_cursor("work")
         elif state == ClickState.NORMAL:
             utils.reset_cursor()
         super()._on_state_changed(state)
@@ -120,7 +127,7 @@ class Dialog(ClickableEntity):
         self.label_name.update(game, events)
 
     def next_or_skip(self):
-        if self.label_speech.completed and self.flags & DialogFlags.CLOSEABLE:
+        if self.label_speech.is_completed and self.flags & DialogFlags.CLOSEABLE:
             utils.reset_cursor()
             self.emitter.next()
             return
