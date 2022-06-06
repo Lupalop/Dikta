@@ -18,6 +18,7 @@ class E1M0Scene(Mission):
         super().draw(layer)
 
     def load_content(self):
+        utils.hide_cursor()
         intro1 = Image(
             self, utils.load_em_image(1, 0, "intro-1"))
         intro2 = Image(
@@ -31,6 +32,7 @@ class E1M0Scene(Mission):
                 1000,
                 lambda: game.scenes.set_scene("e1m1")
             )
+            utils.reset_cursor()
 
         def fadein_intro2():
             self.fade_timer = self.animator.entity_fadein(
