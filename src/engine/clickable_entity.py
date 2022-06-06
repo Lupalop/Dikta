@@ -12,6 +12,7 @@ class ClickableEntity(Entity):
         # Event handlers
         self.click = EventHandler()
         self.state_changed = EventHandler()
+        self.mousemove = EventHandler()
 
     @classmethod
     def from_entity(cls, owner, entity, copy_handlers = False):
@@ -31,6 +32,9 @@ class ClickableEntity(Entity):
     def _on_state_changed(self, state):
         self._state = state
         self.state_changed(self, state)
+
+    def _on_mousemove(self):
+        self.mousemove(self)
 
     def update(self, game, events):
         is_mb_down = False
@@ -65,6 +69,7 @@ class ClickableEntity(Entity):
         # Handle if the pointer is hovering over the button, if a mouse button
         # is being pressed while hovering, and restoring the normal state.
         if self.is_hovered:
+            self._on_mousemove()
             if self._state != ClickState.HOVER:
                 self._on_state_changed(ClickState.HOVER)
             elif is_mb_down:
