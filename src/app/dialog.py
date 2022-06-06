@@ -201,6 +201,7 @@ class DialogEmitter():
         self.queue.put(dialog)
         if not self.current:
             self.next()
+        utils.reset_cursor()
 
     # Add dialogue with all features except with custom text/name
     def add(self, character_id, text_id, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
