@@ -21,6 +21,10 @@ class SceneManager:
         return self._scene
 
     def set_scene(self, scene):
+        if self._switching:
+            print("Cannot switch to another scene while a scene switch is in progress.")
+            return
+
         pending_scene = scene
 
         if isinstance(scene, str):
