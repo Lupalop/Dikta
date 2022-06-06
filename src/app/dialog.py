@@ -6,7 +6,7 @@ from app import utils
 from app.entities import Label, SequenceLabel, Image
 
 import pygame
-
+import random
 from queue import Queue
 from enum import IntEnum, IntFlag
 
@@ -205,7 +205,11 @@ class DialogEmitter():
 
     # Add dialogue with all features except with custom text/name
     def add(self, character_id, text_id, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
-        string = self.owner.get_string(character_id, text_id)
+        text_id_final = text_id
+        # Choose a random text ID if we've received a list
+        if isinstance(text_id, list):
+            text_id_final = random.choice(text_id)
+        string = self.owner.get_string(character_id, text_id_final)
         self.add_custom(
             string[0],
             string[1],
