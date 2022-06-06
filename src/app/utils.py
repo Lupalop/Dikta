@@ -68,6 +68,7 @@ def load_cursor(cursor_name):
     return load_png_image(cursor_name, "cursors")
 
 cursors = {
+    "none": None,
     "default": load_cursor("cursor_default"),
     "select": load_cursor("cursor_select"),
     "zoomin": load_cursor("cursor_zomming"),
@@ -87,6 +88,9 @@ def set_cursor(cursor_name):
 
 def reset_cursor():
     set_cursor("default")
+
+def hide_cursor():
+    set_cursor("none")
 
 # The following disables hardware cursors.
 pygame.mouse.set_visible(False)
