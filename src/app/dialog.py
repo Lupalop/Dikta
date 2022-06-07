@@ -1,6 +1,6 @@
 from engine.enums import MouseButton, ClickState
 from engine.event_handler import EventHandler
-from engine import game, ClickableEntity
+from engine import game, ClickableEntity, prefs
 
 from app import utils
 from app.entities import Label, SequenceLabel, Image
@@ -35,7 +35,7 @@ class DialogFlags(IntFlag):
     NORMAL = 3
 
 class Dialog(ClickableEntity):
-    def __init__(self, emitter, position, name, text, portrait_id = None, flags = DialogFlags.NORMAL, callback = None):
+    def __init__(self, emitter, position, dialog_key, name, text, portrait_id = None, flags = DialogFlags.NORMAL, callback = None):
         super().__init__(
             emitter.owner,
             position,
@@ -44,6 +44,7 @@ class Dialog(ClickableEntity):
         )
 
         self.emitter = emitter
+        self.dialog_key = dialog_key
         self.callback = callback
         self.flags = flags
 
@@ -129,6 +130,7 @@ class Dialog(ClickableEntity):
     def next_or_skip(self):
         if self.label_speech.is_completed and self.flags & DialogFlags.CLOSEABLE:
             utils.reset_cursor()
+            prefs.savedgame.set(self.dialog_key, True)
             self.emitter.next()
             return
         if self.flags & DialogFlags.SKIPPABLE:
@@ -164,7 +166,7 @@ class DialogEmitter():
             self.current.draw(layer)
 
     # Add dialogue with all features
-    def add_custom(self, name, text, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
+    def add_custom(self, dialog_key, name, text, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
         if not side:
             side = self.default_side
         position = (0, 0)
@@ -197,20 +199,25 @@ class DialogEmitter():
         else:
             raise("unexpected dialog side")
 
-        dialog = Dialog(self, position, name, text, portrait_id, flags, callback)
+        dialog = Dialog(self, position, dialog_key, name, text, portrait_id, flags, callback)
         self.queue.put(dialog)
         if not self.current:
             self.next()
         utils.reset_cursor()
 
     # Add dialogue with all features except with custom text/name
-    def add(self, character_id, text_id, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
+    def add(self, character_id, text_id, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None, repeat = True):
         text_id_final = text_id
         # Choose a random text ID if we've received a list
         if isinstance(text_id, list):
             text_id_final = random.choice(text_id)
         string = self.owner.get_string(character_id, text_id_final)
+        dialog_key = utils.get_dialog_key(self.owner.mission_key, character_id, text_id_final)
+        is_viewed = prefs.savedgame.get(dialog_key, False)
+        if not repeat and is_viewed:
+            return
         self.add_custom(
+            dialog_key,
             string[0],
             string[1],
             portrait_id,
