@@ -1,7 +1,10 @@
 from engine import Scene, ClickableEntity, prefs
+from engine.enums import MouseButton
 
 from app.utils import get_ep_string, load_em_image, get_inventory_key
 from app.dialog import Dialog, DialogSide, DialogEmitter
+
+import pygame
 
 class Mission(Scene):
     def __init__(self, episode_id, mission_id, mission_child_id = "", mission_desc = "", default_side = DialogSide.TOP, menu_blocked = False):
@@ -11,6 +14,7 @@ class Mission(Scene):
         self.mission_key = "e{}m{}{}".format(episode_id, mission_id, mission_child_id)
         self.menu_blocked = menu_blocked
         self.default_side = default_side
+        self.return_scene = None
 
         if mission_desc:
             name = "Episode {} - Mission {} - {}".format(episode_id, mission_id, mission_desc)
@@ -82,7 +86,13 @@ class Mission(Scene):
             if self.background:
                 self.background.update(game, events)
             super().update(game, events)
+            if self.return_scene:
+                for event in events:
+                    if event.type == pygame.MOUSEBUTTONUP and \
+                       event.button == MouseButton.RIGHT:
+                        game.scenes.set_scene(self.return_scene)
         self.emitter.update(game, events)
+                
 
     def draw(self, layer):
         if self.background:
