@@ -40,14 +40,22 @@ def get_ep_string(episode_id, mission_id, character_id, text_id):
 def get_item_string(item_name):
     return strings["items"][item_name]
 
-font_default = "franklingothicmediumcond"
+FONT_DEFAULT = "franklingothicmediumcond"
+FONT_COMIC = "badcomic_italic"
+FONT_EXT_TTF = ".ttf"
 
 fonts = {}
 
 def get_font(size):
-    key = "{}_{}".format(font_default, size)
+    key = "{}_{}".format(FONT_DEFAULT, size)
     if key not in fonts:
-        fonts[key] = content.load_font(font_default, size)
+        fonts[key] = content.load_font(FONT_DEFAULT, size)
+    return fonts[key]
+
+def get_comic_font(size):
+    key = "{}_{}".format(FONT_COMIC, size)
+    if key not in fonts:
+        fonts[key] = content.load_font(FONT_COMIC + FONT_EXT_TTF, size, False)
     return fonts[key]
 
 button_default_states = {
