@@ -1,5 +1,5 @@
 from engine import Scene, prefs, game
-from app import utils
+from app import utils, scene_list
 from app.mission import Mission
 from app.entities import *
 
@@ -79,3 +79,5 @@ class InGameEscMenuOverlay(Scene):
     def draw(self, layer):
         if self.visible:
             super().draw(layer)
+
+scene_list.all["ig_escmenu"] = InGameEscMenuOverlay()

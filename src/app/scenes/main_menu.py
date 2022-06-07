@@ -1,5 +1,5 @@
 from engine import *
-from app import utils
+from app import utils, scene_list
 from app.entities import *
 
 import pygame
@@ -65,3 +65,5 @@ class MainMenuScene(Scene):
             "btn_credits": btn_credits,
             "btn_exit": btn_exit,
         }
+
+scene_list.all["main_menu"] = MainMenuScene()

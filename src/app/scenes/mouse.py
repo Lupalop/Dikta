@@ -1,5 +1,5 @@
 from engine import Scene
-from app import utils
+from app import utils, scene_list
 
 import pygame
 
@@ -25,3 +25,5 @@ class MouseOverlay(Scene):
         if not utils.cursor_current:
             return
         layer.blit(utils.cursor_current, self.cursor_rect)
+
+scene_list.all["mouse"] = MouseOverlay()

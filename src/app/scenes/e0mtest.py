@@ -1,5 +1,5 @@
 from engine import *
-from app import utils
+from app import utils, scene_list
 from app.entities import *
 from app.mission import Mission
 from app.dialog import DialogSide, DialogFlags
@@ -42,3 +42,4 @@ class E0MTestScene(Mission):
             "bg_main": bg_main,
         }
 
+scene_list.add_mission(E0MTestScene())

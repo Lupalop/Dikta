@@ -1,5 +1,5 @@
 from engine import *
-from app import utils
+from app import utils, scene_list
 from app.entities import *
 from app.mission import Mission
 from app.dialog import DialogSide, DialogFlags
@@ -64,3 +64,5 @@ class E1M0Scene(Mission):
             "intro1": intro1,
             "intro2": intro2,
         }
+
+scene_list.add_mission(E1M0Scene())

@@ -1,5 +1,5 @@
 from engine import Scene
-from app import utils
+from app import utils, scene_list
 from app.entities import *
 
 import pygame
@@ -78,3 +78,5 @@ class DebugOverlay(Scene):
         owner = game.scenes.get_scene()
         print("owner: ", owner)
         print("captured action: ", owner._captured_action)
+
+scene_list.all["debug"] = DebugOverlay()
