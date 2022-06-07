@@ -2,13 +2,14 @@
     "items": {
         "journal": "Journal",
         "pen": "Pen",
-        "pbadge": "Press Badge",
+        "press-card": "Press Badge",
         "wallet": "Wallet",
         "flashlight": "Flashlight",
-        "note": "Note"
+        "note": "Ric's Note"
     },
     "characters": {
-        "joe": "Joe"
+        "joe": "Joe",
+        "tut": "Tutorial"
     },
     "e1": {
         "m1": {
@@ -36,20 +37,59 @@
             "joe_light2": {
                 "text": "They are your standard, run-of-the-mill lights."
             },
-            "joe_tut1": {
-                "text": "Hover over the items in your screen to perform an action on them.\nThe cursor changes based on its location."
-            },
             "joe_tut2": {
                 "text": "You might want to CLICK on the desk and take everything that's\nimportant: my press badge, journal, pen, and the like."
+            },
+            "joe_desk": {
+                "text": "Let's see... I'll take my press badge, journal, pen, and wallet."
             },
             "joe_item_stapler": {
                 "text": "I don't really need to take a stapler me with me."
             },
-            "joe_3": {
+            "joe_item_wallet": {
+                "text": "I inherited this from my father. It surely stood the test of time."
+            },
+            "joe_item_reports": {
+                "text": "I need to bring this to the archives. On second thought, maybe later."
+            },
+            "joe_item_typewriter": {
+                "text": "An Olympia typewriter. This is where I write all my draft reports."
+            },
+            "joe_item_mail": {
+                "text": "I don't have anything new at the moment."
+            },
+            "joe_item_pencils": {
+                "text": "Of course, I couldn't write without a pen."
+            },
+            "joe_item_pencils_empty": {
+                "text": "All that's left is a couple of pencils."
+            },
+            "joe_item_papers": {
+                "text": "A pile of empty papers waiting for something to be written."
+            },
+            "joe_item_journal": {
+                "text": "Got it. I can't leave without my journal."
+            },
+            "joe_item_press_card": {
                 "text": "Yes, that’s me. Joe Constantino, reporting for The Times."
             },
-            "joe_4": {
+            "joe_item_note": {
+                "text": "The note says the place of my assignment."
+            },
+            "joe_item_flashlight": {
+                "text": "This flashlight will certainly be useful in the future."
+            },
+            "joe_drawer_empty": {
+                "text": "It's empty."
+            },
+            "joe_exit": {
                 "text": "I’m heading out."
+            },
+            "tut_hovercursor": {
+                "text": "Hover over the items in your screen to perform an action on them.\nThe cursor changes based on its location."
+            },
+            "tut_rightclickreturn": {
+                "text": "You can return to the previous area by clicking on the empty spots in the screen,\nright clicking anywhere, or on areas with a zoom-out icon as the cursor."
             }
         },
         "m2": {
