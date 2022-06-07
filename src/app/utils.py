@@ -70,7 +70,14 @@ button_default = Button(
     Label(None, "",
           get_font(20),
           pygame.Color("white")),
-    (0, 0))
+    (0, 0)
+)
+
+hand_right = Image(
+    None,
+    load_ca_image("joe-hand"),
+    (512, 160)
+)
 
 def load_cursor(cursor_name):
     return load_png_image(cursor_name, "cursors")
