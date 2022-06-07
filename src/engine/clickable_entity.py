@@ -37,6 +37,17 @@ class ClickableEntity(Entity):
         self.mousemove(self)
 
     def update(self, game, events):
+        # Determine if the pointer is hovering over the button.
+        is_hovered = self.intersects(game.get_mouse_pos(), self.hit_rect)
+        # This will be handled only if this is the topmost entity, which will
+        # be processed by the owner scene.
+        if is_hovered:
+            self.owner._captured_action = lambda: self._handle_input(is_hovered, game, events)
+        else:
+            self._handle_input(is_hovered, game, events)
+
+    def _handle_input(self, is_hovered, game, events):
+        self.is_hovered = is_hovered
         is_mb_down = False
         is_mb_up = False
         mb_target = None
@@ -50,9 +61,6 @@ class ClickableEntity(Entity):
                 is_mb_up = True
                 mb_target = event.button
 
-        # Determine if the pointer is hovering over the button.
-        self.is_hovered = self.intersects(game.get_mouse_pos(), self.hit_rect)
-
         # Handle if the a mouse button is being pressed and if it's released.
         if self._state == ClickState.ACTIVE:
             if is_mb_up:
@@ -60,7 +68,7 @@ class ClickableEntity(Entity):
                 # Execute click handlers only if the mouse button was
                 # released while hovering on this button.
                 if self.is_hovered:
-                    self.owner._captured_click = lambda: self._on_click(mb_target)
+                    self._on_click(mb_target)
                 return
             else:
                 # Return early to prevent unwanted state changes.

@@ -64,8 +64,8 @@ class Mission(Scene):
                 self.background.update(game, events)
             super().update(game, events)
         else:
-            self._call_captured()
             self.timers.update(game, events)
+            self._call_captured()
         self.emitter.update(game, events)
 
     def draw(self, layer):
