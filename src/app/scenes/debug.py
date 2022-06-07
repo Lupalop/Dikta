@@ -25,6 +25,8 @@ class DebugOverlay(Scene):
                     self.generate_scene_list(game)
                 elif event.key == pygame.K_F3:
                     self.generate_test_button()
+                elif event.key == pygame.K_F4:
+                    self.get_captured_click(game)
 
     def load_content(self):
         pass
@@ -69,3 +71,8 @@ class DebugOverlay(Scene):
 
     def reset(self):
         self.entities = {}
+
+    def get_captured_click(self, game):
+        owner = game.scenes.get_scene()
+        print("owner: ", owner)
+        print("captured click: ", owner._captured_click)

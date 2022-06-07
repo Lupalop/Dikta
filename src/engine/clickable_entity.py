@@ -60,7 +60,7 @@ class ClickableEntity(Entity):
                 # Execute click handlers only if the mouse button was
                 # released while hovering on this button.
                 if self.is_hovered:
-                    self._on_click(mb_target)
+                    self.owner._captured_click = lambda: self._on_click(mb_target)
                 return
             else:
                 # Return early to prevent unwanted state changes.

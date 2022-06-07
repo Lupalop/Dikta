@@ -8,9 +8,16 @@ class Scene:
         self.entities = {}
         self.timers = TimerManager()
         self.animator = Animator(self.timers)
+        self._captured_click = None
         print("Initialized: Scene - {}".format(name))
 
+    def _call_captured(self):
+        if self._captured_click:
+            self._captured_click()
+            self._captured_click = None
+
     def update(self, game, events):
+        self._call_captured()
         self.timers.update(game, events)
         for entityName in self.entities:
             entity = self.entities[entityName]
