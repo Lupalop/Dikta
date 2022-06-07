@@ -73,13 +73,14 @@ class Mission(Scene):
 
     def update(self, game, events):
         # Only timers can update if a dialog is currently on-screen.
-        if not self.emitter.current:
+        if self.emitter.current_dialog:
+            # Keep this in sync with base update function
+            self.timers.update(game, events)
+            self._call_captured()
+        else:
             if self.background:
                 self.background.update(game, events)
             super().update(game, events)
-        else:
-            self.timers.update(game, events)
-            self._call_captured()
         self.emitter.update(game, events)
 
     def draw(self, layer):

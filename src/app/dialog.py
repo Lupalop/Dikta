@@ -141,29 +141,29 @@ class DialogEmitter():
         self.owner = owner
         self.default_side = default_side
         self.queue = Queue()
-        self.current = None
+        self.current_dialog = None
 
     def next(self):
-        if self.current and self.current.callback:
-            self.current.callback()
+        if self.current_dialog and self.current_dialog.callback:
+            self.current_dialog.callback()
         if self.queue.empty():
-            self.current = None
+            self.current_dialog = None
         else:
-            self.current = self.queue.get()
+            self.current_dialog = self.queue.get()
 
     def update(self, game, events):
-        if self.current:
-            self.current.update(game, events)
+        if self.current_dialog:
+            self.current_dialog.update(game, events)
             for event in events:
                 if event.type == pygame.KEYUP and \
                    (event.key == pygame.K_KP_ENTER or \
                     event.key == pygame.K_RETURN or \
                     event.key == pygame.K_SPACE):
-                    self.current.next_or_skip()
+                    self.current_dialog.next_or_skip()
 
     def draw(self, layer):
-        if self.current:
-            self.current.draw(layer)
+        if self.current_dialog:
+            self.current_dialog.draw(layer)
 
     # Add dialogue with all features
     def add_custom(self, dialog_key, name, text, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
@@ -201,7 +201,7 @@ class DialogEmitter():
 
         dialog = Dialog(self, position, dialog_key, name, text, portrait_id, flags, callback)
         self.queue.put(dialog)
-        if not self.current:
+        if not self.current_dialog:
             self.next()
         utils.reset_cursor()
 
