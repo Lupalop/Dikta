@@ -16,7 +16,9 @@ class DebugOverlay(Scene):
             self.entities["xy"].set_text(scaled_pos)
 
         for event in events:
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and \
+               (event.mod == pygame.KMOD_LSHIFT or \
+                event.mod == pygame.KMOD_RSHIFT):
                 if event.key == pygame.K_BACKQUOTE:
                     self.reset()
                 elif event.key == pygame.K_F1:
