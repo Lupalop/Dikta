@@ -8,7 +8,7 @@ import pygame
 
 class E1M0Scene(Mission):
     def __init__(self):
-        super().__init__(1, 0)
+        super().__init__(1, 0, menu_blocked = True)
         self.fade_timer = None
 
     def update(self, game, events):

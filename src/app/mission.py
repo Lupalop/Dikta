@@ -4,11 +4,13 @@ from app.utils import get_ep_string, load_em_image, get_inventory_key
 from app.dialog import Dialog, DialogSide, DialogEmitter
 
 class Mission(Scene):
-    def __init__(self, episode_id, mission_id, mission_child_id = "", default_side = DialogSide.TOP):
+    def __init__(self, episode_id, mission_id, mission_child_id = "", default_side = DialogSide.TOP, menu_blocked = False):
         self.episode_id = episode_id
         self.mission_id = mission_id
         self.emitter = DialogEmitter(self, default_side)
         self.background = ClickableEntity(self, hit_rect = True)
+        self.menu_blocked = menu_blocked
+
         if mission_child_id:
             name = "Episode {} - Mission {} - {}".format(episode_id, mission_id, mission_child_id)
         else:

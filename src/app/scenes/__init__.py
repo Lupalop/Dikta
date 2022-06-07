@@ -1,6 +1,5 @@
 from .mouse import MouseOverlay
 from .debug import DebugOverlay
-from .main_menu import MainMenuScene
 
 from .e0mtest import E0MTestScene
 from .e1m0 import E1M0Scene
@@ -14,7 +13,11 @@ from .e1m7 import E1M7Scene
 from .e1m8 import E1M8Scene
 from .e1m9 import E1M9Scene
 
+from .main_menu import MainMenuScene
+from .ingame_escmenu import InGameEscMenuOverlay
+
 scene_list = {
+    "ig_escmenu": InGameEscMenuOverlay(),
     "mouse": MouseOverlay(),
     "debug": DebugOverlay(),
     "main_menu": MainMenuScene(),
