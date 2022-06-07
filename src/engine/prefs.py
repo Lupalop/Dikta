@@ -36,5 +36,9 @@ class PreferencesManager:
     def set(self, name, value):
         self.all[name] = value
 
+    def clear(self):
+        print("Cleared preferences file: {}".format(self.file_name))
+        self.all.clear()
+
 default = PreferencesManager(PF_DEFAULT)
 savedgame = PreferencesManager(PF_SAVEDGAME)
