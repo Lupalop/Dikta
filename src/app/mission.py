@@ -25,33 +25,41 @@ class Mission(Scene):
         return load_em_image(self.episode_id, self.mission_id, image_name)
 
     def get_items(self):
-        return prefs.savedgame.get(get_inventory_key(self.episode_id), {})
+        return prefs.savedgame.get(get_inventory_key(self.episode_id), [])
 
-    def add_item(name_id, image_id):
+    def exists_item(self, item_id):
         items = self.get_items()
-        if name_id in items:
+        return (item_id in items)
+
+    def add_item(self, item_id):
+        items = self.get_items()
+        if item_id in items:
             print("item already in inventory")
             return False
-        items[name_id] = {
-            "name": name_id,
-            "image": image_id
-        }
+        items.append(item_id)
         prefs.savedgame.set(get_inventory_key(self.episode_id), items)
         return True
 
-    def remove_item(name_id):
+    def remove_item(self, item_id):
         items = self.get_items()
-        if not name_id in items:
+        if not item_id in items:
             print("item not in inventory")
             return False
-        items.pop(name_id)
+        items.pop(item_id)
         prefs.savedgame.set(get_inventory_key(self.episode_id), items)
         return True
+
+    def attach_item(self, entity, item_id):
+        entity.click += lambda sender, state: self.add_item(item_id)
 
     def get_clues(self):
         return prefs.savedgame.get(get_clues_key(self.episode_id), [])
 
-    def add_clue(clue_id):
+    def exists_clue(self, clue_id):
+        clues = self.get_clues()
+        return (clue_id in clues)
+
+    def add_clue(self, clue_id):
         clues = self.get_clues()
         if clue_id in clues:
             print("clue already found")
@@ -59,6 +67,9 @@ class Mission(Scene):
         clues.append(clue_id)
         prefs.savedgame.set(get_clues_key(self.episode_id), clues)
         return True
+
+    def attach_clue(self, entity, clue_id):
+        entity.click += lambda sender, state: self.add_clue(item_id)
 
     def update(self, game, events):
         # Only timers can update if a dialog is currently on-screen.
