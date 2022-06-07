@@ -15,7 +15,7 @@ class E1M1Scene(Mission):
     def load_content(self):
         super().load_content()
         self.emitter.add("joe", "intro1", repeat = False)
-        self.emitter.add("joe", "intro2", callback=lambda: game.scenes.set_scene(E1M1DeskOutside()))
+        self.emitter.add("joe", "intro2", callback=lambda: game.scenes.set_scene("e1m1desk_outside"))
 
         self.background.set_surface(self.get_image("bg-joe"))
 
@@ -30,7 +30,7 @@ class E1M1DeskOutside(Mission):
     def load_content(self):
         super().load_content()
         self.background.set_surface(self.get_image("bg-main"))
-        self.emitter.add("joe", "tut1", "joe-faceright")
+        self.emitter.add("tut", "hovercursor", repeat = False)
 
         target1 = TargetMask(self, self.get_image("tm-main-bulletinboard"))
         target1.leftclick += lambda sender: self.emitter.add("joe", "target_board", "joe-faceright")
@@ -45,7 +45,7 @@ class E1M1DeskOutside(Mission):
         target4.leftclick += lambda sender: self.emitter.add("joe", "nmdesk", "joe-faceright")
 
         target5 = TargetMask(self, self.get_image("tm-main-desk"))
-        target5.leftclick += lambda sender: game.scenes.set_scene(E1M1DeskInside())
+        target5.leftclick += lambda sender: game.scenes.set_scene("e1m1desk_inside")
 
         target6 = TargetMask(self, self.get_image("tm-main-light"))
         target6.leftclick += lambda sender: self.emitter.add("joe", ["light1", "light2"], "joe-faceright")
@@ -70,8 +70,14 @@ class E1M1DeskInside(Mission):
     def load_content(self):
         super().load_content()
         self.background.set_surface(self.get_image("bg-desk"))
+        self.emitter.add("tut", "rightclickreturn", repeat = False)
         self.emitter.add("joe", "desk", "joe-faceright", repeat = False)
         self.entities = {}
+
+        self.return_scene = "e1m1desk_outside"
+        target_escape = TargetMask(self, self.get_image("tm-desk"), zoomin = False)
+        target_escape.click += lambda sender, button: game.scenes.set_scene(self.return_scene)
+        self.entities["target_escape"] = target_escape
 
         item1 = TargetItem(self, self.get_image("item-stapler"), (263, 19), removable = False)
         item1.leftclick += lambda sender: self.emitter.add("joe", "item_stapler", "joe-faceright")
@@ -93,8 +99,7 @@ class E1M1DeskInside(Mission):
 
         if not self.exists_item("press-card"):
             item5 = TargetItem(self, self.get_image("item-press-card"), (26, 302))
-            self.attach_item(item5, "press-card")
-            item5.leftclick += lambda sender: game.scenes.set_scene("e1m1popup_presscard") # TODO
+            item5.leftclick += lambda sender: game.scenes.set_scene("e1m1popup_presscard")
             self.entities["item_press_card"] = item5
 
         item6 = TargetItem(self, self.get_image("item-papers"), (916, 363), removable = False, grabbable = False)
@@ -104,7 +109,7 @@ class E1M1DeskInside(Mission):
         item7 = TargetItem(self, self.get_image("item-mail"), (1050, 109), removable = False, grabbable = False)
         def item7_leftclick(sender):
             if not self.exists_item("note"):
-                game.scenes.set_scene("e1m1popup_note") # TODO
+                game.scenes.set_scene("e1m1popup_note")
             else:
                 self.emitter.add("joe", "item_mail", "joe-faceright")
         item7.leftclick += item7_leftclick
@@ -131,9 +136,119 @@ class E1M1DeskInside(Mission):
             if self.exists_item("flashlight"):
                 self.emitter.add("joe", "drawer_empty", "joe-faceright")
             else:
-                self.add_item("flashlight")
-                game.scenes.set_scene("e1m1popup_flashlight") # TODO
+                game.scenes.set_scene("e1m1popup_flashlight")
         drawer.leftclick += drawer_leftclick
         self.entities["drawer"] = drawer
 
 scene_list.add_mission(E1M1DeskInside())
+
+# E1M1 - Popup - Press Card
+
+class E1M1PopupPressCardScene(Mission):
+    def __init__(self):
+        super().__init__(1, 1, "popup_presscard", "Popup - Press Card", DialogSide.TOP)
+
+    def load_content(self):
+        super().load_content()
+
+        self.emitter.add("tut", "rightclickreturn", repeat = False)
+
+        if not self.exists_item("press-card"):
+            self.add_item("press-card")
+
+        self.background.set_surface(self.get_image("bg-item"))
+
+        hand = Image.from_entity(self, utils.hand_right)
+        item_press_card = TargetItem(
+            self,
+            self.get_image("item-press-card-popup"),
+            (374, 198),
+            removable = False
+        )
+        item_press_card.leftclick += lambda sender: self.emitter.add("joe", "item_press_card", "joe-faceright")
+
+        self.return_scene = "e1m1desk_inside"
+        target_escape = TargetMask(self, self.get_image("tm-popup-pcard"), zoomin = False)
+        target_escape.click += lambda sender, button: game.scenes.set_scene(self.return_scene)
+
+        self.entities = {
+            "target_escape": target_escape,
+            "hand": hand,
+            "item_press_card": item_press_card,
+        }
+
+scene_list.add_mission(E1M1PopupPressCardScene())
+
+# E1M1 - Popup - Note
+
+class E1M1PopupNoteScene(Mission):
+    def __init__(self):
+        super().__init__(1, 1, "popup_note", "Popup - Note", DialogSide.TOP)
+
+    def load_content(self):
+        super().load_content()
+
+        self.emitter.add("tut", "rightclickreturn", repeat = False)
+
+        if not self.exists_item("note"):
+            self.add_item("note")
+
+        self.background.set_surface(self.get_image("bg-item"))
+
+        hand = Image.from_entity(self, utils.hand_right)
+        item_note = TargetItem(
+            self,
+            self.get_image("item-note-popup"),
+            (467, 170),
+            removable = False
+        )
+        item_note.leftclick += lambda sender: self.emitter.add("joe", "item_note", "joe-faceright")
+
+        self.return_scene = "e1m1desk_inside"
+        target_escape = TargetMask(self, self.get_image("tm-popup-note"), zoomin = False)
+        target_escape.click += lambda sender, button: game.scenes.set_scene(self.return_scene)
+
+        self.entities = {
+            "target_escape": target_escape,
+            "hand": hand,
+            "item_note": item_note,
+        }
+
+scene_list.add_mission(E1M1PopupNoteScene())
+
+# E1M1 - Popup - Flashlight
+
+class E1M1PopupFlashlightScene(Mission):
+    def __init__(self):
+        super().__init__(1, 1, "popup_flashlight", "Popup - Flashlight", DialogSide.TOP)
+
+    def load_content(self):
+        super().load_content()
+
+        self.emitter.add("tut", "rightclickreturn", repeat = False)
+
+        if not self.exists_item("flashlight"):
+            self.add_item("flashlight")
+
+        self.background.set_surface(self.get_image("bg-drawer"))
+
+        hand = Image.from_entity(self, utils.hand_right)
+        item_flashlight = TargetItem(
+            self,
+            self.get_image("item-flashlight-popup"),
+            (372, 74),
+            removable = False
+        )
+        item_flashlight.leftclick += lambda sender: self.emitter.add("joe", "item_flashlight", "joe-faceright")
+
+        self.return_scene = "e1m1desk_inside"
+        target_escape = TargetMask(self, self.get_image("tm-popup-flashlight"), zoomin = False)
+        target_escape.click += lambda sender, button: game.scenes.set_scene(self.return_scene)
+
+        self.entities = {
+            "target_escape": target_escape,
+            "hand": hand,
+            "item_flashlight": item_flashlight,
+        }
+
+scene_list.add_mission(E1M1PopupFlashlightScene())
