@@ -34,10 +34,18 @@ class MainMenuScene(Scene):
             utils.load_mm_image("logo-company"),
             (20, 710))
 
+        def to_newgame(sender, button):
+            prefs.savedgame.clear()
+            game.scenes.set_scene("e1m0")
         btn_new = FadeButton(self, utils.load_mm_image("btn-new"), (475, 665))
-        btn_new.click += lambda sender, button: game.scenes.set_scene("e1m0")
+        btn_new.click += to_newgame
 
+        def to_loadgame(sender, button):
+            prefs.savedgame.load()
+            mission_toload = prefs.savedgame.get("user.mission_key", "e1m0")
+            game.scenes.set_scene(mission_toload)
         btn_load = FadeButton(self, utils.load_mm_image("btn-load"), (610, 595))
+        btn_load.click += to_loadgame
 
         btn_options = FadeButton(self, utils.load_mm_image("btn-options"), (740, 500))
 

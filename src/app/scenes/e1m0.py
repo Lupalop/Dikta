@@ -18,6 +18,7 @@ class E1M0Scene(Mission):
         super().draw(layer)
 
     def load_content(self):
+        super().load_content()
         utils.hide_cursor()
         intro1 = Image(
             self, utils.load_em_image(1, 0, "intro-1"))
