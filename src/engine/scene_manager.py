@@ -8,7 +8,7 @@ class SceneManager:
         self.all = {}
         self._scene = None
         self._switching = False
-        self._overlays = {}
+        self._overlays = []
         self.fade_surface = pygame.Surface(prefs.default.get("app.display.layer_size", (0, 0)))
         self.fade_surface.fill(pygame.Color("black"))
         self.fade_surface.set_alpha(255)
@@ -55,15 +55,27 @@ class SceneManager:
         else:
             _fade_in_done()
 
-    def add_overlay(self, id, scene):
-        scene.load_content()
-        self._overlays[id] = scene
+    def add_overlay(self, scene_id, topmost = False):
+        if scene_id not in self.all:
+            return False
 
-    def remove_overlay(self, id):
-        return self._overlays.pop(id, None)
+        overlay = self.all[scene_id]
+        overlay.load_content()
 
-    def get_overlay(self, id):
-        return self._overlays.get(id, None)
+        if topmost:
+            self._overlays.append(overlay)
+        else:
+            self._overlays.insert(0, overlay)
+
+    def remove_overlay(self, scene_id):
+        if scene_id not in self.all:
+            return
+
+        overlay = self.all[scene_id]
+        if overlay in scene._overlays:
+            return self._overlays.remove(overlay)
+
+        return False
 
     def update(self, game, events):
         if self._scene and \
@@ -71,7 +83,7 @@ class SceneManager:
            self._switching:
             self._scene.update(game, events)
 
-        for overlay in self._overlays.values():
+        for overlay in self._overlays:
             if not overlay.enabled:
                 continue
             overlay.update(game, events)
@@ -80,7 +92,7 @@ class SceneManager:
         if self._scene:
             self._scene.draw(layer)
 
-        for overlay in self._overlays.values():
+        for overlay in self._overlays:
             overlay.draw(layer)
 
         layer.blit(self.fade_surface, (0, 0))
