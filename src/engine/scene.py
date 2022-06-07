@@ -29,8 +29,8 @@ class Scene:
             entity.draw(layer)
 
     def load_content(self):
+        self.entities.clear()
         pass
 
     def dispose(self):
-        self.entities.clear()
         self.timers.clear()
