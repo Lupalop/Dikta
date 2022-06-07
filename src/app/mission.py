@@ -50,7 +50,7 @@ class Mission(Scene):
         return True
 
     def attach_item(self, entity, item_id):
-        entity.click += lambda sender, state: self.add_item(item_id)
+        entity.leftclick += lambda sender: self.add_item(item_id)
 
     def get_clues(self):
         return prefs.savedgame.get(get_clues_key(self.episode_id), [])
@@ -69,7 +69,7 @@ class Mission(Scene):
         return True
 
     def attach_clue(self, entity, clue_id):
-        entity.click += lambda sender, state: self.add_clue(item_id)
+        entity.leftclick += lambda sender: self.add_clue(item_id)
 
     def update(self, game, events):
         # Only timers can update if a dialog is currently on-screen.

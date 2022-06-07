@@ -24,7 +24,7 @@ class TargetItem(ClickableEntity):
         return entity_copy
 
     # Event handlers
-    def _on_click(self, button):
+    def _on_leftclick(self):
         if self.removable:
             self._timer.reset(True)
             self._timer.tick.clear()
@@ -32,7 +32,7 @@ class TargetItem(ClickableEntity):
                 self.get_surface(), 0, self._timer)
             self._timer.start()
             self.removed = True
-        super()._on_click(button)
+        super()._on_leftclick()
 
     def _on_state_changed(self, state):
         if self.removed:

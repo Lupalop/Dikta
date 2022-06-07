@@ -11,6 +11,9 @@ class ClickableEntity(Entity):
         self.hit_rect = hit_rect
         # Event handlers
         self.click = EventHandler()
+        self.leftclick = EventHandler()
+        self.middleclick = EventHandler()
+        self.rightclick = EventHandler()
         self.state_changed = EventHandler()
         self.mousemove = EventHandler()
 
@@ -26,7 +29,22 @@ class ClickableEntity(Entity):
         return self._state
 
     # Event handlers
+    def _on_leftclick(self):
+        self.leftclick(self)
+
+    def _on_middleclick(self):
+        self.middleclick(self)
+
+    def _on_rightclick(self):
+        self.rightclick(self)
+
     def _on_click(self, button):
+        if button == MouseButton.LEFT:
+            self._on_leftclick()
+        elif button == MouseButton.MIDDLE:
+            self._on_middleclick()
+        elif button == MouseButton.RIGHT:
+            self._on_rightclick()
         self.click(self, button)
 
     def _on_state_changed(self, state):
