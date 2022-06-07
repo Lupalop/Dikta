@@ -92,4 +92,6 @@ class Mission(Scene):
         self.emitter = DialogEmitter(self, self.default_side)
         self.background = ClickableEntity(self, hit_rect = True)
         # Update mission-episode in save file
+        prefs.savedgame.set("user.episode_id", self.episode_id)
+        prefs.savedgame.set("user.mission_id", self.mission_id)
         prefs.savedgame.set("user.mission_key", self.mission_key)
