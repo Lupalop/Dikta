@@ -38,6 +38,7 @@ class Mission(Scene):
             return False
         items.append(item_id)
         prefs.savedgame.set(get_inventory_key(self.episode_id), items)
+        self.emitter.add_popup(item_id)
         return True
 
     def remove_item(self, item_id):

@@ -17,6 +17,7 @@ RECT_DIALOG = pygame.Rect(0, 0, RECT_BASE.width, RECT_NAME.height + RECT_BASE.he
 RECT_PORTRAIT = pygame.Rect(RECT_DIALOG.x, RECT_DIALOG.y, RECT_DIALOG.height, RECT_DIALOG.height)
 RECT_NAME_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_NAME.y, RECT_NAME.width, RECT_NAME.height)
 RECT_SPEECH_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_SPEECH.y, RECT_SPEECH.width, RECT_SPEECH.height)
+RECT_POPUP = pygame.Rect(0, 0, 380, 40)
 
 class DialogSide(IntEnum):
     TOP = 1
@@ -83,13 +84,6 @@ class Dialog(ClickableEntity):
         if self.portrait:
             self.portrait.draw(self._surface)
 
-    @classmethod
-    def from_entity(cls, entity, name, text):
-        entity_copy = cls(name,
-                          text,
-                          entity.get_position())
-        return entity_copy
-
     def set_position(self, position):
         raise("Changing the position of a dialog is not allowed.")
 
@@ -136,12 +130,81 @@ class Dialog(ClickableEntity):
         if self.flags & DialogFlags.SKIPPABLE:
             self.label_speech.skip()
 
+class Popup(ClickableEntity):
+    def __init__(self, emitter, position, item_name):
+        super().__init__(
+            emitter.owner,
+            position,
+            RECT_POPUP.size,
+            pygame.Surface(RECT_POPUP.size, pygame.SRCALPHA, 32)
+        )
+
+        self.item_name = item_name
+        self.emitter = emitter
+
+        # Draw boxes to entity surface
+        self.box_base = utils.load_ui_image("popup-box")
+        self._surface.blit(self.box_base, RECT_POPUP)
+        # Initialize speech text and its position
+        text = "Item found: {}".format(item_name)
+        self.label_item = SequenceLabel(self.owner, text, utils.get_font(24), pygame.Color("white"))
+        label_item_pos = (
+            position[0] + 55,
+            position[1] + (RECT_POPUP.height / 2) - (self.label_item.get_rect().height / 2)
+        )
+        self.label_item.set_position(label_item_pos)
+        def _hide_popup(sender):
+            self.owner.animator.entity_fadeout(
+                self.label_item,
+                1000,
+                lambda: None
+            )
+            self.owner.animator.entity_fadeout(
+                self,
+                1000,
+                lambda: self.next_or_skip()
+            )
+        def _delay(sender):
+            timer = self.owner.timers.add(1500, True)
+            timer.elapsed += _hide_popup
+        self.label_item.completed += _delay
+
+    def set_position(self, position):
+        raise("Changing the position of a dialog is not allowed.")
+
+    def set_rect(self, rect):
+        raise("Changing the rectangle of a dialog is not allowed.")
+
+    def set_size(self, size):
+        raise("Changing the size of a dialog is not allowed.")
+
+    def set_surface(self, texture):
+        raise("Changing the surface of a dialog is not allowed.")
+
+    # Event handlers
+    def draw(self, layer):
+        super().draw(layer)
+        self.label_item.draw(layer)
+
+    def update(self, game, events):
+        super().update(game, events)
+        self.label_item.update(game, events)
+
+    def next_or_skip(self):
+        if self.label_item.is_completed:
+            utils.reset_cursor()
+            self.emitter.next_popup()
+            return
+        self.label_item.skip()
+
 class DialogEmitter():
     def __init__(self, owner, default_side):
         self.owner = owner
         self.default_side = default_side
         self.queue = Queue()
+        self.popup_queue = Queue()
         self.current_dialog = None
+        self.current_popup = None
 
     def next(self):
         if self.current_dialog and self.current_dialog.callback:
@@ -150,6 +213,12 @@ class DialogEmitter():
             self.current_dialog = None
         else:
             self.current_dialog = self.queue.get()
+
+    def next_popup(self):
+        if self.popup_queue.empty():
+            self.current_popup = None
+        else:
+            self.current_popup = self.popup_queue.get()
 
     def update(self, game, events):
         if self.current_dialog:
@@ -160,23 +229,24 @@ class DialogEmitter():
                     event.key == pygame.K_RETURN or \
                     event.key == pygame.K_SPACE):
                     self.current_dialog.next_or_skip()
+        if self.current_popup:
+            self.current_popup.update(game, events)
 
     def draw(self, layer):
         if self.current_dialog:
             self.current_dialog.draw(layer)
+        if self.current_popup:
+            self.current_popup.draw(layer)
 
-    # Add dialogue with all features
-    def add_custom(self, dialog_key, name, text, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
-        if not side:
-            side = self.default_side
+    def compute_position(self, target_rect, side):
         position = (0, 0)
 
-        dialog_centerx = (game.layer_size[0] / 2) - (RECT_DIALOG.width / 2)
-        dialog_centery = (game.layer_size[1] / 2) - (RECT_DIALOG.height / 2)
+        dialog_centerx = (game.layer_size[0] / 2) - (target_rect.width / 2)
+        dialog_centery = (game.layer_size[1] / 2) - (target_rect.height / 2)
         dialog_leftx = 25
         dialog_topy = 25
-        dialog_rightx = game.layer_size[0] - RECT_DIALOG.width - 25
-        dialog_bottomy = game.layer_size[1] - 60 - RECT_DIALOG.height
+        dialog_rightx = game.layer_size[0] - target_rect.width - 25
+        dialog_bottomy = game.layer_size[1] - 60 - target_rect.height
 
         if side == DialogSide.TOP_LEFT:
             position = (dialog_leftx, dialog_topy)
@@ -199,6 +269,13 @@ class DialogEmitter():
         else:
             raise("unexpected dialog side")
 
+        return position
+
+    # Add dialogue with all features
+    def add_custom(self, dialog_key, name, text, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
+        if not side:
+            side = self.default_side
+        position = self.compute_position(RECT_DIALOG, side)
         dialog = Dialog(self, position, dialog_key, name, text, portrait_id, flags, callback)
         self.queue.put(dialog)
         if not self.current_dialog:
@@ -225,3 +302,11 @@ class DialogEmitter():
             flags,
             callback
         )
+
+    def add_popup(self, item_id, side = DialogSide.BOTTOM_LEFT):
+        item_name = utils.get_item_string(item_id)
+        position = self.compute_position(RECT_POPUP, side)
+        popup = Popup(self, position, item_name)
+        self.popup_queue.put(popup)
+        if not self.current_popup:
+            self.next_popup()
