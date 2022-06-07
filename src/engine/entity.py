@@ -81,9 +81,15 @@ class Entity:
         if use_rect:
             return self._rect.collidepoint(point)
 
-        maskPosition = point[0] - self._rect.x, point[1] - self._rect.y
-        return self._rect.collidepoint(point) and \
-               self.get_mask().get_at(maskPosition)
+        intersection_offset = (point[0] - self._rect.x, point[1] - self._rect.y)
+        intersected = self._rect.collidepoint(point) and \
+                      self.get_mask().get_at(intersection_offset)
+        # Update the intersection offset only if we did intersect with the
+        # given point. Otherwise, it stays the same and provides the last point
+        # of intersection.
+        if intersected:
+            self.intersection_offset = intersection_offset
+        return intersected
 
     def update(self, game, events):
         pass
