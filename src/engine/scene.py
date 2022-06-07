@@ -32,4 +32,5 @@ class Scene:
         pass
 
     def dispose(self):
+        self.entities.clear()
         self.timers.clear()

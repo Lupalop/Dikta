@@ -17,6 +17,7 @@ class E0MTestScene(Mission):
         super().draw(layer)
 
     def load_content(self):
+        super().load_content()
         self.emitter.add("joe", 1, callback=lambda:print("test"))
         self.emitter.add("joe", 2, "joe-faceright", flags=DialogFlags.CLOSEABLE)
         self.emitter.add("joe", 3)

@@ -9,9 +9,8 @@ class Mission(Scene):
         self.mission_id = mission_id
         self.mission_child_id = mission_child_id
         self.mission_key = "e{}m{}{}".format(episode_id, mission_id, mission_child_id)
-        self.emitter = DialogEmitter(self, default_side)
-        self.background = ClickableEntity(self, hit_rect = True)
         self.menu_blocked = menu_blocked
+        self.default_side = default_side
 
         if mission_desc:
             name = "Episode {} - Mission {} - {}".format(episode_id, mission_id, mission_desc)
@@ -79,5 +78,7 @@ class Mission(Scene):
         self.emitter.draw(layer)
 
     def load_content(self):
+        self.emitter = DialogEmitter(self, self.default_side)
+        self.background = ClickableEntity(self, hit_rect = True)
         # Update mission-episode in save file
         prefs.savedgame.set("user.mission_key", self.mission_key)
