@@ -5,7 +5,7 @@ import pygame
 class SceneManager:
     def __init__(self):
         print("Initialized: Scene Manager")
-        self.all_scenes = {}
+        self.all = {}
         self._scene = None
         self._switching = False
         self._overlays = {}
@@ -28,8 +28,8 @@ class SceneManager:
         pending_scene = scene
 
         if isinstance(scene, str):
-            if pending_scene in self.all_scenes:
-                pending_scene = self.all_scenes[scene]
+            if pending_scene in self.all:
+                pending_scene = self.all[scene]
             else:
                 return
 

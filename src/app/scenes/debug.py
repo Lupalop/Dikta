@@ -43,7 +43,7 @@ class DebugOverlay(Scene):
     def generate_scene_list(self, game):
         current_y = 20
         t = False
-        for key in game.scenes.all_scenes:
+        for key in game.scenes.all:
             btn_tp = LabelButton(
                 self,
                 Label(
