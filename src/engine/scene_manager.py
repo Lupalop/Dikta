@@ -60,6 +60,8 @@ class SceneManager:
             return False
 
         overlay = self.all[scene_id]
+        if overlay in self._overlays:
+            return False
         overlay.load_content()
 
         if topmost:
@@ -69,10 +71,10 @@ class SceneManager:
 
     def remove_overlay(self, scene_id):
         if scene_id not in self.all:
-            return
+            return False
 
         overlay = self.all[scene_id]
-        if overlay in scene._overlays:
+        if overlay in self._overlays:
             return self._overlays.remove(overlay)
 
         return False
