@@ -44,9 +44,11 @@ class TargetItem(ClickableEntity):
             if self.grabbable:
                 self._ghost_rect = self.get_rect().copy()
                 self._ghost_offset = self.intersection_offset
+                self.is_ghosting = True
         elif state == ClickState.RELEASED:
-            self.is_ghosting = False
-            self._ghost_rect = None
+            if self.grabbable:
+                self.is_ghosting = False
+                self._ghost_rect = None
 
         super()._on_state_changed(state)
 
@@ -61,14 +63,10 @@ class TargetItem(ClickableEntity):
         if self.removed:
             return
 
-        if self.get_state() == ClickState.ACTIVE and self.grabbable:
-            # Begin ghosting only if the mouse is out of the entity's bounds.
-            if not self.is_hovered:
-                self.is_ghosting = True
-            if self.is_ghosting:
-                scaled_pos = game.get_mouse_pos()
-                self._ghost_rect.x = scaled_pos[0] - self._ghost_offset[0]
-                self._ghost_rect.y = scaled_pos[1] - self._ghost_offset[1]
+        if self.get_state() == ClickState.ACTIVE and self.is_ghosting:
+            scaled_pos = game.get_mouse_pos()
+            self._ghost_rect.x = scaled_pos[0] - self._ghost_offset[0]
+            self._ghost_rect.y = scaled_pos[1] - self._ghost_offset[1]
 
         super().update(game, events)
 
