@@ -107,10 +107,6 @@ class Dialog(ClickableEntity):
             utils.reset_cursor()
         super()._on_state_changed(state)
 
-    def _on_click(self, button):
-        self.next_or_skip()
-        super()._on_click(button)
-
     def draw(self, layer):
         super().draw(layer)
         self.label_speech.draw(layer)
