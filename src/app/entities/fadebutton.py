@@ -8,7 +8,7 @@ import pygame
 class FadeButton(ClickableEntity):
     def __init__(self, owner, surface, position_or_rect = (0, 0), size = None):
         super().__init__(owner, position_or_rect, size, surface)
-        self._timer = self.owner.timers.add(1000)
+        self._timer = None
         self.get_surface().set_alpha(100)
 
     @classmethod
@@ -21,26 +21,20 @@ class FadeButton(ClickableEntity):
 
     # Event handlers
     def _on_state_changed(self, state):
+        if self._timer:
+            self._timer.close()
+
         if state == ClickState.NORMAL:
-            self._timer.reset(True)
-            self._timer.tick.clear()
-            self._timer.tick += lambda sender: self.owner.animator.to_alpha( \
-                self.get_surface(), 100, self._timer)
-            self._timer.start()
+            self._timer = self.owner.animator.entity_to_alpha(
+                self, 1000, 100)
             utils.reset_cursor()
         elif state == ClickState.HOVER:
-            self._timer.reset(True)
-            self._timer.tick.clear()
-            self._timer.tick += lambda sender: self.owner.animator.to_alpha( \
-                self.get_surface(), 255, self._timer)
-            self._timer.start()
+            self._timer = self.owner.animator.entity_to_alpha(
+                self, 1000, 255)
             utils.set_cursor("select")
         elif state == ClickState.ACTIVE:
-            self._timer.reset(True)
-            self._timer.tick.clear()
-            self._timer.tick += lambda sender: self.owner.animator.to_alpha( \
-                self.get_surface(), 175, self._timer)
-            self._timer.start()
+            self._timer = self.owner.animator.entity_to_alpha(
+                self, 1000, 175)
         elif state == ClickState.RELEASED:
             pass
         else:
