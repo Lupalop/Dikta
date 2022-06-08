@@ -107,6 +107,10 @@ class Dialog(ClickableEntity):
             utils.reset_cursor()
         super()._on_state_changed(state)
 
+    def _on_click(self, button):
+        self.next_or_skip()
+        super()._on_click(button)
+
     def draw(self, layer):
         super().draw(layer)
         self.label_speech.draw(layer)
@@ -220,12 +224,10 @@ class DialogEmitter():
         if self.current_dialog:
             self.current_dialog.update(game, events)
             for event in events:
-                # Treat spacebar, enter, and all mouse clicks as next or skip
-                if event.type == pygame.MOUSEBUTTONUP or \
-                   (event.type == pygame.KEYUP and \
+                if event.type == pygame.KEYUP and \
                    (event.key == pygame.K_KP_ENTER or \
                     event.key == pygame.K_RETURN or \
-                    event.key == pygame.K_SPACE)):
+                    event.key == pygame.K_SPACE):
                     self.current_dialog.next_or_skip()
         if self.current_popup:
             self.current_popup.update(game, events)
