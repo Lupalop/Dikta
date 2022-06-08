@@ -9,6 +9,7 @@ class ClickableEntity(Entity):
         super().__init__(owner, position_or_rect, size, surface)
         self._state = ClickState.NORMAL
         self.hit_rect = hit_rect
+        self.is_hovered = False
         # Event handlers
         self.click = EventHandler()
         self.leftclick = EventHandler()
