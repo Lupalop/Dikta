@@ -130,6 +130,11 @@ class Dialog(ClickableEntity):
         if self.flags & DialogFlags.SKIPPABLE:
             self.label_speech.skip()
 
+    # XXX The following overrides the intersection check to always return true,
+    # so as to cover the entire screen. This isn't ideal, but it is what it is.
+    def intersects(self, point, use_rect = False):
+        return True
+
 class Popup(ClickableEntity):
     def __init__(self, emitter, position, item_name):
         super().__init__(
