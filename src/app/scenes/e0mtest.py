@@ -18,6 +18,7 @@ class E0MTestScene(Mission):
 
     def load_content(self):
         super().load_content()
+        """
         self.emitter.add("joe", 1, callback=lambda:print("test"))
         self.emitter.add("joe", 2, "joe-faceright", flags=DialogFlags.CLOSEABLE)
         self.emitter.add("joe", 3)
@@ -34,13 +35,38 @@ class E0MTestScene(Mission):
         print(self.get_string("joe", 1))
         print(utils.get_ep_string(1, 1, "joe", 1))
         print(utils.get_item_string("pbadge"))
+        """
 
         bg_main = Image(
             self,
             utils.load_em_image(1, 1, "bg-main"))
 
+        choice1 = ChoiceButton(
+            self,
+            (50, 50),
+            1,
+            "Luneta Park"
+        )
+
+        choice2 = ChoiceButton(
+            self,
+            (50, 125),
+            2,
+            "Congress"
+        )
+
+        choice3 = ChoiceButton(
+            self,
+            (50, 200),
+            3,
+            "Home"
+        )
+
         self.entities = {
-            "bg_main": bg_main,
+            # "bg_main": bg_main,
+            "choice1": choice1,
+            "choice2": choice2,
+            "choice3": choice3,
         }
 
 scene_list.add_mission(E0MTestScene())

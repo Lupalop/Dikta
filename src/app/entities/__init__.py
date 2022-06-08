@@ -8,3 +8,5 @@ from .labelbutton import LabelButton
 from .targetmask import TargetMask
 from .targetrect import TargetRect
 from .targetitem import TargetItem
+
+from .choicebutton import ChoiceButton
