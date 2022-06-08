@@ -1,5 +1,5 @@
 from engine import Scene
-from app import utils, scene_list
+from app import utils, defaults, scene_list
 from app.entities import *
 
 import pygame
@@ -34,7 +34,7 @@ class DebugOverlay(Scene):
         pass
 
     def generate_test_button(self):
-        btn_test = Button.from_entity(self, utils.button_default, "Test")
+        btn_test = Button.from_entity(self, defaults.button_default, "Test")
         btn_test.set_position((510, 100))
         def on_btn_test_click(sender, button):
             import uuid

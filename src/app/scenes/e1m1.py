@@ -1,5 +1,5 @@
 from engine import *
-from app import utils, scene_list
+from app import defaults, scene_list
 from app.entities import *
 from app.mission import Mission
 from app.dialog import DialogSide, DialogFlags
@@ -158,7 +158,7 @@ class E1M1PopupPressCardScene(Mission):
 
         self.background.set_surface(self.get_image("bg-item"))
 
-        hand = Image.from_entity(self, utils.hand_right)
+        hand = Image.from_entity(self, defaults.hand_right)
         item_press_card = TargetItem(
             self,
             self.get_image("item-press-card-popup"),
@@ -195,7 +195,7 @@ class E1M1PopupNoteScene(Mission):
 
         self.background.set_surface(self.get_image("bg-item"))
 
-        hand = Image.from_entity(self, utils.hand_right)
+        hand = Image.from_entity(self, defaults.hand_right)
         item_note = TargetItem(
             self,
             self.get_image("item-note-popup"),
@@ -232,7 +232,7 @@ class E1M1PopupFlashlightScene(Mission):
 
         self.background.set_surface(self.get_image("bg-drawer"))
 
-        hand = Image.from_entity(self, utils.hand_right)
+        hand = Image.from_entity(self, defaults.hand_right)
         item_flashlight = TargetItem(
             self,
             self.get_image("item-flashlight-popup"),
