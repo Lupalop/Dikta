@@ -24,17 +24,19 @@ class ChoiceButton(ClickableEntity):
             RECT_NUMBER_BOX.width + LABEL_DISTANCE,
             (RECT_NUMBER_BOX.height / 2) - (self.number_label.get_rect().height / 2)
         ))
-        rect_choice = pygame.Rect(
+        rect_final = pygame.Rect(
             0,
             0,
             RECT_NUMBER_BOX.width + LABEL_DISTANCE + self.choice_label.get_rect().width,
             RECT_NUMBER_BOX.height
         )
-        surface = pygame.Surface(rect_choice.size, pygame.SRCALPHA, 32)
+        surface = pygame.Surface(rect_final.size, pygame.SRCALPHA, 32)
         self.number_box.draw(surface)
         self.number_label.draw(surface)
         self.choice_label.draw(surface)
-        super().__init__(owner, position, None, surface)
+        self._timer = None
+
+        super().__init__(owner, position, None, surface, hit_rect = True)
 
     @classmethod
     def from_entity(cls, owner, entity):
