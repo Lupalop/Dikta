@@ -9,7 +9,9 @@
     },
     "characters": {
         "joe": "Joe",
-        "tut": "Tutorial"
+        "tut": "Tutorial",
+        "student": "Student",
+        "guard": "Guard"
     },
     "e1": {
         "m1": {
@@ -93,39 +95,180 @@
             }
         },
         "m2": {
-            "joe_1": {
+            "joe_dialogue1": {
                 "text": "Manong, take me to the Congress building."
             },
-            "driver_1": {
+            "driver_dialogue1": {
                 "text": "I can only give you a ride until Luneta. The entire stretch of the road is occupied by demonstrators."
             },
-            "joe_2": {
+            "joe_dialogue2": {
                 "text": "Manong, take me to Luneta Park."
             },
-            "driver_2": {
+            "driver_dialogue2": {
                 "text": "Okay."
             },
-            "joe_3": {
+            "joe_dialogue3": {
                 "text": "Manong, take me home."
             },
-            "joe_4": {
+            "joe_dialogue4": {
                 "text": "On second thought, I don’t need to go home right now."
             },
-            "driver_3": {
+            "driver_dialgoue3": {
                 "text": "You talking to me?"
             },
-            "joe_5": {
+            "joe_dialogue5": {
                 "text": "No, don’t mind me."
             },
-            "driver_4": {
+            "driver_dialogue4": {
                 "text": "Where are you headed to, then?"
             },
-            "driver_5": {
+            "driver_dialogue5": {
                 "text": "We’re here, sir. Pay up, please."
             },
-            "joe_6": {
+            "joe_dialogue6": {
                 "text": "I forgot my wallet."
             }
+        },
+        "m3":{
+            "joe_dialogue1":{
+                "text": "I'm late."
+            },
+            "joe_dialogue2":{
+                "text": "It’s already five minutes past five. "
+            },
+            "joe_target_speaker":{
+                "text": "The president’s already delivering his SONA message."
+            },
+            "joe_target_estimate_count":{
+                "text": "If you’d ask me, I’d say there’s around 20,000 of them."
+            },
+            "joe_target_no_guns":{
+                "text": "None of the demonstrators carried guns."
+            },
+            "joe_target_effigies":{
+                "text": "The student activists are at it again with their effigies."
+            },
+            "joe_target_person_speaking1":{
+                "text": "He’s Edgar Jopson, the head of the National Union of Students\nof the Philippines (NUSP)."
+            },
+            "joe_target_person_speaking2":{
+                "text":" They’re the group that organized and secured a permit for the rally."
+            },
+           
+            "joe_target_police":{
+                "text": "They’re uniformed policemen, swinging their long rattan sticks, along with\nmembers of the riot squad."
+            }
+        },
+        "m4":{
+            "joe_dialogue1":{
+                "text": "I’m with the press."
+            },
+            "guard_wp_1":{
+                "text": "Unfortunately, Mr. Constantino, the session hall is already closed."
+            },
+            "guard_wp_2":{
+                "text": "Letting you in means letting everyone in, including those photographers\nwho arrived late. We cannot let you and everyone else disturb the order inside."
+            },
+            "joe_np_1":{
+                "text": "Uh. It’s not in my pockets. I seem to have forgotten my press card at my desk back in the office."
+            },
+            "guard_np_1":{
+                "text": "Guard: You must be one of the militants pretending to be with the press."
+            },
+            "guard_np_2":{
+                "text": "Please leave now if you don’t want any trouble."
+            }
+
+        },
+        "m5":{
+            "joe_dialogue1":{
+                "text": "Im from The Times, and I’d like to get your thoughts about this demonstration."
+            },
+            "student_dialogue1":{
+                "text": "Yeah, sure."
+            },
+            "joe_q1_dialogue1":{
+                "text": "You’re a member of what organization?"
+            },
+            "student_q1_dialogue1":{
+                "text": " I’m from the NUSP."
+            },
+            "joe_q1_doubt_talk1":{
+                "text": "You sure?"
+            },
+            "student_q1_doubt_talk1":{
+                "text":"Of course!"
+            },
+            "joe_q1_accuse_talk1":{
+                "text":"You’re lying. The truth is, you’re an undercover communist seeking to\ndestabilize the government!"
+            },
+            "student_q1_accuse_talk1":{
+                "text": "Student: That doesn’t make any sense at all!"
+            },
+            "student_q1_accuse_talk2":{
+                "text": "Student: That doesn’t make any sense at all!"
+            },
+            "joe_q2_talk1":{
+                "text": "What’s the objective of this demonstration?"
+            },
+            "student_q2_talk1":{
+                "text": "We are here to appeal for a nonpartisan Constitutional Convention from\nthe president and to ask him to refrain from running for a third term."
+            },
+            "joe_q2_doubt_talk1":{
+                "text": "That’s all? There must be something more to your cause. You’re not\nplanning on overthrowing the government aren’t you?"
+            },
+            "student_q2_doubt_talk1":{
+                "text": "Not true. You’ve a very wide imagination, Sir Joe. "
+            },
+            "student_q2_accuse_talk1":{
+                "text": "I don’t get it."
+            },
+            "joe_q3_talk1":{
+                "text": "For you, what does the effigies symbolize?"
+            },
+            "student_q3_talk1":{
+                "text": "The cardboard coffin represents the death of democracy."
+            },
+            "student_q3_talk2":{
+                "text": "While the cardboard crocodile symbolizes his cronies and the greed\nof congressmen for money."
+            },
+            "joe_q3_doubt_talk1":{
+                "text": "The coffin… You’re not planning on placing the president inside it, no?"
+            },
+            "student_q3_doubt_talk1":{
+                "text":"Where are these questions coming from?"
+            },
+            "student_q3_accuse_talk":{
+                "text": "I don’t get it."
+            },
+            "joe_q4_talk1":{
+                "text":"How about the other organizations?"
+            },
+            "student_q4_talk1": {
+                "text": "I’m not really that familiar with everyone here, but there’s KM\n(Kabataan Makabayan) and the SDK (Samahang Demokratiko ng Kabataan)."
+            },
+            "joe_q4__doubt_talk1":{
+                "text": "I don’t think so. You know them because you’re with them."
+            },
+            "student_q4__doubt_talk1":{
+                "text": "That doesn’t make any sense. Being here doesn’t mean that\nI know everyone here."
+            },
+            "student_q4_accuse_talk1":{
+                "text": "That doesn’t make any sense."
+            },
+            "joe_q5_talk1":{
+                "text": "What do you think of the cops who are here to “maintain” the peace?"
+            },
+            "student_q5_talk1":{
+                "text": "Two words – corrupt and brutal. They are here to serve only\nthe interests of the rich and powerful."
+            },
+            "joe_q5_doubt_talk1":{
+                "text": "How did you say that they are brutal? I think it’s the other way around.\nYou and your organizations are framing them and making them look bad."
+            },
+            "student_q5_doubt_talk1":{
+                "text": "Sir Joe, if you’re here to defend the police, please just go away."
+            }
+            
         }
     }
-}
+} 
