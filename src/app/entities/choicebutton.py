@@ -1,6 +1,4 @@
 from engine import ClickableEntity, Entity
-from engine.enums import MouseButton, ClickState
-from engine.event_handler import EventHandler
 from app import utils
 from app.entities import Image, Label
 
