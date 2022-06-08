@@ -8,7 +8,6 @@ import pygame
 class TargetItem(ClickableEntity):
     def __init__(self, owner, surface, position_or_rect = (0, 0), size = None, removable = True, grabbable = True):
         super().__init__(owner, position_or_rect, size, surface, False)
-        self._timer = self.owner.timers.add(1000)
         self.removable = removable
         self.removed = False
         self.grabbable = grabbable
@@ -26,11 +25,7 @@ class TargetItem(ClickableEntity):
     # Event handlers
     def _on_leftclick(self):
         if self.removable:
-            self._timer.reset(True)
-            self._timer.tick.clear()
-            self._timer.tick += lambda sender: self.owner.animator.to_alpha( \
-                self.get_surface(), 0, self._timer)
-            self._timer.start()
+            self.owner.animator.entity_fadeout(self, 1000)
             self.removed = True
         super()._on_leftclick()
 
