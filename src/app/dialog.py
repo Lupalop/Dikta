@@ -224,10 +224,12 @@ class DialogEmitter():
         if self.current_dialog:
             self.current_dialog.update(game, events)
             for event in events:
-                if event.type == pygame.KEYUP and \
+                # Treat spacebar, enter, and all mouse clicks as next or skip
+                if event.type == pygame.MOUSEBUTTONUP or \
+                   (event.type == pygame.KEYUP and \
                    (event.key == pygame.K_KP_ENTER or \
                     event.key == pygame.K_RETURN or \
-                    event.key == pygame.K_SPACE):
+                    event.key == pygame.K_SPACE)):
                     self.current_dialog.next_or_skip()
         if self.current_popup:
             self.current_popup.update(game, events)
