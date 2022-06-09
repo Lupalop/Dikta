@@ -13,6 +13,50 @@ class Animator:
         anim_timer = self.timers.add(callback_delay, True)
         anim_timer.elapsed += lambda sender: callback()
 
+    # Animator: Position
+    def tick_to_position(self, sender, entity, anim_timer, val_to_x, val_to_y):
+        position = entity.get_position()
+        ratio = anim_timer.get_ratio()
+        position_x = position[0]
+        position_y = position[1]
+        if val_to_x:
+            position_x += int((val_to_x - position[0]) * ratio)
+        if val_to_y:
+            position_y += int((val_to_y - position[1]) * ratio)
+        position = (position_x, position_y)
+        entity.set_position(position)
+        # XXX this closes the animation timer early if the current position is
+        # essentially the same as the target position. 3 is an arbitrary,
+        # made-up number to determine if we're "close enough" to the target.
+        should_close = False
+        if val_to_x:
+            should_close = int(position[0]) >= (val_to_x - 3)
+        if val_to_y:
+            should_close = int(position[1]) >= (val_to_y - 3)
+        if should_close:
+            sender.on_elapsed()
+            sender.close()
+
+    def to_position(self, entity, duration, val_to_x = None, val_to_y = None, delta = False, callback = None, callback_delay = None):
+        anim_timer = self.timers.add(duration, True)
+        final_val_to_x = val_to_x
+        final_val_to_y = val_to_y
+        if delta:
+            position = entity.get_position()
+            if val_to_x:
+                final_val_to_x += position[0]
+            if val_to_y:
+                final_val_to_y += position[1]
+        anim_timer.tick += lambda sender: \
+            self.tick_to_position(sender, entity, anim_timer, final_val_to_x, final_val_to_y)
+
+        if callback:
+            anim_timer.elapsed += lambda sender, callback_bound=callback: \
+                self._cleanup_and_call(sender, callback, callback_delay)
+
+        return anim_timer
+
+    # Animator: Alpha
     def tick_to_alpha(self, surface, val_to, anim_timer):
         alpha = surface.get_alpha()
         alpha += ((val_to - alpha) * anim_timer.get_ratio())
