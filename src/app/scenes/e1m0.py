@@ -28,14 +28,14 @@ class E1M0Scene(Mission):
         intro2.get_surface().set_alpha(0)
 
         def fadeout_intro2():
-            self.fade_timer = self.animator.entity_fadeout(
+            self.fade_timer = self.animator.fadeout(
                 intro2,
                 1000,
                 lambda: game.scenes.set_scene("e1m1")
             )
 
         def fadein_intro2():
-            self.fade_timer = self.animator.entity_fadein(
+            self.fade_timer = self.animator.fadein(
                 intro2,
                 1000,
                 fadeout_intro2,
@@ -43,14 +43,14 @@ class E1M0Scene(Mission):
             )
 
         def fadeout_intro1():
-            self.fade_timer = self.animator.entity_fadeout(
+            self.fade_timer = self.animator.fadeout(
                 intro1,
                 1000,
                 fadein_intro2,
             )
 
         def fadein_intro1():
-            self.fade_timer = self.animator.entity_fadein(
+            self.fade_timer = self.animator.fadein(
                 intro1,
                 1000,
                 fadeout_intro1,

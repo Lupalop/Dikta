@@ -25,15 +25,15 @@ class FadeButton(ClickableEntity):
             self._timer.close()
 
         if state == ClickState.NORMAL:
-            self._timer = self.owner.animator.entity_to_alpha(
+            self._timer = self.owner.animator.to_alpha(
                 self, 1000, 100)
             utils.reset_cursor()
         elif state == ClickState.HOVER:
-            self._timer = self.owner.animator.entity_to_alpha(
+            self._timer = self.owner.animator.to_alpha(
                 self, 1000, 255)
             utils.set_cursor("select")
         elif state == ClickState.ACTIVE:
-            self._timer = self.owner.animator.entity_to_alpha(
+            self._timer = self.owner.animator.to_alpha(
                 self, 1000, 175)
         elif state == ClickState.RELEASED:
             pass

@@ -161,12 +161,12 @@ class Popup(ClickableEntity):
         )
         self.label_item.set_position(label_item_pos)
         def _hide_popup(sender):
-            self.owner.animator.entity_fadeout(
+            self.owner.animator.fadeout(
                 self.label_item,
                 1000,
                 lambda: None
             )
-            self.owner.animator.entity_fadeout(
+            self.owner.animator.fadeout(
                 self,
                 1000,
                 lambda: self.next_or_skip()
