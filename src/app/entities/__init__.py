@@ -10,3 +10,4 @@ from .targetrect import TargetRect
 from .targetitem import TargetItem
 
 from .choicebutton import ChoiceButton
+from .choiceset import ChoiceSet

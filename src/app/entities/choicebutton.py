@@ -10,6 +10,9 @@ RECT_NUMBER_BOX = pygame.Rect(0, 0, 48, 48)
 
 class ChoiceButton(ClickableEntity):
     def __init__(self, owner, position, number, label):
+        self.text = label
+        self.number = number
+
         self.number_box = Image(
             owner, SURFACE_NUMBER_BOX, RECT_NUMBER_BOX)
         self.number_label = Label(
@@ -34,7 +37,7 @@ class ChoiceButton(ClickableEntity):
         self.number_box.draw(surface)
         self.number_label.draw(surface)
         self.choice_label.draw(surface)
-        self._timer = None
+        self._anim = None
 
         super().__init__(owner, position, None, surface, hit_rect = True)
 
@@ -46,3 +49,8 @@ class ChoiceButton(ClickableEntity):
     # Event handlers
     def _on_state_changed(self, state):
         super()._on_state_changed(state)
+
+    def _close_anim(self):
+        if self._anim:
+            self._anim.close()
+            self._anim = None

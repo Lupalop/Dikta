@@ -62,11 +62,26 @@ class E0MTestScene(Mission):
             "Home"
         )
 
+        choiceset = ChoiceSet(
+            self,
+            (350, 150),
+            ["Luneta Park", "Congress", "Home"]
+        )
+
+        choiceset2 = ChoiceSet(
+            self,
+            (650, 150),
+            ["Luneta Park", "Congress", "Home"],
+            True
+        )
+
         self.entities = {
             # "bg_main": bg_main,
             "choice1": choice1,
             "choice2": choice2,
             "choice3": choice3,
+            "choiceset": choiceset,
+            "choiceset2": choiceset2
         }
 
 scene_list.add_mission(E0MTestScene())
