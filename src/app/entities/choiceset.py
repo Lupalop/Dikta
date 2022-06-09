@@ -23,11 +23,12 @@ class ChoiceSet(Entity):
         self.handle_keys = handle_keys
         self.is_hiding = False
         self.selected = EventHandler()
+        self._items = items
         self._choices = []
         # Create rectangle for computations.
         rect_final = pygame.Rect(0, 0, 0, 0)
         # Create this choice set's child choices.
-        for i in enumerate(items):
+        for i in enumerate(self._items):
             choice = ChoiceButton(
                 owner,
                 (position[0], position[1] + rect_final.height),
@@ -37,7 +38,7 @@ class ChoiceSet(Entity):
             # Add this child choice's height and determine whether to change
             # the choice set's width to the child choice's width.
             rect_final.height += choice.get_rect().height
-            if i[0] < len(items) - 1:
+            if i[0] < len(self._items) - 1:
                 rect_final.height += CHOICE_DISTANCE
             choice_width = choice.get_rect().width
             if choice_width > rect_final.width:
@@ -52,7 +53,13 @@ class ChoiceSet(Entity):
 
     @classmethod
     def from_entity(cls, owner, entity):
-        entity_copy = cls(owner, entity.get_surface(), entity._rect)
+        entity_copy = cls(
+            owner,
+            entity.get_position(),
+            entity._items,
+            entity.hide_on_select,
+            entity.handle_keys
+        )
         return entity_copy
 
     # Event handlers
