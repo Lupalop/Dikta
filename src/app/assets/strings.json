@@ -87,6 +87,9 @@
             "joe_exit": {
                 "text": "I’m heading out."
             },
+            "joe_return": {
+                "text": "On second thought, I might have forgotten something."
+            },
             "tut_hovercursor": {
                 "text": "Hover over the items in your screen to perform an action on them.\nThe cursor changes based on its location."
             },
@@ -95,6 +98,12 @@
             }
         },
         "m2": {
+            "joe_call_taxi": {
+                "text": "Taxi!"
+            },
+            "joe_initial_question": {
+                "text": "Manong, take me to…"
+            },
             "joe_dialogue1": {
                 "text": "Manong, take me to the Congress building."
             },
