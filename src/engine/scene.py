@@ -9,7 +9,6 @@ class Scene:
         self.timers = TimerManager()
         self.animator = Animator(self.timers)
         self._captured_action = None
-        self._disposed = False
         print("Initialized: Scene - {}".format(name))
 
     def _call_captured(self):
@@ -30,10 +29,8 @@ class Scene:
             entity.draw(layer)
 
     def load_content(self):
-        if self._disposed:
-            self.entities.clear()
-            self.timers.clear()
-            self._disposed = False
+        pass
 
     def dispose(self):
-        self._disposed = True
+        self.entities.clear()
+        self.timers.clear()

@@ -36,6 +36,10 @@ class SceneManager:
         self._toggle_switching()
 
         def _fade_in_done():
+            if self._scene:
+                self._scene.dispose()
+            pending_scene.load_content()
+
             self._scene = pending_scene
             animator.default.fadeout(
                 self.fade_surface,
@@ -43,10 +47,7 @@ class SceneManager:
                 self._toggle_switching
             )
 
-        pending_scene.load_content()
-
         if self._scene:
-            self._scene.dispose()
             animator.default.fadein(
                 self.fade_surface,
                 self.fade_duration,
