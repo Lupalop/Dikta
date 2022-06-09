@@ -18,7 +18,7 @@ class E0MTestScene(Mission):
 
     def load_content(self):
         super().load_content()
-        """
+
         self.emitter.add("joe", 1, callback=lambda:print("test"))
         self.emitter.add("joe", 2, "joe-faceright", flags=DialogFlags.CLOSEABLE)
         self.emitter.add("joe", 3)
@@ -34,8 +34,7 @@ class E0MTestScene(Mission):
 
         print(self.get_string("joe", 1))
         print(utils.get_ep_string(1, 1, "joe", 1))
-        print(utils.get_item_string("pbadge"))
-        """
+        #print(utils.get_item_string("pbadge"))
 
         bg_main = Image(
             self,
