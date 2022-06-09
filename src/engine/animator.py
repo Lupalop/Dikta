@@ -13,10 +13,10 @@ class Animator:
         anim_timer = self.timers.add(callback_delay, True)
         anim_timer.elapsed += lambda sender: callback()
 
-    def base_to_alpha(self, surface, target_alpha, anim_timer):
+    def tick_to_alpha(self, surface, val_to, anim_timer):
         alpha = surface.get_alpha()
         time_ratio = anim_timer.get_elapsed() / anim_timer.interval
-        alpha += ((target_alpha - alpha) * time_ratio)
+        alpha += ((val_to - alpha) * time_ratio)
         surface.set_alpha(alpha)
 
     def fromto_alpha(self, surface_or_entity, duration, val_from, val_to, callback = None, callback_delay = None):
@@ -28,7 +28,7 @@ class Animator:
             surface.set_alpha(val_from)
         anim_timer = self.timers.add(duration, True)
         anim_timer.tick += lambda sender: \
-            self.base_to_alpha(surface, val_to, anim_timer)
+            self.tick_to_alpha(surface, val_to, anim_timer)
 
         if callback:
             anim_timer.elapsed += lambda sender, callback_bound=callback: \
