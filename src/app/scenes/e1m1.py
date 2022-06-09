@@ -59,6 +59,20 @@ class E1M1DeskOutside(Mission):
             "target6": target6,
         }
 
+        if len(self.get_items()) > 0:
+            self.emitter.add("joe", "exit", flags = DialogFlags.SKIPPABLE)
+            def _handle_choice(sender, value):
+                # Choice 0: Leave
+                if value[0] == 0:
+                    game.scenes.set_scene("e1m2intermezzo")
+                # Choice 1: Stay
+                else:
+                    self.emitter.add("joe", "return")
+                self.emitter.next()
+            self.current_choiceset = ChoiceSet(self, (64, 64), ["Leave the office", "Stay here"], True)
+            self.current_choiceset.selected += _handle_choice
+            self.current_choiceset.hidden += self._clear_choiceset
+
 scene_list.add_mission(E1M1DeskOutside())
 
 # E1M1 - Desk - Inside (HO)
