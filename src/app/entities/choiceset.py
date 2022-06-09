@@ -23,6 +23,7 @@ class ChoiceSet(Entity):
         self.handle_keys = handle_keys
         self.is_hiding = False
         self.selected = EventHandler()
+        self.hidden = EventHandler()
         self._items = items
         self._choices = []
         # Create rectangle for computations.
@@ -63,6 +64,11 @@ class ChoiceSet(Entity):
         return entity_copy
 
     # Event handlers
+    def _on_hidden(self, is_target):
+        if not is_target:
+            return
+        self.hidden(self)
+
     def _choice_on_state_changed(self, sender, state):
         if self.is_hiding:
             return
@@ -93,11 +99,18 @@ class ChoiceSet(Entity):
         for choice in self._choices:
             choice._close_anim()
             delay = 0
-            if choice == target_choice:
+            is_target = (choice == target_choice)
+            if is_target:
                 delay = 750
             delay_timer = self.owner.timers.add(delay, True)
-            delay_timer.elapsed += lambda sender, choice_bound=choice: \
-                self.owner.animator.entity_to_alpha(choice_bound, 1000, 0)
+            delay_timer.elapsed += lambda \
+                sender, choice_bound=choice, is_target_bound=is_target: \
+                self.owner.animator.entity_to_alpha(
+                    choice_bound,
+                    1000,
+                    0,
+                    lambda: self._on_hidden(is_target_bound)
+                )
 
     def _keytochoice(self, character):
         if not character.isnumeric():
