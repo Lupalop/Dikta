@@ -90,4 +90,7 @@ class Timer():
             return self.time_elapsed / 1000
         return self.time_elapsed
 
+    def get_ratio(self):
+        return self.get_elapsed() / self.interval
+
 default = TimerManager()

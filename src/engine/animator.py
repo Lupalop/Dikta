@@ -15,8 +15,7 @@ class Animator:
 
     def tick_to_alpha(self, surface, val_to, anim_timer):
         alpha = surface.get_alpha()
-        time_ratio = anim_timer.get_elapsed() / anim_timer.interval
-        alpha += ((val_to - alpha) * time_ratio)
+        alpha += ((val_to - alpha) * anim_timer.get_ratio())
         surface.set_alpha(alpha)
 
     def fromto_alpha(self, surface_or_entity, duration, val_from, val_to, callback = None, callback_delay = None):
