@@ -29,6 +29,7 @@ class DebugOverlay(Scene):
                     self.generate_test_button()
                 elif event.key == pygame.K_F4:
                     self.get_captured_action(game)
+                break
 
     def load_content(self):
         pass

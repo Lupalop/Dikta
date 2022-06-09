@@ -91,6 +91,7 @@ class Mission(Scene):
                     if event.type == pygame.MOUSEBUTTONUP and \
                        event.button == MouseButton.RIGHT:
                         game.scenes.set_scene(self.return_scene)
+                        break
         self.emitter.update(game, events)
                 
 

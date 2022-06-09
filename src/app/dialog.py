@@ -234,6 +234,7 @@ class DialogEmitter():
                     event.key == pygame.K_RETURN or \
                     event.key == pygame.K_SPACE):
                     self.current_dialog.next_or_skip()
+                    break
         if self.current_popup:
             self.current_popup.update(game, events)
 

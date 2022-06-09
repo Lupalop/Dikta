@@ -75,6 +75,7 @@ class InGameEscMenuOverlay(Scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.toggle_visibility()
+                    break
 
     def draw(self, layer):
         if self.visible:

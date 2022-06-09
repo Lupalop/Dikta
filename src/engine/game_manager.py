@@ -25,11 +25,14 @@ class GameManager():
             for event in events:
                 if event.type == pygame.MOUSEMOTION:
                     self._mouse_pos = event.pos
-                if event.type == pygame.QUIT:
+                    break
+                elif event.type == pygame.QUIT:
                     self.running = False
-                if event.type == pygame.VIDEORESIZE:
+                    break
+                elif event.type == pygame.VIDEORESIZE:
                     self.window_size = event.size
                     self.update_display(True, False)
+                    break
 
             for component in self.updateable:
                 component.update(self, events)

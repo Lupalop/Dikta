@@ -76,9 +76,11 @@ class ClickableEntity(Entity):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 is_mb_down = True
                 mb_target = event.button
-            if event.type == pygame.MOUSEBUTTONUP:
+                break
+            elif event.type == pygame.MOUSEBUTTONUP:
                 is_mb_up = True
                 mb_target = event.button
+                break
 
         # Handle if the a mouse button is being pressed and if it's released.
         if self._state == ClickState.ACTIVE:
