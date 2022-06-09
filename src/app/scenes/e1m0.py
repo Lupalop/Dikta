@@ -33,7 +33,6 @@ class E1M0Scene(Mission):
                 1000,
                 lambda: game.scenes.set_scene("e1m1")
             )
-            utils.reset_cursor()
 
         def fadein_intro2():
             self.fade_timer = self.animator.entity_fadein(

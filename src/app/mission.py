@@ -1,7 +1,7 @@
 from engine import Scene, ClickableEntity, prefs
 from engine.enums import MouseButton
 
-from app.utils import get_ep_string, load_em_image, get_inventory_key
+from app.utils import get_ep_string, load_em_image, get_inventory_key, reset_cursor
 from app.dialog import Dialog, DialogSide, DialogEmitter
 
 import pygame
@@ -113,6 +113,7 @@ class Mission(Scene):
             self.current_choiceset.draw(layer)
 
     def load_content(self):
+        reset_cursor()
         self.emitter = DialogEmitter(self, self.default_side)
         self.background = ClickableEntity(self, hit_rect = True)
         # Update mission-episode in save file
