@@ -22,7 +22,7 @@ class ChoiceButton(ClickableEntity):
             (RECT_NUMBER_BOX.height / 2) - (self.number_label.get_rect().height / 2)
         ))
         self.choice_label = Label(
-            owner, label, utils.get_font(24), pygame.Color("white"))
+            owner, label, utils.get_font(24), pygame.Color("white"), outline_color = (0, 0, 0, 200), outline_width=3)
         self.choice_label.set_position((
             RECT_NUMBER_BOX.width + LABEL_DISTANCE,
             (RECT_NUMBER_BOX.height / 2) - (self.number_label.get_rect().height / 2)
