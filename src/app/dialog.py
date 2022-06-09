@@ -36,7 +36,7 @@ class DialogFlags(IntFlag):
     NORMAL = 3
 
 class Dialog(ClickableEntity):
-    def __init__(self, emitter, position, dialog_key, name, text, portrait_id = None, flags = DialogFlags.NORMAL, callback = None):
+    def __init__(self, emitter, position, text_key, name, text, portrait_id = None, flags = DialogFlags.NORMAL, callback = None):
         super().__init__(
             emitter.owner,
             position,
@@ -45,7 +45,7 @@ class Dialog(ClickableEntity):
         )
 
         self.emitter = emitter
-        self.dialog_key = dialog_key
+        self.text_key = text_key
         self.callback = callback
         self.flags = flags
 
@@ -124,7 +124,7 @@ class Dialog(ClickableEntity):
     def next_or_skip(self):
         if self.label_speech.is_completed and self.flags & DialogFlags.CLOSEABLE:
             utils.reset_cursor()
-            prefs.savedgame.set(self.dialog_key, True)
+            self.emitter.set_viewed(self.text_key)
             self.emitter.next()
             return
         if self.flags & DialogFlags.SKIPPABLE:
@@ -244,6 +244,21 @@ class DialogEmitter():
         if self.current_popup:
             self.current_popup.draw(layer)
 
+    def get_all_viewed(self):
+        return prefs.savedgame.get(self.owner.dialog_key, [])
+
+    def set_viewed(self, text_key):
+        all_viewed = self.get_all_viewed()
+        if text_key in all_viewed:
+            return False
+        all_viewed.append(text_key)
+        prefs.savedgame.set(self.owner.dialog_key, all_viewed)
+        return True
+
+    def get_viewed(self, text_key):
+        all_viewed = self.get_all_viewed()
+        return (text_key in all_viewed)
+
     def compute_position(self, target_rect, side):
         position = (0, 0)
 
@@ -278,11 +293,11 @@ class DialogEmitter():
         return position
 
     # Add dialogue with all features
-    def add_custom(self, dialog_key, name, text, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
+    def add_custom(self, text_key, name, text, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
         if not side:
             side = self.default_side
         position = self.compute_position(RECT_DIALOG, side)
-        dialog = Dialog(self, position, dialog_key, name, text, portrait_id, flags, callback)
+        dialog = Dialog(self, position, text_key, name, text, portrait_id, flags, callback)
         self.queue.put(dialog)
         if not self.current_dialog:
             self.next()
@@ -295,12 +310,11 @@ class DialogEmitter():
         if isinstance(text_id, list):
             text_id_final = random.choice(text_id)
         string = self.owner.get_string(character_id, text_id_final)
-        dialog_key = utils.get_dialog_key(self.owner.mission_key, character_id, text_id_final)
-        is_viewed = prefs.savedgame.get(dialog_key, False)
+        is_viewed = self.get_viewed(string[2])
         if not repeat and is_viewed:
             return
         self.add_custom(
-            dialog_key,
+            string[2],
             string[0],
             string[1],
             portrait_id,

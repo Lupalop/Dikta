@@ -12,6 +12,7 @@ class Mission(Scene):
         self.mission_id = mission_id
         self.mission_child_id = mission_child_id
         self.mission_key = "e{}m{}{}".format(episode_id, mission_id, mission_child_id)
+        self.dialog_key = "dialog.{}".format(self.mission_key)
         self.menu_blocked = menu_blocked
         self.default_side = default_side
         self.return_scene = None

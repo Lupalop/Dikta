@@ -38,7 +38,7 @@ def get_ep_string(episode_id, mission_id, character_id, text_id):
     except KeyError:
         text_string = "XXXmissing: [{}][{}][{}]".format(episode_key, mission_key, text_key)
 
-    return (nametag_string, text_string)
+    return (nametag_string, text_string, text_key)
 
 def get_item_string(item_name):
     return strings["items"][item_name]
@@ -83,9 +83,6 @@ def get_inventory_key(episode_id):
 
 def get_clues_key(episode_id):
     return "clues.ep{}".format(episode_id)
-
-def get_dialog_key(mission_key, character_id, text_id):
-    return "dialog.{}.{}_{}".format(mission_key, character_id, text_id)
 
 # PyGame's color cursors don't scale properly. Instead, we draw our own cursor
 # via an overlay, which then references this module's current cursor variable.
