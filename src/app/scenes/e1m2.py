@@ -18,7 +18,7 @@ class E1M2Intermezzo(Mission):
     def _puppet_taximove_out(self):
         self.animator.to_position_x(
             self.entities["taxi"],
-            3000,
+            1500,
             1500,
             delta=True,
             callback=self._next,
@@ -26,13 +26,13 @@ class E1M2Intermezzo(Mission):
         )
         self.animator.to_position_x(
             self.entities["taxi_driver"],
-            3000,
+            1500,
             1500,
             delta=True
         )
         self.animator.to_position_x(
             self.entities["taxi_joe"],
-            3000,
+            1500,
             1500,
             delta=True
         )
@@ -46,14 +46,14 @@ class E1M2Intermezzo(Mission):
     def _puppet_taximove_in(self):
         self.animator.to_position_x(
             self.entities["taxi"],
-            3000,
+            1500,
             -10,
             callback=self._puppet_entertaxi,
             callback_delay=1000
         )
         self.animator.to_position_x(
             self.entities["taxi_driver"],
-            3000,
+            1500,
             615,
         )
 
