@@ -56,9 +56,9 @@ class Animator:
         return self.to_position(entity, duration, [None, val_to], delta, callback, callback_delay)
 
     # Animator: Alpha
-    def tick_to_alpha(self, surface, val_to, anim_timer):
-        alpha = surface.get_alpha()
-        alpha += ((val_to - alpha) * anim_timer.get_ratio())
+    def tick_to_alpha(self, sender, surface, val_from, val_to):
+        ratio = sender.get_ratio()
+        alpha = self._lerp(val_from, val_to, ratio)
         surface.set_alpha(alpha)
 
     def fromto_alpha(self, surface_or_entity, duration, val_from, val_to, callback = None, callback_delay = None):
@@ -68,9 +68,12 @@ class Animator:
 
         if val_from:
             surface.set_alpha(val_from)
+        else:
+            val_from = surface.get_alpha()
+
         anim_timer = self.timers.add(duration, True)
         anim_timer.tick += lambda sender: \
-            self.tick_to_alpha(surface, val_to, anim_timer)
+            self.tick_to_alpha(sender, surface, val_from, val_to)
 
         if callback:
             anim_timer.elapsed += lambda sender, callback_bound=callback: \
