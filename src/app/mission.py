@@ -6,6 +6,8 @@ from app.dialog import Dialog, DialogSide, DialogEmitter
 
 import pygame
 
+KEY_SWITCHES = "switches"
+
 class Mission(Scene):
     def __init__(self, episode_id, mission_id, mission_child_id = "", mission_desc = "", default_side = DialogSide.TOP, menu_blocked = False):
         self.episode_id = episode_id
@@ -77,6 +79,28 @@ class Mission(Scene):
 
     def attach_clue(self, entity, clue_id):
         entity.leftclick += lambda sender: self.add_clue(item_id)
+
+    def get_switches(self):
+        return prefs.savedgame.get(KEY_SWITCHES, {})
+
+    def find_switch(self, switch_id):
+        switches = self.get_switches()
+        if not switch_id in switches:
+            return None
+        return switches[switch_id]
+
+    def set_switch(self, switch_id, value):
+        switches = self.get_switches()
+        switches[switch_id] = value
+        prefs.savedgame.set(KEY_SWITCHES, switches)
+
+    def clear_switch(self, switch_id):
+        switches = self.get_switches()
+        if not switch_id in switches:
+            print("attempted to clear non-existent switch")
+            return False
+        switches.pop(switch_id)
+        prefs.savedgame.set(KEY_SWITCHES, switches)
 
     def _clear_choiceset(self, sender):
         if sender is not self.current_choiceset:
