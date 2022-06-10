@@ -62,10 +62,10 @@ class E1M1DeskOutside(Mission):
         if len(self.get_items()) > 0:
             self.emitter.add("joe", "exit", flags = DialogFlags.SKIPPABLE)
             def _handle_choice(sender, value):
-                # Choice 0: Leave
-                if value[0] == 0:
+                # Choice 1: Leave
+                if value[0] == 1:
                     game.scenes.set_scene("e1m2intermezzo")
-                # Choice 1: Stay
+                # Choice 2: Stay
                 else:
                     self.emitter.add("joe", "return")
                 self.emitter.next()

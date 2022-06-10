@@ -14,8 +14,8 @@ class ChoiceSet(Entity):
     items = [
         "Luneta", "Congress", "Home"
     ]
-    After a choice is selected, the sender (this entity) and the attached
-    item's index and value is passed to subscribers of the `selected` event.
+    After a choice is selected, the sender and the attached item's *one-based*
+    index and value is passed to subscribers of the `selected` event.
     """
     def __init__(self, owner, position, items, hide_on_select = False, handle_keys = True):
         super().__init__(owner, position, None)
@@ -30,11 +30,12 @@ class ChoiceSet(Entity):
         rect_final = pygame.Rect(0, 0, 0, 0)
         # Create this choice set's child choices.
         for i in enumerate(self._items):
+            i_adjusted = (i[0] + 1, i[1])
             choice = ChoiceButton(
                 owner,
                 (position[0], position[1] + rect_final.height),
-                i[0] + 1,
-                i[1]
+                i_adjusted[0],
+                i_adjusted[1]
             )
             # Add this child choice's height and determine whether to change
             # the choice set's width to the child choice's width.
@@ -46,7 +47,7 @@ class ChoiceSet(Entity):
                 rect_final.width = choice_width
             # Set the child choice's actions.
             choice.state_changed += self._choice_on_state_changed
-            choice.click += lambda sender, button, i_bound=i: self._on_selected(i_bound, sender)
+            choice.click += lambda sender, button, i_bound=i_adjusted: self._on_selected(i_bound, sender)
             # Include the created choice in the list of child choices.
             self._choices.append(choice)
         # Update the choice set's dimensions.

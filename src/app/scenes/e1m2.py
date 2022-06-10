@@ -94,14 +94,14 @@ class E1M2TaxiInsideJoe(Mission):
     def _choice_handle(self, sender, value):
         i = value[0]
         self.set_switch("taxi_choice", i)
-        # Choice 0: Luneta Park
-        if i == 0:
+        # Choice 1: Luneta Park
+        if i == 1:
             self.emitter.add("joe", "choice1", callback=self._to_driver)
-        # Choice 1: Congress
-        elif i == 1:
-            self.emitter.add("joe", "choice2", callback=self._to_driver)
-        # Choice 2: Home
+        # Choice 2: Congress
         elif i == 2:
+            self.emitter.add("joe", "choice2", callback=self._to_driver)
+        # Choice 3: Home
+        elif i == 3:
             self.emitter.add("joe", "choice3_1")
             self.emitter.add("joe", "choice3_2", callback=self._to_driver)
         self.emitter.next()
@@ -164,11 +164,11 @@ class E1M2TaxiInsideDriver(Mission):
 
         taxi_choice = self.find_switch("taxi_choice")
         if taxi_choice:
-            if taxi_choice == 0:
+            if taxi_choice == 1:
                 self.emitter.add("driver", "choice1", "taxidriver-main", callback=self._to_pay)
-            elif taxi_choice == 1:
-                self.emitter.add("driver", "choice2", "taxidriver-main", callback=self._to_pay)
             elif taxi_choice == 2:
+                self.emitter.add("driver", "choice2", "taxidriver-main", callback=self._to_pay)
+            elif taxi_choice == 3:
                 self.emitter.add("driver", "choice3_3", "taxidriver-main", callback=self._to_joe)
                 self.set_switch("taxi_pre_reset", True)
 
