@@ -1,4 +1,4 @@
-from engine import Scene
+from engine import Scene, prefs
 from app import utils, defaults, scene_list
 from app.entities import *
 
@@ -29,6 +29,8 @@ class DebugOverlay(Scene):
                     self.generate_test_button()
                 elif event.key == pygame.K_F4:
                     self.get_captured_action(game)
+                elif event.key == pygame.K_F5:
+                    self.clear_prefs()
                 break
 
     def load_content(self):
@@ -79,5 +81,9 @@ class DebugOverlay(Scene):
         owner = game.scenes.get_scene()
         print("owner: ", owner)
         print("captured action: ", owner._captured_action)
+
+    def clear_prefs(self):
+        prefs.default.clear()
+        prefs.savedgame.clear()
 
 scene_list.all["debug"] = DebugOverlay()
