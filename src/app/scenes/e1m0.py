@@ -30,14 +30,14 @@ class E1M0Scene(Mission):
         def fadeout_intro2():
             self.fade_timer = self.animator.fadeout(
                 intro2,
-                1000,
+                750,
                 lambda: game.scenes.set_scene("e1m1")
             )
 
         def fadein_intro2():
             self.fade_timer = self.animator.fadein(
                 intro2,
-                1000,
+                750,
                 fadeout_intro2,
                 2000
             )
@@ -45,14 +45,14 @@ class E1M0Scene(Mission):
         def fadeout_intro1():
             self.fade_timer = self.animator.fadeout(
                 intro1,
-                1000,
+                750,
                 fadein_intro2,
             )
 
         def fadein_intro1():
             self.fade_timer = self.animator.fadein(
                 intro1,
-                1000,
+                750,
                 fadeout_intro1,
                 2000
             )

@@ -165,12 +165,12 @@ class Popup(ClickableEntity):
         def _hide_popup(sender):
             self.owner.animator.fadeout(
                 self.label_item,
-                1000,
+                250,
                 lambda: None
             )
             self.owner.animator.fadeout(
                 self,
-                1000,
+                250,
                 lambda: self.next_or_skip()
             )
         def _delay(sender):

@@ -12,7 +12,7 @@ class SceneManager:
         self.fade_surface = pygame.Surface(prefs.default.get("app.display.layer_size", (0, 0)))
         self.fade_surface.fill(pygame.Color("black"))
         self.fade_surface.set_alpha(255)
-        self.fade_duration = prefs.default.get("app.misc.fade_duration", 1000)
+        self.fade_duration = prefs.default.get("app.misc.fade_duration", 250)
 
     def _toggle_switching(self):
         self._switching = not self._switching

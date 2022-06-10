@@ -75,7 +75,7 @@ class ChoiceSet(Entity):
         # Close any active animations and emphasize the current choice.
         sender._close_anim()
         sender._anim = self.owner.animator.to_alpha(
-            sender, 1000, 255)
+            sender, 250, 255)
         # De-emphasize the other choices if we're highlighting the current
         # choice. Otherwise, all choices should be of the same opacity.
         target_opacity = 100
@@ -88,7 +88,7 @@ class ChoiceSet(Entity):
             if choice._anim:
                 choice._anim.close()
             choice._anim = self.owner.animator.to_alpha(
-                choice, 1000, target_opacity)
+                choice, 250, target_opacity)
 
     def _on_selected(self, value, target_choice):
         self.selected(self, value)
@@ -107,7 +107,7 @@ class ChoiceSet(Entity):
                 sender, choice_bound=choice, is_target_bound=is_target: \
                 self.owner.animator.to_alpha(
                     choice_bound,
-                    1000,
+                    250,
                     0,
                     lambda: self._on_hidden(is_target_bound)
                 )

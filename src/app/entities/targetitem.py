@@ -25,7 +25,7 @@ class TargetItem(ClickableEntity):
     # Event handlers
     def _on_leftclick(self):
         if self.removable:
-            self.owner.animator.fadeout(self, 1000)
+            self.owner.animator.fadeout(self, 500)
             self.removed = True
         super()._on_leftclick()
 
