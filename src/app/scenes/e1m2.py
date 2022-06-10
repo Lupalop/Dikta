@@ -22,7 +22,7 @@ class E1M2Intermezzo(Mission):
             1500,
             delta=True,
             callback=self._next,
-            callback_delay=500
+            callback_delay=1000
         )
         self.animator.to_position_x(
             self.entities["taxi_driver"],
