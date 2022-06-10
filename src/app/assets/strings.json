@@ -11,7 +11,8 @@
         "joe": "Joe",
         "tut": "Tutorial",
         "student": "Student",
-        "guard": "Guard"
+        "guard": "Guard",
+        "driver": "Taxi Driver"
     },
     "e1": {
         "m1": {
@@ -101,48 +102,48 @@
             "joe_call_taxi": {
                 "text": "Taxi!"
             },
-            "joe_initial_question": {
+            "joe_choice_initial": {
                 "text": "Manong, take me to…"
             },
-            "joe_dialogue1": {
-                "text": "Manong, take me to the Congress building."
-            },
-            "driver_dialogue1": {
-                "text": "I can only give you a ride until Luneta. The entire stretch of the road is occupied by demonstrators."
-            },
-            "joe_dialogue2": {
+            "joe_choice1": {
                 "text": "Manong, take me to Luneta Park."
             },
-            "driver_dialogue2": {
+            "driver_choice1": {
                 "text": "Okay."
             },
-            "joe_dialogue3": {
+            "joe_choice2": {
+                "text": "Manong, take me to the Congress building."
+            },
+            "driver_choice2": {
+                "text": "I can only give you a ride until Luneta. The entire stretch of the road is\noccupied by demonstrators."
+            },
+            "joe_choice3_1": {
                 "text": "Manong, take me home."
             },
-            "joe_dialogue4": {
+            "joe_choice3_2": {
                 "text": "On second thought, I don’t need to go home right now."
             },
-            "driver_dialgoue3": {
+            "driver_choice3_3": {
                 "text": "You talking to me?"
             },
-            "joe_dialogue5": {
+            "joe_choice3_4": {
                 "text": "No, don’t mind me."
             },
-            "driver_dialogue4": {
+            "driver_choice3_5": {
                 "text": "Where are you headed to, then?"
             },
-            "driver_dialogue5": {
+            "driver_pay1": {
                 "text": "We’re here, sir. Pay up, please."
             },
-            "joe_dialogue6": {
+            "joe_pay2": {
                 "text": "I forgot my wallet."
             }
         },
         "m3":{
-            "joe_dialogue1":{
+            "joe_text1":{
                 "text": "I'm late."
             },
-            "joe_dialogue2":{
+            "joe_text2":{
                 "text": "It’s already five minutes past five. "
             },
             "joe_target_speaker":{
@@ -169,7 +170,7 @@
             }
         },
         "m4":{
-            "joe_dialogue1":{
+            "joe_text1":{
                 "text": "I’m with the press."
             },
             "guard_wp_1":{
@@ -190,16 +191,16 @@
 
         },
         "m5":{
-            "joe_dialogue1":{
+            "joe_text1":{
                 "text": "Im from The Times, and I’d like to get your thoughts about this demonstration."
             },
-            "student_dialogue1":{
+            "student_text1":{
                 "text": "Yeah, sure."
             },
-            "joe_q1_dialogue1":{
+            "joe_q1_text1":{
                 "text": "You’re a member of what organization?"
             },
-            "student_q1_dialogue1":{
+            "student_q1_text1":{
                 "text": " I’m from the NUSP."
             },
             "joe_q1_doubt_talk1":{
