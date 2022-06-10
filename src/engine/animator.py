@@ -19,39 +19,41 @@ class Animator:
         return start + ((end - start) * ratio)
 
     # Animator: Position
-    def tick_to_position(self, sender, entity, anim_timer, val_to_x, val_to_y):
-        position_initial = entity.position_initial
-        ratio = anim_timer.get_ratio()
-        position_x = self._lerp(position_initial[0], val_to_x, ratio)
-        position_y = self._lerp(position_initial[1], val_to_y, ratio)
-        position_new = (position_x, position_y)
-        entity.set_position(position_new)
+    def tick_to_position(self, sender, entity, val_from, val_to):
+        ratio = sender.get_ratio()
+        position_x = self._lerp(val_from[0], val_to[0], ratio)
+        position_y = self._lerp(val_from[1], val_to[1], ratio)
+        entity.set_position((position_x, position_y))
 
-    def to_position(self, entity, duration, val_to_x = None, val_to_y = None, delta = False, callback = None, callback_delay = None):
+    def to_position(self, entity, duration, val_to, delta = False, callback = None, callback_delay = None):
         # Cache the initial position.
-        entity.position_initial = entity.get_position()
+        val_from = entity.get_position()
         # Fill in final coordinates with the appropriate data.
-        final_val_to_x = val_to_x
-        final_val_to_y = val_to_y
+        final_val_to = val_to
         if delta:
-            if val_to_x:
-                final_val_to_x += entity.position_initial[0]
-            if val_to_y:
-                final_val_to_y += entity.position_initial[1]
-        else:
-            if not val_to_x:
-                final_val_to_x = entity.position_initial[0]
-            if not val_to_y:
-                final_val_to_y = entity.position_initial[1]
+            if val_to[0]:
+                final_val_to[0] += val_from[0]
+            if val_to[1]:
+                final_val_to[1] += val_from[1]
+        if not val_to[0]:
+            final_val_to[0] = val_from[0]
+        if not val_to[1]:
+            final_val_to[1] = val_from[1]
         # Setup animation timer and callback function handling.
         anim_timer = self.timers.add(duration, True)
         anim_timer.tick += lambda sender: \
-            self.tick_to_position(sender, entity, anim_timer, final_val_to_x, final_val_to_y)
+            self.tick_to_position(sender, entity, val_from, final_val_to)
         if callback:
             anim_timer.elapsed += lambda sender, callback_bound=callback: \
                 self._cleanup_and_call(sender, callback, callback_delay)
         # Return animation timer to caller.
         return anim_timer
+
+    def to_position_x(self, entity, duration, val_to, delta = False, callback = None, callback_delay = None):
+        return self.to_position(entity, duration, [val_to, None], delta, callback, callback_delay)
+
+    def to_position_y(self, entity, duration, val_to, delta = False, callback = None, callback_delay = None):
+        return self.to_position(entity, duration, [None, val_to], delta, callback, callback_delay)
 
     # Animator: Alpha
     def tick_to_alpha(self, surface, val_to, anim_timer):
