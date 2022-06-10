@@ -145,6 +145,9 @@ class E1M2TaxiInsideDriver(Mission):
         game.scenes.set_scene("e1m2taxi_driver")
 
     def _to_joe(self):
+        taxi_reset = self.find_switch("taxi_reset")
+        if taxi_reset:
+            self.clear_switch("taxi_reset")
         game.scenes.set_scene("e1m2taxi_joe")
 
     def load_content(self):
@@ -159,7 +162,6 @@ class E1M2TaxiInsideDriver(Mission):
         taxi_reset = self.find_switch("taxi_reset")
         if taxi_reset:
             self.emitter.add("driver", "choice3_5", "taxidriver-main", callback=self._to_joe)
-            self.clear_switch("taxi_reset")
             return
 
         taxi_choice = self.find_switch("taxi_choice")
