@@ -304,6 +304,7 @@ class DialogEmitter():
         if not self.current_dialog:
             self.next()
         utils.reset_cursor()
+        return dialog
 
     # Add dialogue with all features except with custom text/name
     def add(self, character_id, text_id, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None, repeat = True):
@@ -315,7 +316,7 @@ class DialogEmitter():
         is_viewed = self.get_viewed(string[2])
         if not repeat and is_viewed:
             return
-        self.add_custom(
+        return self.add_custom(
             string[2],
             string[0],
             string[1],
@@ -332,3 +333,4 @@ class DialogEmitter():
         self.popup_queue.put(popup)
         if not self.current_popup:
             self.next_popup()
+        return popup
