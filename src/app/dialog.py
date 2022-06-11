@@ -3,7 +3,8 @@ from engine.event_handler import EventHandler
 from engine import game, ClickableEntity, prefs
 
 from app import utils
-from app.entities import Label, SequenceLabel, Image, ChoiceSet
+from app.entities import Label, SequenceLabel, Image, ChoiceSet, ListBox
+from app.entities.listbox import LISTBOX_MAIN_RECT as RECT_LISTBOX
 
 import pygame
 import random
@@ -18,6 +19,8 @@ RECT_PORTRAIT = pygame.Rect(RECT_DIALOG.x, RECT_DIALOG.y, RECT_DIALOG.height, RE
 RECT_NAME_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_NAME.y, RECT_NAME.width, RECT_NAME.height)
 RECT_SPEECH_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_SPEECH.y, RECT_SPEECH.width, RECT_SPEECH.height)
 RECT_POPUP = pygame.Rect(0, 0, 380, 40)
+
+TITLE_ITEMS = "ITEMS"
 
 class DialogSide(IntEnum):
     TOP = 1
@@ -352,3 +355,10 @@ class DialogEmitter():
         choiceset.hidden += self.clear_choiceset
         self.current_selector = choiceset
         return choiceset
+
+    def add_itemselector(self, side = DialogSide.TOP_LEFT):
+        position = self.compute_position(RECT_LISTBOX, side)
+        dataset = self.owner.get_items_dataset()
+        listbox = ListBox(self.owner, position, TITLE_ITEMS, dataset, True)
+        self.current_selector = listbox
+        return listbox
