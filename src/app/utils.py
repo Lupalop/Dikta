@@ -86,7 +86,7 @@ def get_clues_key(episode_id):
 
 def create_listitem_data(text, value):
     data = {
-        "text": text
+        "text": text,
         "value": value
     }
     return data
