@@ -23,3 +23,9 @@ hand_right = Image(
     utils.load_ca_image("joe-hand"),
     (512, 160)
 )
+
+hand_left = Image(
+    None,
+    utils.load_ca_image("joe-hand-left"),
+    (0, 154)
+)

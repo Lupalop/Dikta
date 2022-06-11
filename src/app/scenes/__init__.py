@@ -15,3 +15,4 @@ from .e1m9 import E1M9Scene
 
 from .main_menu import MainMenuScene
 from .ingame_escmenu import InGameEscMenuOverlay
+from .ingame_items import InGameItemsOverlay
