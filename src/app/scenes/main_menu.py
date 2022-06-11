@@ -25,13 +25,13 @@ class MainMenuScene(Scene):
             (930, 590))
         label_version = Label(
             self,
-            "Version 1.0.0a1 - For testing purposes only.",
-            utils.get_font(12),
+            "Version 1.0.0a2",
+            utils.get_font(14),
             pygame.Color("white"),
             (20, 690))
         logo_company = Image(
             self,
-            utils.load_mm_image("logo-company"),
+            utils.load_mm_image("logo-company-alt"),
             (20, 710))
 
         def to_newgame(sender, button):
