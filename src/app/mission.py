@@ -124,7 +124,7 @@ class Mission(Scene):
     def update(self, game, events):
         # Prevent other entities from updating if a dialog or a choice set
         # is currently on-screen.
-        if self.emitter.current_dialog or self.emitter.current_chooser:
+        if self.emitter.current_dialog or self.emitter.current_selector:
             # Keep this in sync with base update function
             self.timers.update(game, events)
             self._call_captured()

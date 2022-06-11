@@ -214,7 +214,7 @@ class DialogEmitter():
         self.popup_queue = Queue()
         self.current_dialog = None
         self.current_popup = None
-        self.current_chooser = None
+        self.current_selector = None
 
     def next(self):
         if self.queue.empty():
@@ -229,9 +229,9 @@ class DialogEmitter():
             self.current_popup = self.popup_queue.get()
 
     def clear_choiceset(self, sender):
-        if sender is not self.current_chooser:
+        if sender is not self.current_selector:
             print("this mission's choice set was cleared by something else")
-        self.current_chooser = None
+        self.current_selector = None
 
     def update(self, game, events):
         if self.current_dialog:
@@ -245,16 +245,16 @@ class DialogEmitter():
                     break
         if self.current_popup:
             self.current_popup.update(game, events)
-        if self.current_chooser:
-            self.current_chooser.update(game, events)
+        if self.current_selector:
+            self.current_selector.update(game, events)
 
     def draw(self, layer):
         if self.current_dialog:
             self.current_dialog.draw(layer)
         if self.current_popup:
             self.current_popup.draw(layer)
-        if self.current_chooser:
-            self.current_chooser.draw(layer)
+        if self.current_selector:
+            self.current_selector.draw(layer)
 
     def get_all_viewed(self):
         return prefs.savedgame.get(self.owner.dialog_key, [])
