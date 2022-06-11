@@ -171,7 +171,6 @@ class E1M1PopupPressCardScene(Mission):
 
         self.background.set_surface(self.get_image("bg-item"))
 
-        hand = Image.from_entity(self, defaults.hand_right)
         item_press_card = TargetItem(
             self,
             self.get_image("item-press-card-popup"),
@@ -186,7 +185,7 @@ class E1M1PopupPressCardScene(Mission):
 
         self.entities = {
             "target_escape": target_escape,
-            "hand": hand,
+            "hand": defaults.hand_right,
             "item_press_card": item_press_card,
         }
 
@@ -208,7 +207,6 @@ class E1M1PopupNoteScene(Mission):
 
         self.background.set_surface(self.get_image("bg-item"))
 
-        hand = Image.from_entity(self, defaults.hand_right)
         item_note = TargetItem(
             self,
             self.get_image("item-note-popup"),
@@ -223,7 +221,7 @@ class E1M1PopupNoteScene(Mission):
 
         self.entities = {
             "target_escape": target_escape,
-            "hand": hand,
+            "hand": defaults.hand_right,
             "item_note": item_note,
         }
 
@@ -245,7 +243,6 @@ class E1M1PopupFlashlightScene(Mission):
 
         self.background.set_surface(self.get_image("bg-drawer"))
 
-        hand = Image.from_entity(self, defaults.hand_right)
         item_flashlight = TargetItem(
             self,
             self.get_image("item-flashlight-popup"),
@@ -260,7 +257,7 @@ class E1M1PopupFlashlightScene(Mission):
 
         self.entities = {
             "target_escape": target_escape,
-            "hand": hand,
+            "hand": defaults.hand_right,
             "item_flashlight": item_flashlight,
         }
 
