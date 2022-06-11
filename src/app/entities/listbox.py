@@ -32,6 +32,11 @@ class ListBox(Entity):
         self.is_hiding = False
         self.is_hidden = False
         self.dataset = dataset
+        if not dataset:
+            self.dataset = [{
+                "text": "Empty",
+                "value": None
+            }]
         self.title = title
         self.selected = EventHandler()
         self.hidden = EventHandler()
