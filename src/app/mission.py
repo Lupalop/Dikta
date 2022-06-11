@@ -39,7 +39,8 @@ class Mission(Scene):
         dataset = []
         for item_id in items:
             data = create_listitem_data(
-                get_item_string(item_id)
+                get_item_string(item_id),
+                item_id
             )
             dataset.append(data)
         return dataset
@@ -78,7 +79,8 @@ class Mission(Scene):
         dataset = []
         for clue_id in items:
             data = create_listitem_data(
-                get_item_string(clue_id)
+                get_item_string(clue_id),
+                clue_id
             )
             dataset.append(data)
         return dataset
