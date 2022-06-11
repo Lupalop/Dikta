@@ -36,7 +36,7 @@ class ListItem(ClickableEntity):
             self.owner, text_final, utils.get_comic_font(FONT_HEIGHT), color)
         self.label_item.set_position((
             25,
-            LISTITEM_RECT.height - (FONT_HEIGHT - 8)
+            LISTITEM_RECT.height - (FONT_HEIGHT - 7)
         ))
         # pygame.draw.rect(surface, (255, 32, 5, 200), LISTITEM_RECT, 0)
         self.label_item.draw(surface)
