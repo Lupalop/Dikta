@@ -3,7 +3,7 @@ from engine.event_handler import EventHandler
 from engine import game, ClickableEntity, prefs
 
 from app import utils
-from app.entities import Label, SequenceLabel, Image
+from app.entities import Label, SequenceLabel, Image, ChoiceSet
 
 import pygame
 import random
@@ -344,3 +344,11 @@ class DialogEmitter():
         if not self.current_popup:
             self.next_popup()
         return popup
+
+    def add_choiceset(self, choices, side = DialogSide.TOP_LEFT, hide_on_select = True):
+        choiceset = ChoiceSet(self.owner, (0, 0), choices, hide_on_select, True)
+        position = self.compute_position(choiceset.get_rect(), side)
+        choiceset.set_position(position)
+        choiceset.hidden += self.clear_choiceset
+        self.current_selector = choiceset
+        return choiceset

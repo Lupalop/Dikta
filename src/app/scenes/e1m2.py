@@ -91,7 +91,7 @@ class E1M2TaxiInsideJoe(Mission):
     def _to_driver(self):
         game.scenes.set_scene("e1m2taxi_driver")
 
-    def _choice_handle(self, sender, value):
+    def _handle_choice(self, sender, value):
         i = value[0]
         self.set_switch("taxi_choice", i)
         # Choice 1: Luneta Park
@@ -107,9 +107,8 @@ class E1M2TaxiInsideJoe(Mission):
         self.emitter.next()
 
     def _choice_create(self, sender):
-        self.emitter.current_selector = ChoiceSet(self, (64, 64), ["Luneta Park", "Congress", "Home"], True)
-        self.emitter.current_selector.selected += self._choice_handle
-        self.emitter.current_selector.hidden += self.emitter.clear_choiceset
+        choiceset = self.emitter.add_choiceset(["Luneta Park", "Congress", "Home"])
+        choiceset.selected += self._handle_choice
 
     def load_content(self):
         super().load_content()
