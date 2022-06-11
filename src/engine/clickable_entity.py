@@ -5,8 +5,8 @@ from engine.event_handler import EventHandler
 import pygame
 
 class ClickableEntity(Entity):
-    def __init__(self, owner, position_or_rect = (0, 0), size = None, surface = None, hit_rect = False):
-        super().__init__(owner, position_or_rect, size, surface)
+    def __init__(self, owner, position_or_rect = (0, 0), size = None, surface = None, tor = True, hit_rect = False):
+        super().__init__(owner, position_or_rect, size, surface, tor)
         self._state = ClickState.NORMAL
         self.hit_rect = hit_rect
         self.is_hovered = False

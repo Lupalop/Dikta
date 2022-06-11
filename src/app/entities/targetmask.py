@@ -7,7 +7,7 @@ import pygame
 
 class TargetMask(ClickableEntity):
     def __init__(self, owner, surface, position_or_rect = (0, 0), size = None, zoomin = True):
-        super().__init__(owner, position_or_rect, size, surface, False)
+        super().__init__(owner, position_or_rect, size, surface)
         self.zoomin = zoomin
 
     @classmethod

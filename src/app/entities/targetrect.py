@@ -7,7 +7,7 @@ import pygame
 
 class TargetRect(ClickableEntity):
     def __init__(self, owner, position_or_rect = (0, 0), size = None, zoomin = True):
-        super().__init__(owner, position_or_rect, size, None, True)
+        super().__init__(owner, position_or_rect, size, None, hit_rect = True)
         self.zoomin = zoomin
 
     @classmethod

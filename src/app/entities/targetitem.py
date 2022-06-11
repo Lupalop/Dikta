@@ -7,7 +7,7 @@ import pygame
 
 class TargetItem(ClickableEntity):
     def __init__(self, owner, surface, position_or_rect = (0, 0), size = None, removable = True, grabbable = True):
-        super().__init__(owner, position_or_rect, size, surface, False)
+        super().__init__(owner, position_or_rect, size, surface)
         self.removable = removable
         self.removed = False
         self.grabbable = grabbable

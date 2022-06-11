@@ -4,12 +4,13 @@ import pygame
 
 # Defines the base class for entities.
 class Entity:
-    def __init__(self, owner, position_or_rect = (0, 0), target_size = None, surface = None):
+    def __init__(self, owner, position_or_rect = (0, 0), target_size = None, surface = None, tor = True):
         # Initialize this entity instance
         self.owner = owner
         self._surface = surface
         self._rect = pygame.Rect(0, 0, 0, 0)
         self._mask = None
+        self.transform_on_resize = tor
         position = position_or_rect
         size = target_size
         # Populate position and size values if we're given a rectangle
@@ -23,7 +24,7 @@ class Entity:
         if size and size != (0, 0):
             self._rect.size = size
             # Resize surface to given size if available
-            if surface:
+            if surface and self.transform_on_resize:
                 self._surface = pygame.transform.smoothscale(surface, self._rect.size)
         # Assume surface size if the entity is sized to zero
         elif surface:
@@ -35,7 +36,7 @@ class Entity:
         return cls(owner, entity.get_surface(), entity._rect)
 
     def _on_entity_dirty(self, resize):
-        if resize:
+        if resize and self.transform_on_resize:
             self._surface = pygame.transform.smoothscale(self.get_surface(), self._rect.size)
             self._mask = None
 
@@ -68,7 +69,7 @@ class Entity:
 
     def set_surface(self, surface, resize = True):
         self._surface = surface
-        if resize:
+        if resize and self.transform_on_resize:
             self._rect.size = surface.get_rect().size
             self._mask = None
 
