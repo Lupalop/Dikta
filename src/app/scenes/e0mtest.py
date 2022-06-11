@@ -19,7 +19,7 @@ class E0MTestScene(Mission):
                 elif event.key == pygame.K_F2:
                     self._test_choices()
                 elif event.key == pygame.K_F3:
-                    pass
+                    self._test_note()
                 elif event.key == pygame.K_F4:
                     pass
                 elif event.key == pygame.K_F5:
@@ -28,6 +28,74 @@ class E0MTestScene(Mission):
 
     def draw(self, layer):
         super().draw(layer)
+
+    def _test_note(self):
+        notebg = Image(self, utils.load_ui_image("note-bg"), (5, 5))
+
+        RECT_LISTBOX_TITLE = pygame.Rect(0, 0, 400, 84)
+
+        title = Label(
+            self, "ITEMS", utils.get_comic_font(32), pygame.Color("black"),
+        )
+        title.set_position((
+            5 + (RECT_LISTBOX_TITLE.width / 2) - (title.get_rect().width / 2),
+            5 + (RECT_LISTBOX_TITLE.height / 2) - (title.get_rect().height / 2)
+        ))
+
+        listitem1 = ListItem(
+            self, (5, 89), {
+                "text": "Pen",
+                "value": "pen"
+            }
+        )
+        listitem2 = ListItem(
+            self, (5, 121), {
+                "text": "Press Card",
+                "value": "press-card"
+            }
+        )
+        listitem3 = ListItem(
+            self, (5, 153), {
+                "text": "Wallet",
+                "value": "wallet"
+            }
+        )
+
+        data_title = "ITEMS"
+        data = [
+            {
+                "text": "Pen",
+                "value": "pen"
+            },
+            {
+                "text": "Press Card",
+                "value": "press-card"
+            },
+        ]
+
+        listbox = ListBox(
+            self,
+            (400, 150),
+            data_title,
+            data
+        )
+        listbox2 = ListBox(
+            self,
+            (800, 150),
+            data_title,
+            data,
+            True
+        )
+
+        self.entities = {
+            #"notebg": notebg,
+            #"title": title,
+            #"listitem1": listitem1,
+            #"listitem2": listitem2,
+            #"listitem3": listitem3,
+            "listbox": listbox,
+            "listbox2": listbox2
+        }
 
     def _test_dialog(self):
         self.emitter.add("joe", 1, callback=lambda:print("test"))
@@ -46,14 +114,6 @@ class E0MTestScene(Mission):
         print(self.get_string("joe", 1))
         print(utils.get_ep_string(1, 1, "joe", 1))
         #print(utils.get_item_string("pbadge"))
-
-        bg_main = Image(
-            self,
-            utils.load_em_image(1, 1, "bg-main"))
-
-        self.entities = {
-            "bg_main": bg_main,
-        }
 
     def _test_choices(self):
         choice1 = ChoiceButton(
@@ -97,5 +157,6 @@ class E0MTestScene(Mission):
 
     def load_content(self):
         super().load_content()
+        self.background.set_surface(utils.load_em_image(1, 1, "bg-main"))
 
 scene_list.add_mission(E0MTestScene())
