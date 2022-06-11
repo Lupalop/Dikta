@@ -8,7 +8,7 @@ class GameManager():
         prefs.default.load()
         self._init_display()
         self.fps_limit = 60
-        self.clock = pygame.time.Clock()
+        self.clock = None
         self._title = ""
         self._mouse_pos = (0, 0)
         self._icon = None
@@ -18,6 +18,10 @@ class GameManager():
 
     def run(self):
         self.running = True
+        # We need to initialize this before running the main loop to ensure
+        # that PyGame returns the right delta time if requested on startup.
+        # This is necessary to prevent sudden skips for timers.
+        self.clock = pygame.time.Clock()
         # Main game loop
         while self.running:
             # Consume all events and store them for later use.
@@ -47,7 +51,6 @@ class GameManager():
                         self.window)
 
             pygame.display.update()
-
             self.clock.tick(self.fps_limit)
 
         pygame.quit()
