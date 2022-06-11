@@ -107,9 +107,9 @@ class E1M2TaxiInsideJoe(Mission):
         self.emitter.next()
 
     def _choice_create(self, sender):
-        self.emitter.current_choiceset = ChoiceSet(self, (64, 64), ["Luneta Park", "Congress", "Home"], True)
-        self.emitter.current_choiceset.selected += self._choice_handle
-        self.emitter.current_choiceset.hidden += self.emitter.clear_choiceset
+        self.emitter.current_chooser = ChoiceSet(self, (64, 64), ["Luneta Park", "Congress", "Home"], True)
+        self.emitter.current_chooser.selected += self._choice_handle
+        self.emitter.current_chooser.hidden += self.emitter.clear_choiceset
 
     def load_content(self):
         super().load_content()

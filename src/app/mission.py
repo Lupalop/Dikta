@@ -1,7 +1,7 @@
 from engine import Scene, ClickableEntity, prefs
 from engine.enums import MouseButton
 
-from app.utils import get_ep_string, load_em_image, get_inventory_key, reset_cursor
+from app.utils import get_ep_string, get_item_string, load_em_image, get_inventory_key, reset_cursor, create_listitem_data
 from app.dialog import Dialog, DialogSide, DialogEmitter
 
 import pygame
@@ -104,7 +104,7 @@ class Mission(Scene):
     def update(self, game, events):
         # Prevent other entities from updating if a dialog or a choice set
         # is currently on-screen.
-        if self.emitter.current_dialog or self.emitter.current_choiceset:
+        if self.emitter.current_dialog or self.emitter.current_chooser:
             # Keep this in sync with base update function
             self.timers.update(game, events)
             self._call_captured()
