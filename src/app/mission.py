@@ -34,6 +34,16 @@ class Mission(Scene):
     def get_items(self):
         return prefs.savedgame.get(get_inventory_key(self.episode_id), [])
 
+    def get_items_dataset(self):
+        items = self.get_items()
+        dataset = []
+        for item_id in items:
+            data = create_listitem_data(
+                get_item_string(item_id)
+            )
+            dataset.append(data)
+        return dataset
+
     def exists_item(self, item_id):
         items = self.get_items()
         return (item_id in items)
@@ -62,6 +72,16 @@ class Mission(Scene):
 
     def get_clues(self):
         return prefs.savedgame.get(get_clues_key(self.episode_id), [])
+
+    def get_clues_dataset(self):
+        items = self.get_items()
+        dataset = []
+        for clue_id in items:
+            data = create_listitem_data(
+                get_item_string(clue_id)
+            )
+            dataset.append(data)
+        return dataset
 
     def exists_clue(self, clue_id):
         clues = self.get_clues()
