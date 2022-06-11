@@ -64,6 +64,30 @@ class ChoiceSet(Entity):
         )
         return entity_copy
 
+    def _on_entity_dirty(self, resize):
+        # Create rectangle for computations.
+        rect_final = pygame.Rect(0, 0, 0, 0)
+        position = self.get_position()
+        # Create this choice set's child choices.
+        for i in enumerate(self._choices):
+            choice = i[1]
+            choice.set_position((
+                position[0],
+                position[1] + rect_final.height
+            ))
+            # Add this child choice's height and determine whether to change
+            # the choice set's width to the child choice's width.
+            rect_final.height += choice.get_rect().height
+            if i[0] < len(self._items) - 1:
+                rect_final.height += CHOICE_DISTANCE
+            choice_width = choice.get_rect().width
+            if choice_width > rect_final.width:
+                rect_final.width = choice_width
+        # Update the choice set's dimensions.
+        self.get_rect().size = rect_final.size
+        
+        self.entity_dirty(self, resize)
+
     # Event handlers
     def _on_hidden(self, is_target):
         if not is_target:
