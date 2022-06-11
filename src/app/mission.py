@@ -18,7 +18,6 @@ class Mission(Scene):
         self.menu_blocked = menu_blocked
         self.default_side = default_side
         self.return_scene = None
-        self.current_choiceset = None
 
         if mission_desc:
             name = "Episode {} - Mission {} - {}".format(episode_id, mission_id, mission_desc)
@@ -102,15 +101,10 @@ class Mission(Scene):
         switches.pop(switch_id)
         prefs.savedgame.set(KEY_SWITCHES, switches)
 
-    def _clear_choiceset(self, sender):
-        if sender is not self.current_choiceset:
-            print("this mission's choice set was cleared by something else")
-        self.current_choiceset = None
-
     def update(self, game, events):
         # Prevent other entities from updating if a dialog or a choice set
         # is currently on-screen.
-        if self.emitter.current_dialog or self.current_choiceset:
+        if self.emitter.current_dialog or self.emitter.current_choiceset:
             # Keep this in sync with base update function
             self.timers.update(game, events)
             self._call_captured()
@@ -125,16 +119,12 @@ class Mission(Scene):
                         game.scenes.set_scene(self.return_scene)
                         break
         self.emitter.update(game, events)
-        if self.current_choiceset:
-            self.current_choiceset.update(game, events)
 
     def draw(self, layer):
         if self.background:
             self.background.draw(layer)
         super().draw(layer)
         self.emitter.draw(layer)
-        if self.current_choiceset:
-            self.current_choiceset.draw(layer)
 
     def load_content(self):
         reset_cursor()

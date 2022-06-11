@@ -69,9 +69,9 @@ class E1M1DeskOutside(Mission):
                 else:
                     self.emitter.add("joe", "return")
                 self.emitter.next()
-            self.current_choiceset = ChoiceSet(self, (64, 64), ["Leave the office", "Stay here"], True)
-            self.current_choiceset.selected += _handle_choice
-            self.current_choiceset.hidden += self._clear_choiceset
+            self.emitter.current_choiceset = ChoiceSet(self, (64, 64), ["Leave the office", "Stay here"], True)
+            self.emitter.current_choiceset.selected += _handle_choice
+            self.emitter.current_choiceset.hidden += self.emitter.clear_choiceset
 
 scene_list.add_mission(E1M1DeskOutside())
 
