@@ -110,7 +110,7 @@ class E1M1DeskInside(Mission):
         item4.leftclick += lambda sender: self.emitter.add("joe", "item_typewriter", "joe-faceright")
         self.entities["item_typewriter"] = item4
 
-        if not self.exists_clue("press-card"):
+        if not self.exists_clue("press_card"):
             item5 = TargetItem(self, self.get_image("item-press-card"), (26, 302))
             item5.leftclick += lambda sender: game.scenes.set_scene("e1m1popup_presscard")
             self.entities["item_press_card"] = item5
@@ -166,8 +166,8 @@ class E1M1PopupPressCardScene(Mission):
 
         self.emitter.add("tut", "rightclickreturn", repeat = False)
 
-        if not self.exists_clue("press-card"):
-            self.add_clue("press-card")
+        if not self.exists_clue("press_card"):
+            self.add_clue("press_card")
 
         self.background.set_surface(self.get_image("bg-item"))
 
