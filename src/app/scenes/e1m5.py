@@ -72,7 +72,7 @@ class E1M5Joe(Mission):
                 self.emitter.add("joe", "q1_doubt_talk1", callback=self._to_dan)
             # ACCUSE
             elif current_choice == 3:
-                self._accuse()
+                self.emitter.add("joe", "q1_accuse_talk1", callback=self._accuse)
         # Demonstration objective
         elif current_question == 1:
             self.emitter.add("joe", "q2_talk1", callback=self._to_dan, repeat = False)
@@ -85,7 +85,7 @@ class E1M5Joe(Mission):
                 self.emitter.add("joe", "q2_doubt_talk1", callback=self._to_dan)
             # ACCUSE
             elif current_choice == 3:
-                self._accuse()
+                self.emitter.add("joe", "q2_accuse_talk1", callback=self._accuse)
         # Effigies
         elif current_question == 2:
             self.emitter.add("joe", "q3_talk1", callback=self._to_dan, repeat = False)
@@ -95,10 +95,10 @@ class E1M5Joe(Mission):
                 pass
             # DOUBT
             elif current_choice == 2:
-                self.emitter.add("joe", "q1_doubt_talk1", callback=self._to_dan)
+                self.emitter.add("joe", "q3_doubt_talk1", callback=self._to_dan)
             # ACCUSE
             elif current_choice == 3:
-                self._accuse()
+                self.emitter.add("joe", "q3_accuse_talk1", callback=self._accuse)
         # Organizations
         elif current_question == 3:
             self.emitter.add("joe", "q4_talk1", callback=self._to_dan, repeat = False)
@@ -108,10 +108,10 @@ class E1M5Joe(Mission):
                 pass
             # DOUBT
             elif current_choice == 2:
-                self.emitter.add("joe", "q1_doubt_talk1", callback=self._to_dan)
+                self.emitter.add("joe", "q4_doubt_talk1", callback=self._to_dan)
             # ACCUSE
             elif current_choice == 3:
-                self._accuse()
+                self.emitter.add("joe", "q4_accuse_talk1", callback=self._accuse)
         # Cops
         elif current_question == 4:
             self.emitter.add("joe", "q5_talk1", callback=self._to_dan, repeat = False)
@@ -121,10 +121,10 @@ class E1M5Joe(Mission):
                 pass
             # DOUBT
             elif current_choice == 2:
-                self.emitter.add("joe", "q1_doubt_talk1", callback=self._to_dan)
+                self.emitter.add("joe", "q5_doubt_talk1", callback=self._to_dan)
             # ACCUSE
             elif current_choice == 3:
-                self._accuse()
+                self.emitter.add("joe", "q5_accuse_talk1", callback=self._accuse)
 
     def _to_dan(self):
         game.scenes.set_scene("e1m5talk_dan")
@@ -196,7 +196,8 @@ class E1M5Dan(Mission):
                 self.emitter.add("dan", "q2_accuse_talk1", callback=self._to_questions)
         # Effigies
         elif current_question == 2:
-            self.emitter.add("dan", "q3_talk1", callback=self._show_fda, repeat = False)
+            self.emitter.add("dan", "q3_talk1", repeat = False)
+            self.emitter.add("dan", "q3_talk2", callback=self._show_fda, repeat = False)
             # FACT
             if current_choice == 1:
                 # XXX never reached

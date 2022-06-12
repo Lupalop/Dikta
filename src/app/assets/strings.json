@@ -291,6 +291,9 @@
             "dan_q2_doubt_talk1":{
                 "text": "Not true. You’ve a very wide imagination, Sir Joe. "
             },
+            "joe_q2_accuse_talk1":{
+                "text": "That’s all? There must be something more to your cause. You’re not\nplanning on overthrowing the government aren’t you?"
+            },
             "dan_q2_accuse_talk1":{
                 "text": "I don’t get it."
             },
@@ -309,6 +312,9 @@
             "dan_q3_doubt_talk1":{
                 "text":"Where are these questions coming from?"
             },
+            "joe_q3_accuse_talk1":{
+                "text": "The coffin… You’re not planning on placing the president inside it, no?"
+            },
             "dan_q3_accuse_talk1":{
                 "text": "I don’t get it."
             },
@@ -324,6 +330,9 @@
             "dan_q4_doubt_talk1":{
                 "text": "That doesn’t make any sense. Being here doesn’t mean that\nI know everyone here."
             },
+            "joe_q4_accuse_talk1":{
+                "text": "I don’t think so. You know them because you’re with them."
+            },
             "dan_q4_accuse_talk1":{
                 "text": "That doesn’t make any sense."
             },
@@ -338,6 +347,9 @@
             },
             "dan_q5_doubt_talk1":{
                 "text": "Sir Joe, if you’re here to defend the police, please just go away."
+            },
+            "joe_q5_accuse_talk1":{
+                "text": "How did you say that they are brutal? I think it’s the other way around.\nYou and your organizations are framing them and making them look bad."
             },
             "dan_q5_accuse_talk1":{
                 "text": "That doesn’t make any sense."
