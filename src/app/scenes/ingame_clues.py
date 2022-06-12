@@ -5,6 +5,8 @@ from app.entities import *
 
 import pygame
 
+DT_PLACEHOLDER = "Select a clue to view more details."
+
 class InGameCluesOverlay(Scene):
     def __init__(self):
         super().__init__("In-Game Overlay - Clues")
@@ -12,6 +14,20 @@ class InGameCluesOverlay(Scene):
 
     def set_visibility(self, is_visible):
         self.visible = is_visible
+
+    def _listbox_on_marked(self, sender, data):
+        description = data["value"]["desc"]
+        if description:
+            self._details_text.set_text(description)
+        else:
+            self._details_text.set_text(DT_PLACEHOLDER)
+
+        image = data["value"]["image"]
+        if image:
+            self._listbox_image.set_surface(utils.load_clue_image(image))
+            self._listbox_image.hidden = False
+        else:
+            self._listbox_image.hidden = True
 
     def toggle_visibility(self):
         current_scene = game.scenes.get_scene()
@@ -33,6 +49,7 @@ class InGameCluesOverlay(Scene):
 
         dataset = current_scene.get_clues_dataset()
         listbox = ListBox(self, (450, 95), "CLUES", dataset)
+        listbox.marked += self._listbox_on_marked
         self.entities["listbox_items"] = listbox
 
     def load_content(self):
@@ -43,10 +60,28 @@ class InGameCluesOverlay(Scene):
             self,
             bg_solid,
             (0, 0))
+        details_bg = Image(
+            self,
+            utils.load_ui_image("note-details-bg"),
+            (870, 95))
+        self._details_text = Label(
+            self,
+            DT_PLACEHOLDER,
+            utils.get_comic_font(24),
+            pygame.Color("white"),
+            (895, 125))
+        self._listbox_image = Image(
+            self,
+            None,
+            (745, 525))
 
         self.entities = {
             "background": background,
             "hand": defaults.hand_left,
+            "listbox_items": None,
+            "details_bg": details_bg,
+            "details_text": self._details_text,
+            "listbox_image": self._listbox_image,
         }
 
     def update(self, game, events):

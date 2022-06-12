@@ -2,27 +2,33 @@
     "clues": {
         "journal": {
             "name": "Journal",
-            "desc": ""
+            "image": "e1-press-card",
+            "desc": "This is Joe's Journal.\n\nJoe keeps track of everything here."
         },
         "pen": {
             "name": "Pen",
-            "desc": ""
+            "image": "",
+            "desc": "A simple pen."
         },
         "press-card": {
             "name": "Press Badge",
-            "desc": ""
+            "image": "e1-press-card",
+            "desc": "Joe Constantino,\nReporter for The Times.\n\nValid until: August 1971\n\nWithout this, the guards at Congress\nwon't let him in."
         },
         "wallet": {
             "name": "Wallet",
-            "desc": ""
+            "image": "e1-wallet",
+            "desc": "A typical Filipino wallet.\n\nContains a few hundred pesos, identific\n-ation cards, and pictures of family."
         },
         "flashlight": {
             "name": "Flashlight",
-            "desc": ""
+            "image": "e1-flashlight",
+            "desc": "Can be used to shine light on dark areas."
         },
         "note": {
             "name": "Ric's note",
-            "desc": ""
+            "image": "e1-note",
+            "desc": "President Ferdinand Marcos' State of\nthe Nation Address will happen on the\nCongress Building, located along:\n\nPadre Burgos Drive\nErmita\n1000 Manila\n"
         }
     },
     "characters": {

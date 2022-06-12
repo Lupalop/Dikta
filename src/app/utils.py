@@ -19,6 +19,9 @@ def load_ui_image(image_name):
 def load_ca_image(image_name):
     return load_png_image(image_name, "ca")
 
+def load_clue_image(image_name):
+    return load_png_image(image_name, "items")
+
 strings = content.load_json_asset("strings")
 
 def get_ep_string(episode_id, mission_id, character_id, text_id):
