@@ -46,11 +46,10 @@ class SequenceLabel(Label):
         self._render_index = 0
         self._render_dests = []
         self._render_areas = []
-        desty = 0
+        desty = self._outline_width
         for i in range(len(self._renders)):
             if i >= 1 and i < len(self._renders):
                 desty += self.line_height
-            desty += self._renders[i][1].y
             dest_rect = pygame.Rect(self._renders[i][1].x, desty, PIXEL_INCREMENT, self._renders[i][1].height)
             area_rect = pygame.Rect(0, 0, PIXEL_INCREMENT, self._renders[i][1].height)
             desty += self._renders[i][1].height
