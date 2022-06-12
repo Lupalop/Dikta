@@ -2,7 +2,7 @@
     "clues": {
         "journal": {
             "name": "Journal",
-            "image": "e1-press-card",
+            "image": "e1-journal",
             "desc": "This is Joe's Journal.\n\nJoe keeps track of everything here."
         },
         "pen": {
