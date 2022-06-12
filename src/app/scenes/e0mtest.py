@@ -146,6 +146,18 @@ class E0MTestScene(Mission):
             ["Luneta Park", "Congress", "Home"],
             True
         )
+        choiceset2 = ChoiceSet(
+            self,
+            (650, 150),
+            [
+                utils.load_ui_image("fda-fact"),
+                utils.load_ui_image("fda-doubt"),
+                utils.load_ui_image("fda-accuse")
+            ],
+            True,
+            True,
+            0
+        )
 
         self.entities = {
             "choice1": choice1,

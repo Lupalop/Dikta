@@ -29,3 +29,16 @@ hand_left = Image(
     utils.load_ca_image("joe-hand-left"),
     (0, 154)
 )
+
+FDA_CHOICESET = ChoiceSet(
+    None,
+    (60, 140),
+    [
+        utils.load_ui_image("fda-fact"),
+        utils.load_ui_image("fda-doubt"),
+        utils.load_ui_image("fda-accuse")
+    ],
+    True,
+    True,
+    0
+)
