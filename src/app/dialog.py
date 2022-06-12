@@ -20,7 +20,7 @@ RECT_NAME_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_NAME.y, RECT_NAME.width, RE
 RECT_SPEECH_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_SPEECH.y, RECT_SPEECH.width, RECT_SPEECH.height)
 RECT_POPUP = pygame.Rect(0, 0, 380, 40)
 
-TITLE_ITEMS = "ITEMS"
+TITLE_CLUES = "CLUES"
 
 class DialogSide(IntEnum):
     TOP = 1
@@ -359,6 +359,6 @@ class DialogEmitter():
     def add_clues_selector(self, side = DialogSide.TOP_LEFT):
         position = self.compute_position(RECT_LISTBOX, side)
         dataset = self.owner.get_clues_dataset()
-        listbox = ListBox(self.owner, position, TITLE_ITEMS, dataset, True)
+        listbox = ListBox(self.owner, position, TITLE_CLUES, dataset, True)
         self.current_selector = listbox
         return listbox
