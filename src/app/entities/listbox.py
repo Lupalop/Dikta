@@ -39,6 +39,7 @@ class ListBox(Entity):
             }]
         self.title = title
         self.selected = EventHandler()
+        self.marked = EventHandler()
         self.hidden = EventHandler()
         self.listitems = []
         # Set-up base UI elements.
@@ -87,9 +88,15 @@ class ListBox(Entity):
 
         target = self.listitems[index]
         for item in self.listitems:
-            item.set_is_selected(item is target)
+            is_target = (item is target)
+            item.set_is_selected(is_target)
+            if is_target:
+                self._on_marked(item.data)
 
     # Event handlers
+    def _on_marked(self, value):
+        self.marked(self, value)
+
     def _on_hidden(self):
         self.is_hiding = False
         self.is_hidden = True
