@@ -110,6 +110,17 @@ class E1M2TaxiInsideJoe(Mission):
         choiceset = self.emitter.add_choiceset(["Luneta Park", "Congress", "Home"])
         choiceset.selected += self._handle_choice
 
+    def _next(self):
+        game.scenes.set_scene("e1m3")
+
+    def _item_selected(self, sender, data):
+        if data["value"] == "wallet":
+            self.emitter.add("joe", "pay2a", callback=self._next)
+            self.emitter.next()
+        else:
+            self.emitter.add("joe", "pay2b", callback=self.to_gameover)
+            self.emitter.next()
+
     def load_content(self):
         super().load_content()
         self.background.set_surface(self.get_image("taxi-bg-joe"))
@@ -130,6 +141,14 @@ class E1M2TaxiInsideJoe(Mission):
             self.set_switch("taxi_reset", True)
             self.clear_switch("taxi_choice")
             self.clear_switch("taxi_pre_reset")
+            return
+
+        taxi_pay = self.find_switch("taxi_pay")
+        if taxi_pay:
+            self.emitter.add("joe", "pay1", flags=DialogFlags.SKIPPABLE)
+            items = self.emitter.add_itemselector()
+            items.selected += self._item_selected
+            return
 
 scene_list.add_mission(E1M2TaxiInsideJoe())
 
