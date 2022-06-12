@@ -1,4 +1,4 @@
-from engine import Scene, ClickableEntity, prefs
+from engine import Scene, ClickableEntity, prefs, game
 from engine.enums import MouseButton
 
 from app.utils import get_ep_string, get_item_string, load_em_image, get_inventory_key, reset_cursor, create_listitem_data
@@ -122,6 +122,9 @@ class Mission(Scene):
             return False
         switches.pop(switch_id)
         prefs.savedgame.set(KEY_SWITCHES, switches)
+
+    def to_gameover(self):
+        game.scenes.set_scene("game_over")
 
     def update(self, game, events):
         # Prevent other entities from updating if a dialog or a choice set
