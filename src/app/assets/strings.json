@@ -7,7 +7,6 @@
         },
         "pen": {
             "name": "Pen",
-            "image": "",
             "desc": "A simple pen."
         },
         "press-card": {
@@ -29,6 +28,22 @@
             "name": "Ric's note",
             "image": "e1-note",
             "desc": "President Ferdinand Marcos' State of\nthe Nation Address will happen on the\nCongress Building, located along:\n\nPadre Burgos Drive\nErmita\n1000 Manila\n"
+        },
+        "estimate_count": {
+            "name": "Number of demonstrators",
+            "desc": "If you’d ask me, I’d say there’s around\n20,000 of them."
+        },
+        "no_guns": {
+            "name": "No guns",
+            "desc": "Being with the demonstrators did not\nmake me feel uneasy.\n\nNone of them carried guns."
+        },
+        "podium_nusp": {
+            "name": "NUSP President",
+            "desc": "He’s Edgar Jopson, the head of the\nNational Union of Students of\nthe Philippines (NUSP)."
+        },
+        "effigies_general": {
+            "name": "Creative effigies",
+            "desc": "The student activists are at it again with\ntheir effigies.\n\nWhat could the coffin represent?"
         }
     },
     "characters": {
@@ -194,9 +209,8 @@
             "joe_target_person_speaking2":{
                 "text":" They’re the group that organized and secured a permit for the rally."
             },
-           
             "joe_target_police":{
-                "text": "They’re uniformed policemen, swinging their long rattan sticks, along with\nmembers of the riot squad."
+                "text": "They’re uniformed policemen, swinging their long rattan sticks, along\nwith members of the riot squad."
             }
         },
         "m4":{
