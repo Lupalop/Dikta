@@ -64,7 +64,7 @@ class E1M1DeskOutside(Mission):
             def _handle_choice(sender, value):
                 # Choice 1: Leave
                 if value[0] == 1:
-                    game.scenes.set_scene("e1m2intermezzo")
+                    sender.hidden += lambda sender: game.scenes.set_scene("e1m2intermezzo")
                 # Choice 2: Stay
                 else:
                     self.emitter.add("joe", "return")
