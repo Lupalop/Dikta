@@ -9,8 +9,8 @@
             "name": "Pen",
             "desc": "A simple pen."
         },
-        "press-card": {
-            "name": "Press Badge",
+        "press_card": {
+            "name": "Press Card",
             "image": "e1-press-card",
             "desc": "Joe Constantino,\nReporter for The Times.\n\nValid until: August 1971\n\nWithout this, the guards at Congress\nwon't let him in."
         },
@@ -51,7 +51,8 @@
         "tut": "Tutorial",
         "student": "Student",
         "guard": "Guard",
-        "driver": "Taxi Driver"
+        "driver": "Taxi Driver",
+        "police_mac": "Police Officer"
     },
     "e1": {
         "m1": {
@@ -80,10 +81,10 @@
                 "text": "They are your standard, run-of-the-mill lights."
             },
             "joe_tut2": {
-                "text": "You might want to CLICK on the desk and take everything that's\nimportant: my press badge, journal, pen, and the like."
+                "text": "You might want to CLICK on the desk and take everything that's\nimportant: my press card, journal, pen, and the like."
             },
             "joe_desk": {
-                "text": "Let's see... I'll take my press badge, journal, pen, and wallet."
+                "text": "Let's see... I'll take my press card, journal, pen, and wallet."
             },
             "joe_item_stapler": {
                 "text": "I don't really need to take a stapler me with me."
@@ -214,22 +215,25 @@
             }
         },
         "m4":{
-            "joe_text1":{
-                "text": "I’m with the press."
+            "police_mac_intro": {
+                "text": "Good afternoon."
             },
-            "guard_wp_1":{
+            "joe_intro":{
+                "text": "I'm Joe Constantino, from The Times. You need my press card?"
+            },
+            "police_mac_wp_1":{
                 "text": "Unfortunately, Mr. Constantino, the session hall is already closed."
             },
-            "guard_wp_2":{
+            "police_mac_wp_2":{
                 "text": "Letting you in means letting everyone in, including those photographers\nwho arrived late. We cannot let you and everyone else disturb the order inside."
             },
             "joe_np_1":{
                 "text": "Uh. It’s not in my pockets. I seem to have forgotten my press card at my desk back in the office."
             },
-            "guard_np_1":{
+            "police_mac_np_1":{
                 "text": "Guard: You must be one of the militants pretending to be with the press."
             },
-            "guard_np_2":{
+            "police_mac_np_2":{
                 "text": "Please leave now if you don’t want any trouble."
             }
 
