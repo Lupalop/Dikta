@@ -240,7 +240,8 @@ class E1M5Dan(Mission):
         choiceset.selected += self._handle_choice
         self.entities["fda"] = choiceset
 
-        btn_clues = KeyedButton(self, (64, 64), "Review clues", pygame.K_TAB, "TAB")
+        btn_clues = KeyedButton(self, (64, 64), "Review clues", pygame.K_F12, "TAB")
+        btn_clues.leftclick += lambda sender: scene_list.all["ig_clues"].toggle_visibility()
         self.entities["btn_clues"] = btn_clues
 
     def _handle_choice(self, sender, value):
@@ -294,7 +295,8 @@ class E1M5Questions(Mission):
         listbox = ListBox(self, (450, 95), "QUESTIONS", self.questions)
         listbox.selected += self._listbox_on_selected
 
-        btn_clues = KeyedButton(self, (64, 64), "Review clues", pygame.K_TAB, "TAB")
+        btn_clues = KeyedButton(self, (64, 64), "Review clues", pygame.K_F12, "TAB")
+        btn_clues.leftclick += lambda sender: scene_list.all["ig_clues"].toggle_visibility()
 
         self.entities = {
             "hand": defaults.hand_left,
