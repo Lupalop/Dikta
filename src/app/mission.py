@@ -54,7 +54,6 @@ class Mission(Scene):
     def add_clue(self, clue_id):
         clues = self.get_clues()
         if clue_id in clues:
-            print("clue already found")
             return False
         clues.append(clue_id)
         prefs.savedgame.set(get_clues_key(self.episode_id), clues)
