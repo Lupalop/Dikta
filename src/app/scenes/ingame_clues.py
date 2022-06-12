@@ -16,13 +16,17 @@ class InGameCluesOverlay(Scene):
         self.visible = is_visible
 
     def _listbox_on_marked(self, sender, data):
-        description = data["value"]["desc"]
+        description = None
+        if "desc" in data["value"]:
+            description = data["value"]["desc"]
         if description:
             self._details_text.set_text(description)
         else:
             self._details_text.set_text(DT_PLACEHOLDER)
 
-        image = data["value"]["image"]
+        image = None
+        if "image" in data["value"]:
+            image = data["value"]["image"]
         if image:
             self._listbox_image.set_surface(utils.load_clue_image(image))
             self._listbox_image.hidden = False
