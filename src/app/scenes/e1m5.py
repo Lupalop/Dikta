@@ -75,7 +75,7 @@ class E1M5Joe(Mission):
                 self._accuse()
         # Demonstration objective
         elif current_question == 1:
-            self.emitter.add("joe", "q2_talk1", callback=self._to_dan)
+            self.emitter.add("joe", "q2_talk1", callback=self._to_dan, repeat = False)
             # FACT
             if current_choice == 1:
                 # XXX never reached
