@@ -1,11 +1,29 @@
 {
-    "items": {
-        "journal": "Journal",
-        "pen": "Pen",
-        "press-card": "Press Badge",
-        "wallet": "Wallet",
-        "flashlight": "Flashlight",
-        "note": "Ric's Note"
+    "clues": {
+        "journal": {
+            "name": "Journal",
+            "desc": ""
+        },
+        "pen": {
+            "name": "Pen",
+            "desc": ""
+        },
+        "press-card": {
+            "name": "Press Badge",
+            "desc": ""
+        },
+        "wallet": {
+            "name": "Wallet",
+            "desc": ""
+        },
+        "flashlight": {
+            "name": "Flashlight",
+            "desc": ""
+        },
+        "note": {
+            "name": "Ric's note",
+            "desc": ""
+        }
     },
     "characters": {
         "joe": "Joe",
@@ -135,8 +153,14 @@
             "driver_pay1": {
                 "text": "We’re here, sir. Pay up, please."
             },
-            "joe_pay2": {
-                "text": "I forgot my wallet."
+            "joe_pay1": {
+                "text": "Let me just get my wallet."
+            },
+            "joe_pay2a": {
+                "text": "Here you go."
+            },
+            "joe_pay2b": {
+                "text": "It looks like I forgot my wallet."
             }
         },
         "m3":{

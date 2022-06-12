@@ -31,8 +31,8 @@ class InGameItemsOverlay(Scene):
         current_scene.enabled = not current_scene.enabled
         utils.set_cursor("default")
 
-        dataset = current_scene.get_items_dataset()
-        listbox = ListBox(self, (450, 95), "ITEMS", dataset)
+        dataset = current_scene.get_clues_dataset()
+        listbox = ListBox(self, (450, 95), "CLUES", dataset)
         self.entities["listbox_items"] = listbox
 
     def load_content(self):

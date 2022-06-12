@@ -1,7 +1,7 @@
 from engine import Scene, ClickableEntity, prefs, game
 from engine.enums import MouseButton
 
-from app.utils import get_ep_string, get_item_string, load_em_image, get_inventory_key, get_clues_key, reset_cursor, create_listitem_data
+from app.utils import get_ep_string, get_clue_data, load_em_image, get_clues_key, reset_cursor, create_listitem_data
 from app.dialog import Dialog, DialogSide, DialogEmitter
 
 import pygame
@@ -31,46 +31,6 @@ class Mission(Scene):
     def get_image(self, image_name):
         return load_em_image(self.episode_id, self.mission_id, image_name)
 
-    def get_items(self):
-        return prefs.savedgame.get(get_inventory_key(self.episode_id), [])
-
-    def get_items_dataset(self):
-        items = self.get_items()
-        dataset = []
-        for item_id in items:
-            data = create_listitem_data(
-                get_item_string(item_id),
-                item_id
-            )
-            dataset.append(data)
-        return dataset
-
-    def exists_item(self, item_id):
-        items = self.get_items()
-        return (item_id in items)
-
-    def add_item(self, item_id):
-        items = self.get_items()
-        if item_id in items:
-            print("item already in inventory")
-            return False
-        items.append(item_id)
-        prefs.savedgame.set(get_inventory_key(self.episode_id), items)
-        self.emitter.add_popup(item_id)
-        return True
-
-    def remove_item(self, item_id):
-        items = self.get_items()
-        if not item_id in items:
-            print("item not in inventory")
-            return False
-        items.pop(item_id)
-        prefs.savedgame.set(get_inventory_key(self.episode_id), items)
-        return True
-
-    def attach_item(self, entity, item_id):
-        entity.leftclick += lambda sender: self.add_item(item_id)
-
     def get_clues(self):
         return prefs.savedgame.get(get_clues_key(self.episode_id), [])
 
@@ -78,9 +38,11 @@ class Mission(Scene):
         clues = self.get_clues()
         dataset = []
         for clue_id in clues:
+            cluedata = get_clue_data(clue_id)
             data = create_listitem_data(
-                get_item_string(clue_id),
-                clue_id
+                cluedata["name"],
+                clue_id,
+                cluedata
             )
             dataset.append(data)
         return dataset
@@ -96,10 +58,11 @@ class Mission(Scene):
             return False
         clues.append(clue_id)
         prefs.savedgame.set(get_clues_key(self.episode_id), clues)
+        self.emitter.add_popup(clue_id)
         return True
 
     def attach_clue(self, entity, clue_id):
-        entity.leftclick += lambda sender: self.add_clue(item_id)
+        entity.leftclick += lambda sender: self.add_clue(clue_id)
 
     def get_switches(self):
         return prefs.savedgame.get(KEY_SWITCHES, {})

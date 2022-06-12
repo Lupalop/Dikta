@@ -113,8 +113,8 @@ class E1M2TaxiInsideJoe(Mission):
     def _next(self):
         game.scenes.set_scene("e1m3")
 
-    def _item_selected(self, sender, data):
-        if data["value"] == "wallet":
+    def _clue_selected(self, sender, data):
+        if data["id"] == "wallet":
             self.emitter.add("joe", "pay2a", callback=self._next)
             self.emitter.next()
         else:
@@ -146,8 +146,8 @@ class E1M2TaxiInsideJoe(Mission):
         taxi_pay = self.find_switch("taxi_pay")
         if taxi_pay:
             self.emitter.add("joe", "pay1", flags=DialogFlags.SKIPPABLE)
-            items = self.emitter.add_itemselector()
-            items.selected += self._item_selected
+            items = self.emitter.add_clues_selector()
+            items.selected += self._clue_selected
             return
 
 scene_list.add_mission(E1M2TaxiInsideJoe())

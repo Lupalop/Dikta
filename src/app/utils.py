@@ -40,9 +40,6 @@ def get_ep_string(episode_id, mission_id, character_id, text_id):
 
     return (nametag_string, text_string, text_key)
 
-def get_item_string(item_name):
-    return strings["items"][item_name]
-
 FONT_DEFAULT = "franklingothicmediumcond"
 FONT_COMIC = "badcomic_italic"
 FONT_EXT_TTF = ".ttf"
@@ -78,15 +75,16 @@ cursors = {
 
 # Inventory and Clues
 
-def get_inventory_key(episode_id):
-    return "inventory.ep{}".format(episode_id)
-
 def get_clues_key(episode_id):
     return "clues.ep{}".format(episode_id)
 
-def create_listitem_data(text, value):
+def get_clue_data(clue_id):
+    return strings["clues"][clue_id]
+
+def create_listitem_data(text, id, value):
     data = {
         "text": text,
+        "id": id,
         "value": value
     }
     return data

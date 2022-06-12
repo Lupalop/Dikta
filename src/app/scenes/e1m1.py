@@ -59,7 +59,7 @@ class E1M1DeskOutside(Mission):
             "target6": target6,
         }
 
-        if len(self.get_items()) > 0:
+        if len(self.get_clues()) > 0:
             self.emitter.add("joe", "exit", flags = DialogFlags.SKIPPABLE)
             def _handle_choice(sender, value):
                 # Choice 1: Leave
@@ -96,9 +96,9 @@ class E1M1DeskInside(Mission):
         item1.leftclick += lambda sender: self.emitter.add("joe", "item_stapler", "joe-faceright")
         self.entities["item_stapler"] = item1
 
-        if not self.exists_item("wallet"):
+        if not self.exists_clue("wallet"):
             item2 = TargetItem(self, self.get_image("item-wallet"), (320, 120))
-            self.attach_item(item2, "wallet")
+            self.attach_clue(item2, "wallet")
             item2.leftclick += lambda sender: self.emitter.add("joe", "item_wallet", "joe-faceright")
             self.entities["item_wallet"] = item2
 
@@ -110,7 +110,7 @@ class E1M1DeskInside(Mission):
         item4.leftclick += lambda sender: self.emitter.add("joe", "item_typewriter", "joe-faceright")
         self.entities["item_typewriter"] = item4
 
-        if not self.exists_item("press-card"):
+        if not self.exists_clue("press-card"):
             item5 = TargetItem(self, self.get_image("item-press-card"), (26, 302))
             item5.leftclick += lambda sender: game.scenes.set_scene("e1m1popup_presscard")
             self.entities["item_press_card"] = item5
@@ -121,7 +121,7 @@ class E1M1DeskInside(Mission):
 
         item7 = TargetItem(self, self.get_image("item-mail"), (1050, 109), removable = False, grabbable = False)
         def item7_leftclick(sender):
-            if not self.exists_item("note"):
+            if not self.exists_clue("note"):
                 game.scenes.set_scene("e1m1popup_note")
             else:
                 self.emitter.add("joe", "item_mail", "joe-faceright")
@@ -130,23 +130,23 @@ class E1M1DeskInside(Mission):
 
         item8 = TargetItem(self, self.get_image("item-pencils"), (994, 318), removable = False)
         def item8_leftclick(sender):
-            if self.exists_item("pen"):
+            if self.exists_clue("pen"):
                 self.emitter.add("joe", "item_pencils_empty", "joe-faceright")
             else:
-                self.add_item("pen")
+                self.add_clue("pen")
                 self.emitter.add("joe", "item_pencils", "joe-faceright")
         item8.leftclick += item8_leftclick
         self.entities["item_pencils"] = item8
 
-        if not self.exists_item("journal"):
+        if not self.exists_clue("journal"):
             item9 = TargetItem(self, self.get_image("item-journal"), (1139, 601))
-            self.attach_item(item9, "journal")
+            self.attach_clue(item9, "journal")
             item9.leftclick += lambda sender: self.emitter.add("joe", "item_journal", "joe-faceright")
             self.entities["item_journal"] = item9
 
         drawer = TargetMask(self, self.get_image("tm-desk-drawer"))
         def drawer_leftclick(sender):
-            if self.exists_item("flashlight"):
+            if self.exists_clue("flashlight"):
                 self.emitter.add("joe", "drawer_empty", "joe-faceright")
             else:
                 game.scenes.set_scene("e1m1popup_flashlight")
@@ -166,8 +166,8 @@ class E1M1PopupPressCardScene(Mission):
 
         self.emitter.add("tut", "rightclickreturn", repeat = False)
 
-        if not self.exists_item("press-card"):
-            self.add_item("press-card")
+        if not self.exists_clue("press-card"):
+            self.add_clue("press-card")
 
         self.background.set_surface(self.get_image("bg-item"))
 
@@ -202,8 +202,8 @@ class E1M1PopupNoteScene(Mission):
 
         self.emitter.add("tut", "rightclickreturn", repeat = False)
 
-        if not self.exists_item("note"):
-            self.add_item("note")
+        if not self.exists_clue("note"):
+            self.add_clue("note")
 
         self.background.set_surface(self.get_image("bg-item"))
 
@@ -238,8 +238,8 @@ class E1M1PopupFlashlightScene(Mission):
 
         self.emitter.add("tut", "rightclickreturn", repeat = False)
 
-        if not self.exists_item("flashlight"):
-            self.add_item("flashlight")
+        if not self.exists_clue("flashlight"):
+            self.add_clue("flashlight")
 
         self.background.set_surface(self.get_image("bg-drawer"))
 

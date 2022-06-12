@@ -143,7 +143,7 @@ class Dialog(ClickableEntity):
         return True
 
 class Popup(ClickableEntity):
-    def __init__(self, emitter, position, item_name):
+    def __init__(self, emitter, position, clue_name):
         super().__init__(
             emitter.owner,
             position,
@@ -151,14 +151,14 @@ class Popup(ClickableEntity):
             pygame.Surface(RECT_POPUP.size, pygame.SRCALPHA, 32)
         )
 
-        self.item_name = item_name
+        self.clue_name = clue_name
         self.emitter = emitter
 
         # Draw boxes to entity surface
         self.box_base = utils.load_ui_image("popup-box")
         self._surface.blit(self.box_base, RECT_POPUP)
         # Initialize speech text and its position
-        text = "Item found: {}".format(item_name)
+        text = "New clue: {}".format(clue_name)
         self.label_item = SequenceLabel(self.owner, text, utils.get_font(24), pygame.Color("white"))
         label_item_pos = (
             position[0] + 55,
@@ -339,10 +339,10 @@ class DialogEmitter():
             callback
         )
 
-    def add_popup(self, item_id, side = DialogSide.BOTTOM_LEFT):
-        item_name = utils.get_item_string(item_id)
+    def add_popup(self, clue_id, side = DialogSide.BOTTOM_LEFT):
+        clue_name = utils.get_clue_data(clue_id)["name"]
         position = self.compute_position(RECT_POPUP, side)
-        popup = Popup(self, position, item_name)
+        popup = Popup(self, position, clue_name)
         self.popup_queue.put(popup)
         if not self.current_popup:
             self.next_popup()
@@ -356,9 +356,9 @@ class DialogEmitter():
         self.current_selector = choiceset
         return choiceset
 
-    def add_itemselector(self, side = DialogSide.TOP_LEFT):
+    def add_clues_selector(self, side = DialogSide.TOP_LEFT):
         position = self.compute_position(RECT_LISTBOX, side)
-        dataset = self.owner.get_items_dataset()
+        dataset = self.owner.get_clues_dataset()
         listbox = ListBox(self.owner, position, TITLE_ITEMS, dataset, True)
         self.current_selector = listbox
         return listbox
