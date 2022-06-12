@@ -48,7 +48,7 @@ class InGameCluesOverlay(Scene):
             return
 
         self.set_visibility(not self.visible)
-        current_scene.enabled = not current_scene.enabled
+        current_scene.enabled = (not self.visible)
         utils.set_cursor("default")
 
         dataset = current_scene.get_clues_dataset()
