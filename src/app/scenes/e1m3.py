@@ -24,7 +24,7 @@ class E1M3Scene(Mission):
 
         target_entrance = TargetMask(self, self.get_image("main-tm-entrance"))
         def _clue0(sender):
-            game.scenes.set_scene("e1m4talk_joe")
+            game.scenes.set_scene("e1m4talk_police")
         target_entrance.leftclick += _clue0
 
         target_speakers = TargetItem(
