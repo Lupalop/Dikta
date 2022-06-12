@@ -66,10 +66,14 @@ class ChoiceSet(Entity):
 
     @classmethod
     def from_entity(cls, owner, entity):
+        items = []
+        # XXX This should be cached...
+        for old_item in entity._items:
+            items.append(old_item.copy())
         entity_copy = cls(
             owner,
             entity.get_position(),
-            entity._items,
+            items,
             entity.hide_on_select,
             entity.handle_keys,
             entity.distance
