@@ -17,10 +17,11 @@ class ChoiceSet(Entity):
     After a choice is selected, the sender and the attached item's *one-based*
     index and value is passed to subscribers of the `selected` event.
     """
-    def __init__(self, owner, position, items, hide_on_select = False, handle_keys = True):
+    def __init__(self, owner, position, items, hide_on_select = False, handle_keys = True, distance = CHOICE_DISTANCE):
         super().__init__(owner, position, None)
         self.hide_on_select = hide_on_select
         self.handle_keys = handle_keys
+        self.distance = distance
         self.is_hiding = False
         self.selected = EventHandler()
         self.hidden = EventHandler()
@@ -31,17 +32,27 @@ class ChoiceSet(Entity):
         # Create this choice set's child choices.
         for i in enumerate(self._items):
             i_adjusted = (i[0] + 1, i[1])
-            choice = ChoiceButton(
-                owner,
-                (position[0], position[1] + rect_final.height),
-                i_adjusted[0],
-                i_adjusted[1]
-            )
+            choice = None
+            choice_position = (position[0], position[1] + rect_final.height)
+            if isinstance(i[1], pygame.Surface):
+                choice = ChoiceButton(
+                    owner,
+                    choice_position,
+                    i_adjusted[0],
+                    surface = i_adjusted[1]
+                )
+            else:
+                choice = ChoiceButton(
+                    owner,
+                    choice_position,
+                    i_adjusted[0],
+                    i_adjusted[1]
+                )
             # Add this child choice's height and determine whether to change
             # the choice set's width to the child choice's width.
             rect_final.height += choice.get_rect().height
             if i[0] < len(self._items) - 1:
-                rect_final.height += CHOICE_DISTANCE
+                rect_final.height += self.distance
             choice_width = choice.get_rect().width
             if choice_width > rect_final.width:
                 rect_final.width = choice_width
@@ -60,7 +71,8 @@ class ChoiceSet(Entity):
             entity.get_position(),
             entity._items,
             entity.hide_on_select,
-            entity.handle_keys
+            entity.handle_keys,
+            entity.distance
         )
         return entity_copy
 
@@ -79,7 +91,7 @@ class ChoiceSet(Entity):
             # the choice set's width to the child choice's width.
             rect_final.height += choice.get_rect().height
             if i[0] < len(self._items) - 1:
-                rect_final.height += CHOICE_DISTANCE
+                rect_final.height += self.distance
             choice_width = choice.get_rect().width
             if choice_width > rect_final.width:
                 rect_final.width = choice_width
