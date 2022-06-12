@@ -1,7 +1,7 @@
 from engine import Scene, ClickableEntity, prefs, game
 from engine.enums import MouseButton
 
-from app.utils import get_ep_string, get_item_string, load_em_image, get_inventory_key, reset_cursor, create_listitem_data
+from app.utils import get_ep_string, get_item_string, load_em_image, get_inventory_key, get_clues_key, reset_cursor, create_listitem_data
 from app.dialog import Dialog, DialogSide, DialogEmitter
 
 import pygame
@@ -75,9 +75,9 @@ class Mission(Scene):
         return prefs.savedgame.get(get_clues_key(self.episode_id), [])
 
     def get_clues_dataset(self):
-        items = self.get_items()
+        clues = self.get_clues()
         dataset = []
-        for clue_id in items:
+        for clue_id in clues:
             data = create_listitem_data(
                 get_item_string(clue_id),
                 clue_id
