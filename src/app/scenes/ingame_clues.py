@@ -5,9 +5,9 @@ from app.entities import *
 
 import pygame
 
-class InGameItemsOverlay(Scene):
+class InGameCluesOverlay(Scene):
     def __init__(self):
-        super().__init__("In-Game Overlay - Items")
+        super().__init__("In-Game Overlay - Clues")
         self.visible = False
 
     def set_visibility(self, is_visible):
@@ -63,4 +63,4 @@ class InGameItemsOverlay(Scene):
         if self.visible:
             super().draw(layer)
 
-scene_list.all["ig_items"] = InGameItemsOverlay()
+scene_list.all["ig_clues"] = InGameCluesOverlay()

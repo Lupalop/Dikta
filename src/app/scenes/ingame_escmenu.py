@@ -34,7 +34,7 @@ class InGameEscMenuOverlay(Scene):
         )
 
         if self.visible:
-            scene_list.all["ig_items"].set_visibility(False)
+            scene_list.all["ig_clues"].set_visibility(False)
 
         self.entities["action_clues"].hidden = self.entities["action_clues"].disabled = ig_blocked
 
@@ -52,7 +52,7 @@ class InGameEscMenuOverlay(Scene):
 
         def to_clues(sender, button):
             self.toggle_visibility()
-            scene_list.all["ig_items"].toggle_visibility()
+            scene_list.all["ig_clues"].toggle_visibility()
         action_clues = FadeButton(self, utils.load_ui_image("igesc-action-clues"), (868, 274))
         action_clues.click += to_clues
 
