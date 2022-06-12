@@ -49,10 +49,20 @@
     "characters": {
         "joe": "Joe",
         "tut": "Tutorial",
-        "student": "Student",
+        "dan": "Student",
         "guard": "Guard",
         "driver": "Taxi Driver",
         "police_mac": "Police Officer"
+    },
+    "report": {
+        "e1": [
+            {
+                "title": "SONA Location",
+                "description": "IT WAS FIVE MINUTES PAST FIVE in the afternoon,\nby the clock on the Maharnilad tower, when I\narrived at:",
+                "choices": ["Luneta Park", "Congress", "Home"],
+                "answer": 1
+            }
+        ]
     },
     "e1": {
         "m1": {
@@ -239,94 +249,146 @@
 
         },
         "m5":{
-            "joe_text1":{
-                "text": "Im from The Times, and I’d like to get your thoughts about this demonstration."
+            "joe_intro": {
+                "text": "Maybe I should speak with one of the demonstrators instead."
             },
-            "student_text1":{
+            "joe_talk1":{
+                "text": "I'm from The Times, and I’d like to get your thoughts about this demonstration."
+            },
+            "dan_talk1":{
                 "text": "Yeah, sure."
             },
             "joe_q1_text1":{
                 "text": "You’re a member of what organization?"
             },
-            "student_q1_text1":{
+            "dan_q1_text1":{
                 "text": " I’m from the NUSP."
             },
             "joe_q1_doubt_talk1":{
                 "text": "You sure?"
             },
-            "student_q1_doubt_talk1":{
+            "dan_q1_doubt_talk1":{
                 "text":"Of course!"
             },
             "joe_q1_accuse_talk1":{
                 "text":"You’re lying. The truth is, you’re an undercover communist seeking to\ndestabilize the government!"
             },
-            "student_q1_accuse_talk1":{
-                "text": "Student: That doesn’t make any sense at all!"
+            "dan_q1_accuse_talk1":{
+                "text": "How will you prove that?"
             },
-            "student_q1_accuse_talk2":{
-                "text": "Student: That doesn’t make any sense at all!"
+            "dan_q1_accuse_talk2":{
+                "text": "That doesn’t make any sense at all!"
             },
             "joe_q2_talk1":{
                 "text": "What’s the objective of this demonstration?"
             },
-            "student_q2_talk1":{
+            "dan_q2_talk1":{
                 "text": "We are here to appeal for a nonpartisan Constitutional Convention from\nthe president and to ask him to refrain from running for a third term."
             },
             "joe_q2_doubt_talk1":{
                 "text": "That’s all? There must be something more to your cause. You’re not\nplanning on overthrowing the government aren’t you?"
             },
-            "student_q2_doubt_talk1":{
+            "dan_q2_doubt_talk1":{
                 "text": "Not true. You’ve a very wide imagination, Sir Joe. "
             },
-            "student_q2_accuse_talk1":{
+            "dan_q2_accuse_talk1":{
                 "text": "I don’t get it."
             },
             "joe_q3_talk1":{
                 "text": "For you, what does the effigies symbolize?"
             },
-            "student_q3_talk1":{
+            "dan_q3_talk1":{
                 "text": "The cardboard coffin represents the death of democracy."
             },
-            "student_q3_talk2":{
+            "dan_q3_talk2":{
                 "text": "While the cardboard crocodile symbolizes his cronies and the greed\nof congressmen for money."
             },
             "joe_q3_doubt_talk1":{
                 "text": "The coffin… You’re not planning on placing the president inside it, no?"
             },
-            "student_q3_doubt_talk1":{
+            "dan_q3_doubt_talk1":{
                 "text":"Where are these questions coming from?"
             },
-            "student_q3_accuse_talk":{
+            "dan_q3_accuse_talk1":{
                 "text": "I don’t get it."
             },
             "joe_q4_talk1":{
                 "text":"How about the other organizations?"
             },
-            "student_q4_talk1": {
+            "dan_q4_talk1": {
                 "text": "I’m not really that familiar with everyone here, but there’s KM\n(Kabataan Makabayan) and the SDK (Samahang Demokratiko ng Kabataan)."
             },
-            "joe_q4__doubt_talk1":{
+            "joe_q4_doubt_talk1":{
                 "text": "I don’t think so. You know them because you’re with them."
             },
-            "student_q4__doubt_talk1":{
+            "dan_q4_doubt_talk1":{
                 "text": "That doesn’t make any sense. Being here doesn’t mean that\nI know everyone here."
             },
-            "student_q4_accuse_talk1":{
+            "dan_q4_accuse_talk1":{
                 "text": "That doesn’t make any sense."
             },
             "joe_q5_talk1":{
                 "text": "What do you think of the cops who are here to “maintain” the peace?"
             },
-            "student_q5_talk1":{
+            "dan_q5_talk1":{
                 "text": "Two words – corrupt and brutal. They are here to serve only\nthe interests of the rich and powerful."
             },
             "joe_q5_doubt_talk1":{
                 "text": "How did you say that they are brutal? I think it’s the other way around.\nYou and your organizations are framing them and making them look bad."
             },
-            "student_q5_doubt_talk1":{
+            "dan_q5_doubt_talk1":{
                 "text": "Sir Joe, if you’re here to defend the police, please just go away."
+            },
+            "dan_q5_accuse_talk1":{
+                "text": "That doesn’t make any sense."
             }
-            
+        },
+        "m6":{
+            "joe_target_jeep_talk1":{
+                "text": "It’s likely that the jeep was rented out by the demonstrators. It had two loudspeakers on the roof."
+            },
+            "joe_target_riot_talk1":{
+                "text": "Blind obedience. "
+            },
+            "joe_target_riot_talk2":{
+                "text": "The cops, who are wearing crash helmets and carrying wicker shields, were \n striking out and beating up the students surrounding the jeepney."
+            },
+            "joe_target_demonstrator_talk1":{
+                "text": "He’s downed and crumpled to the ground, his legs to his chest and his\narms over his head."
+            },
+            "joe_target_demonstrator_talk2":{
+                "text": "Is that blood? He must’ve been beaten up by those cops."
+            },
+            "police_d2_talk1":{
+                "text": "Come closer and you’ll get what you’re looking for"
+            }
+        
+        },
+        "m7":{
+            "joe_d1_talk1":{
+                "text": "Where am I?"
+            },
+            "nurse_d1_talk1":{
+                "text": "PGH, Mr. Constantino. You were brought here after passing out."
+            },
+            "joe_d1_talk2":{
+                "text": "I see, thank you."
+            },
+            "joe_target_demonstrators_talk1":{
+                "text": "I’d estimate there’s around thirty or so demonstrators with bloody heads\nand broken wrists."
+            },
+            "joe_target_nusp_talk1":{
+                "text": "I thought they’ve left early. It seems like some members of the NUSP weren’t able to escape the violence."
+            },
+            "joe_target_police_talk1":{
+                "text": "I see maybe three to four policemen, possibly hit by rocks."
+            },
+            "joe_target_doctor_talk1":{
+                "text": "She’s probably busy speaking with the other patients."
+            },
+             "joe_target_door_talk1":{
+                "text": "I’ll be on my way, thank you."
+            }
         }
     }
 } 
