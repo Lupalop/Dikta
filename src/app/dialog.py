@@ -218,6 +218,7 @@ class DialogEmitter():
         self.current_dialog = None
         self.current_popup = None
         self.current_selector = None
+        self.current_popup_image = None
 
     def next(self):
         if self.queue.empty():
@@ -230,6 +231,9 @@ class DialogEmitter():
             self.current_popup = None
         else:
             self.current_popup = self.popup_queue.get()
+
+    def next_popup_image(self):
+        self.current_popup_image = None
 
     def clear_choiceset(self, sender):
         if sender is not self.current_selector:
@@ -250,6 +254,8 @@ class DialogEmitter():
             self.current_popup.update(game, events)
         if self.current_selector:
             self.current_selector.update(game, events)
+        if self.current_popup_image:
+            self.current_popup_image.update(game, events)
 
     def draw(self, layer):
         if self.current_dialog:
@@ -258,6 +264,8 @@ class DialogEmitter():
             self.current_popup.draw(layer)
         if self.current_selector:
             self.current_selector.draw(layer)
+        if self.current_popup_image:
+            self.current_popup_image.draw(layer)
 
     def get_all_viewed(self):
         return prefs.savedgame.get(self.owner.dialog_key, [])
@@ -347,6 +355,13 @@ class DialogEmitter():
         if not self.current_popup:
             self.next_popup()
         return popup
+
+    def add_popup_image(self, surface, side = DialogSide.BOTTOM_RIGHT):
+        image = Image(self.owner, surface, (0, 0))
+        position = self.compute_position(image.get_rect(), side)
+        image.set_position(position)
+        self.current_popup_image = image
+        return image
 
     def add_choiceset(self, choices, side = DialogSide.TOP_LEFT, hide_on_select = True):
         choiceset = ChoiceSet(self.owner, (0, 0), choices, hide_on_select, True)
