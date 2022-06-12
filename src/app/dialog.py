@@ -280,7 +280,7 @@ class DialogEmitter():
         dialog_centerx = (game.layer_size[0] / 2) - (target_rect.width / 2)
         dialog_centery = (game.layer_size[1] / 2) - (target_rect.height / 2)
         dialog_leftx = 64
-        dialog_topy = 25
+        dialog_topy = 64
         dialog_rightx = game.layer_size[0] - target_rect.width - dialog_leftx
         dialog_bottomy = game.layer_size[1] - dialog_topy - target_rect.height
 
