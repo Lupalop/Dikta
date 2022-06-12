@@ -43,7 +43,7 @@ class ListBox(Entity):
         self.hidden = EventHandler()
         self.listitems = []
         # Set-up base UI elements.
-        base_bg = Image(self, utils.load_ui_image("note-bg"))
+        base_bg = Image(self.owner, utils.load_ui_image("note-bg"))
         base_title = Label(
             self, title, utils.get_comic_font(32), pygame.Color("black"),
         )
