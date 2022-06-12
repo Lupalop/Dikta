@@ -35,8 +35,8 @@ class TargetItem(ClickableEntity):
         if state == ClickState.NORMAL:
             utils.reset_cursor()
         elif state == ClickState.ACTIVE:
-            utils.set_cursor("grabbing")
             if self.grabbable:
+                utils.set_cursor("grabbing")
                 self._ghost_rect = self.get_rect().copy()
                 self._ghost_offset = self.intersection_offset
                 self.is_ghosting = True
@@ -51,7 +51,10 @@ class TargetItem(ClickableEntity):
         if self.removed:
             return
         if self.get_state() == ClickState.HOVER:
-            utils.set_cursor("grab")
+            if self.grabbable:
+                utils.set_cursor("grab")
+            else:
+                utils.set_cursor("zoomin")
         super()._on_mousemove()
 
     def update(self, game, events):
