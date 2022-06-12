@@ -10,17 +10,24 @@ class InGameItemsOverlay(Scene):
         super().__init__("In-Game Overlay - Items")
         self.visible = False
 
+    def set_visibility(self, is_visible):
+        self.visible = is_visible
+
     def toggle_visibility(self):
         current_scene = game.scenes.get_scene()
 
         # Prevent the menu from showing up on regular scenes.
         if not isinstance(current_scene, Mission):
             return
-        # Prevent the menu from showing up on missions where it's blocked.
-        if current_scene.menu_blocked or current_scene.emitter.current_dialog or current_scene.emitter.current_selector or game.scenes._switching:
+        # Prevent the menu from showing up on situations where it's blocked.
+        if current_scene.menu_blocked or \
+           current_scene.emitter.current_dialog or \
+           current_scene.emitter.current_selector or \
+           scene_list.all["ig_escmenu"].visible or \
+           game.scenes._switching:
             return
 
-        self.visible = not self.visible
+        self.set_visibility(not self.visible)
         current_scene.enabled = not current_scene.enabled
         utils.set_cursor("default")
 

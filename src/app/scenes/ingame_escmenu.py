@@ -10,6 +10,9 @@ class InGameEscMenuOverlay(Scene):
         super().__init__("In-Game Overlay - Paused")
         self.visible = False
 
+    def set_visibility(self, is_visible):
+        self.visible = is_visible
+
     def toggle_visibility(self):
         current_scene = game.scenes.get_scene()
 
@@ -20,9 +23,21 @@ class InGameEscMenuOverlay(Scene):
         if current_scene.menu_blocked:
             return
 
-        self.visible = not self.visible
+        self.set_visibility(not self.visible)
         current_scene.enabled = not current_scene.enabled
         utils.set_cursor("default")
+
+        ig_blocked = (
+            current_scene.emitter.current_dialog or \
+            current_scene.emitter.current_selector or \
+            game.scenes._switching
+        )
+
+        if self.visible:
+            scene_list.all["ig_items"].set_visibility(False)
+
+        self.entities["action_items"].hidden = self.entities["action_items"].disabled = ig_blocked
+        self.entities["action_clues"].hidden = self.entities["action_clues"].disabled = ig_blocked
 
     def load_content(self):
         bg_solid = pygame.Surface(prefs.default.get("app.display.layer_size", (0, 0)))
@@ -37,7 +52,8 @@ class InGameEscMenuOverlay(Scene):
         action_continue.click += lambda sender, button: self.toggle_visibility()
 
         def to_items(sender, button):
-            print("FIXME: Not yet implemented")
+            self.toggle_visibility()
+            scene_list.all["ig_items"].toggle_visibility()
         action_items = FadeButton(self, utils.load_ui_image("igesc-action-items"), (868, 233))
         action_items.click += to_items
 
