@@ -61,8 +61,8 @@ class MainMenuScene(Scene):
             "label_version": label_version,
             "btn_new": btn_new,
             "btn_load": btn_load,
-            "btn_options": btn_options,
-            "btn_credits": btn_credits,
+            #"btn_options": btn_options,
+            #"btn_credits": btn_credits,
             "btn_exit": btn_exit,
         }
 

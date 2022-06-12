@@ -57,7 +57,7 @@ class InGameEscMenuOverlay(Scene):
         action_clues.click += to_clues
 
         def to_options(sender, button):
-            print("FIXME: Not yet implemented")
+            pass
         action_options = FadeButton(self, utils.load_ui_image("igesc-action-options"), (802, 348))
         action_options.click += to_options
 
@@ -72,7 +72,7 @@ class InGameEscMenuOverlay(Scene):
             "background": background,
             "action_continue": action_continue,
             "action_clues": action_clues,
-            "action_options": action_options,
+            #"action_options": action_options,
             "action_exit": action_exit,
         }
 
