@@ -148,6 +148,8 @@ class ListBox(Entity):
 
         super().update(game, events)
         for item in self.listitems:
+            if "disabled" in item.data:
+                continue
             item.update(game, events)
         # We always steal keyboard events.
         for event in events:
@@ -161,4 +163,6 @@ class ListBox(Entity):
             return
         super().draw(layer)
         for item in self.listitems:
+            if "disabled" in item.data:
+                continue
             item.draw(layer)
