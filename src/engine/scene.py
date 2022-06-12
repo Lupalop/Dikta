@@ -20,12 +20,16 @@ class Scene:
         self.timers.update(game, events)
         for entityName in self.entities:
             entity = self.entities[entityName]
+            if entity.disabled:
+                continue
             entity.update(game, events)
         self._call_captured()
 
     def draw(self, layer):
         for entityName in self.entities:
             entity = self.entities[entityName]
+            if entity.hidden:
+                continue
             entity.draw(layer)
 
     def load_content(self):

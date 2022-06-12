@@ -10,6 +10,8 @@ class Entity:
         self._surface = surface
         self._rect = pygame.Rect(0, 0, 0, 0)
         self._mask = None
+        self.hidden = False
+        self.disabled = False
         self.transform_on_resize = tor
         position = position_or_rect
         size = target_size
