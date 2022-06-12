@@ -44,7 +44,7 @@ class ListBox(Entity):
         # Set-up base UI elements.
         base_bg = Image(self, utils.load_ui_image("note-bg"))
         base_title = Label(
-            self, "ITEMS", utils.get_comic_font(32), pygame.Color("black"),
+            self, title, utils.get_comic_font(32), pygame.Color("black"),
         )
         base_title.set_position((
             (LISTBOX_TITLE_RECT.width / 2) - (base_title.get_rect().width / 2),
