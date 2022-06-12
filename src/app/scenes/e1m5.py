@@ -263,6 +263,8 @@ class E1M5Dan(Mission):
         if questions:
             for item in questions:
                 has_remaining_questions = not ("disabled" in item)
+                if has_remaining_questions:
+                    break
         if not questions or has_remaining_questions:
             game.scenes.set_scene("e1m5questions")
         else:
