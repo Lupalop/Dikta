@@ -23,7 +23,7 @@ class GameOverScene(Scene):
             utils.load_ui_image("fsc-static-gameover"),
             (0, 0))
 
-        btn_exit = FadeButton(self, utils.load_mm_image("btn-exit"), (1280, 280))
+        btn_exit = KeyedButton(self, (545, 650), "Exit", pygame.K_x, "X")
         btn_exit.click += self._to_main_menu
 
         self.entities = {
