@@ -57,81 +57,67 @@
         "doc": "Dr. Salvacion"
     },
     "report": {
-        "e1": [
-            {
+        "e1": [{
                 "title": "SONA Location",
                 "description": "IT WAS FIVE MINUTES PAST FIVE in the afternoon,\nby the clock on the Maharnilad tower, when I\narrived at [?].",
                 "choices": ["Luneta Park", "Congress", "Home"],
                 "answer": 1
-            },
-            {
+            }, {
                 "title": "Session Hall Doors",
                 "description": "The doors of the session hall were [?].",
                 "choices": ["OPEN, LOCKED"],
                 "answer": 1
-            },
-            {
+            }, {
                 "title": "Crowd Estimate",
                 "description": "There were, according to conservative estimates,\n at least [?] of them, perhaps even 50,000.",
                 "choices": ["20,000", "30,000", "40,000"],
                 "answer": 0
-            }, 
-            {
+            }, {
                 "title": "Speaker",
                 "description": "There were two mikes, taped together; … They were\nin the hands of [?] Jopson of the National Union of Students of the Philippines,\nthe group that had organized the rally and secured the permit for it.",
                 "choices": ["EDGAR", "RICK", "JOE"],
                 "answer": 0
-            },
-            
-            {
+            }, {
                 "title": "Demonstrators' guns",
                 "description": "Among the demonstrators it was possible to feel at\nease. [?] of them carried guns, they didn’t stand on ceremony,\n and there was no need for the aura of privilege that a press badge automatically\nconfers on its wearer.",
                 "choices": ["NONE", "SOME", "ALL"],
                 "answer": 0
-            },
-            
+            }, {
                 "title": "Demonstration name",
                 "description": "The NUSP dubbed its demonstration [?].",
                 "choices": ["the January 26 Movement", "Anti-Police Movement", "Anti-Marcos Movement"],
                 "answer": 0
-            }, 
-            {
+            }, {
                 "title": "Chief Objective",
                 "description": "Its chief objective was to demand [?].",
                 "choices": ["a nonpartisan Constitutional Convention in 1971", "a resignation from the president", "the imposition of martial law"],
                 "answer": 0
-            },
-            {
+            }, {
                 "title": "Effigies",
                 "description": "WHERE THE DEMONSTRATION LEADERS STOOD, emblems of the\nenemy were prominently displayed: a cardboard [?] representing the\ndeath of democracy at the hands of the goonstabulary in the last elections. ",
                 "choices": ["COFFIN", "CROCODILE", "FERDINAND MARCOS"],
                 "answer": 0
-            },
-            {
+            }, {
                 "title": "Weapons in the Chaos",
                 "description": "The demonstrators who got as far as the sidewalk that led\nto the Muni golf links started to pick up pebbles and rocks with\nwhich they pelted the police. Very soon, placards had\nturned into missiles, and the sound of broken glass punctuated the yelling [?] were flying, too. The effigy was down on the ground, still burning.",
                 "choices": ["soft-drink bottles", "pebbles", "placards"],
                 "answer": 0
-            },
-            {
+            }, {
                 "title": "Perception of cops",
                 "description": "… the cops are generally believed to be [?]",
                 "choices": ["corrupt and brutal", "kind and honest", "trustworthy and protective"],
                 "answer": 0
-            },
-            {
+            }, {
                 "title": "Demonstartors' vehicle",
                 "description": "The demonstrators had hired a [?] in which rode some of\ntheir leaders. It had two loudspeakers on its roof,\nwas surrounded by students, and inched its way\nforward and backward throughout the melee.",
                 "choices": ["corrupt and brutal", "kind and honest", "trustworthy and protective"],
                 "answer": 0
-            },
-            {
+            }, {
                 "title": "Cops actions",
                 "description": "When the cops were through [?] the jeepney’s passengers,\nthey backed away. ",
                 "choices": ["beating up", "driving away", "reprimanding"],
                 "answer": 0
-            },
-            {
+            }, {
                 "title": "Injured People Count",
                 "description": "More than [?] demonstrators with bloody heads\nand broken wrists had been or were being treated along with\nthree or four policemen hit by rocks.",
                 "choices": ["THIRTY", "TWENTY", "FORTY"],
@@ -270,217 +256,217 @@
                 "text": "It looks like I forgot my wallet."
             }
         },
-        "m3":{
-            "joe_text1":{
+        "m3": {
+            "joe_text1": {
                 "text": "I'm late."
             },
-            "joe_text2":{
+            "joe_text2": {
                 "text": "It’s already five minutes past five. "
             },
-            "joe_target_speaker":{
+            "joe_target_speaker": {
                 "text": "The president’s already delivering his SONA message."
             },
-            "joe_target_estimate_count":{
+            "joe_target_estimate_count": {
                 "text": "If you’d ask me, I’d say there’s around 20,000 of them."
             },
-            "joe_target_no_guns":{
+            "joe_target_no_guns": {
                 "text": "None of the demonstrators carried guns."
             },
-            "joe_target_effigies":{
+            "joe_target_effigies": {
                 "text": "The student activists are at it again with their effigies."
             },
-            "joe_target_person_speaking1":{
+            "joe_target_person_speaking1": {
                 "text": "He’s Edgar Jopson, the head of the National Union of Students\nof the Philippines (NUSP)."
             },
-            "joe_target_person_speaking2":{
-                "text":" They’re the group that organized and secured a permit for the rally."
+            "joe_target_person_speaking2": {
+                "text": " They’re the group that organized and secured a permit for the rally."
             },
-            "joe_target_police":{
+            "joe_target_police": {
                 "text": "They’re uniformed policemen, swinging their long rattan sticks, along\nwith members of the riot squad."
             }
         },
-        "m4":{
+        "m4": {
             "police_mac_intro": {
                 "text": "Good afternoon."
             },
-            "joe_intro":{
+            "joe_intro": {
                 "text": "I'm Joe Constantino, from The Times. You need my press card?"
             },
-            "police_mac_wp_1":{
+            "police_mac_wp_1": {
                 "text": "Unfortunately, Mr. Constantino, the session hall is already closed."
             },
-            "police_mac_wp_2":{
+            "police_mac_wp_2": {
                 "text": "Letting you in means letting everyone in, including those photographers who\narrived late. We cannot let you and everyone else disturb the order inside."
             },
-            "joe_np_1":{
+            "joe_np_1": {
                 "text": "Uh. It’s not in my pockets. I seem to have forgotten my press card at my desk back\nin the office."
             },
-            "police_mac_np_1":{
+            "police_mac_np_1": {
                 "text": "You must be one of the militants pretending to be with the press."
             },
-            "police_mac_np_2":{
+            "police_mac_np_2": {
                 "text": "Please leave now if you don’t want any trouble."
             }
 
         },
-        "m5":{
+        "m5": {
             "joe_intro": {
                 "text": "Maybe I should speak with one of the demonstrators instead."
             },
-            "joe_talk1":{
+            "joe_talk1": {
                 "text": "I'm from The Times, and I’d like to get your thoughts about this demonstration."
             },
-            "dan_talk1":{
+            "dan_talk1": {
                 "text": "Yeah, sure."
             },
-            "joe_q1_text1":{
+            "joe_q1_text1": {
                 "text": "You’re a member of what organization?"
             },
-            "dan_q1_text1":{
+            "dan_q1_text1": {
                 "text": " I’m from the NUSP."
             },
-            "joe_q1_doubt_talk1":{
+            "joe_q1_doubt_talk1": {
                 "text": "You sure?"
             },
-            "dan_q1_doubt_talk1":{
-                "text":"Of course!"
+            "dan_q1_doubt_talk1": {
+                "text": "Of course!"
             },
-            "joe_q1_accuse_talk1":{
-                "text":"You’re lying. The truth is, you’re an undercover communist seeking to\ndestabilize the government!"
+            "joe_q1_accuse_talk1": {
+                "text": "You’re lying. The truth is, you’re an undercover communist seeking to\ndestabilize the government!"
             },
-            "dan_q1_accuse_talk1":{
+            "dan_q1_accuse_talk1": {
                 "text": "How will you prove that?"
             },
-            "dan_q1_accuse_talk2":{
+            "dan_q1_accuse_talk2": {
                 "text": "That doesn’t make any sense at all!"
             },
-            "joe_q2_talk1":{
+            "joe_q2_talk1": {
                 "text": "What’s the objective of this demonstration?"
             },
-            "dan_q2_talk1":{
+            "dan_q2_talk1": {
                 "text": "We are here to appeal for a nonpartisan Constitutional Convention from\nthe president and to ask him to refrain from running for a third term."
             },
-            "joe_q2_doubt_talk1":{
+            "joe_q2_doubt_talk1": {
                 "text": "That’s all? There must be something more to your cause. You’re not\nplanning on overthrowing the government aren’t you?"
             },
-            "dan_q2_doubt_talk1":{
+            "dan_q2_doubt_talk1": {
                 "text": "Not true. You’ve a very wide imagination, Sir Joe. "
             },
-            "joe_q2_accuse_talk1":{
+            "joe_q2_accuse_talk1": {
                 "text": "That’s all? There must be something more to your cause. You’re not\nplanning on overthrowing the government aren’t you?"
             },
-            "dan_q2_accuse_talk1":{
+            "dan_q2_accuse_talk1": {
                 "text": "I don’t get it."
             },
-            "joe_q3_talk1":{
+            "joe_q3_talk1": {
                 "text": "For you, what does the effigies symbolize?"
             },
-            "dan_q3_talk1":{
+            "dan_q3_talk1": {
                 "text": "The cardboard coffin represents the death of democracy."
             },
-            "dan_q3_talk2":{
+            "dan_q3_talk2": {
                 "text": "While the cardboard crocodile symbolizes his cronies and the greed\nof congressmen for money."
             },
-            "joe_q3_doubt_talk1":{
+            "joe_q3_doubt_talk1": {
                 "text": "The coffin… You’re not planning on placing the president inside it, no?"
             },
-            "dan_q3_doubt_talk1":{
-                "text":"Where are these questions coming from?"
+            "dan_q3_doubt_talk1": {
+                "text": "Where are these questions coming from?"
             },
-            "joe_q3_accuse_talk1":{
+            "joe_q3_accuse_talk1": {
                 "text": "The coffin… You’re not planning on placing the president inside it, no?"
             },
-            "dan_q3_accuse_talk1":{
+            "dan_q3_accuse_talk1": {
                 "text": "I don’t get it."
             },
-            "joe_q4_talk1":{
-                "text":"How about the other organizations?"
+            "joe_q4_talk1": {
+                "text": "How about the other organizations?"
             },
             "dan_q4_talk1": {
                 "text": "I’m not really that familiar with everyone here, but there’s KM\n(Kabataan Makabayan) and the SDK (Samahang Demokratiko ng Kabataan)."
             },
-            "joe_q4_doubt_talk1":{
+            "joe_q4_doubt_talk1": {
                 "text": "I don’t think so. You know them because you’re with them."
             },
-            "dan_q4_doubt_talk1":{
+            "dan_q4_doubt_talk1": {
                 "text": "That doesn’t make any sense. Being here doesn’t mean that\nI know everyone here."
             },
-            "joe_q4_accuse_talk1":{
+            "joe_q4_accuse_talk1": {
                 "text": "I don’t think so. You know them because you’re with them."
             },
-            "dan_q4_accuse_talk1":{
+            "dan_q4_accuse_talk1": {
                 "text": "That doesn’t make any sense."
             },
-            "joe_q5_talk1":{
+            "joe_q5_talk1": {
                 "text": "What do you think of the cops who are here to “maintain” the peace?"
             },
-            "dan_q5_talk1":{
+            "dan_q5_talk1": {
                 "text": "Two words – corrupt and brutal. They are here to serve only\nthe interests of the rich and powerful."
             },
-            "joe_q5_doubt_talk1":{
+            "joe_q5_doubt_talk1": {
                 "text": "How did you say that they are brutal? I think it’s the other way around.\nYou and your organizations are framing them and making them look bad."
             },
-            "dan_q5_doubt_talk1":{
+            "dan_q5_doubt_talk1": {
                 "text": "Sir Joe, if you’re here to defend the police, please just go away."
             },
-            "joe_q5_accuse_talk1":{
+            "joe_q5_accuse_talk1": {
                 "text": "How did you say that they are brutal? I think it’s the other way around.\nYou and your organizations are framing them and making them look bad."
             },
-            "dan_q5_accuse_talk1":{
+            "dan_q5_accuse_talk1": {
                 "text": "That doesn’t make any sense."
             }
         },
-        "m6":{
+        "m6": {
             "joe_intro": {
                 "text": "It’s probably seven o’clock. It’s difficult to see anything."
             },
-            "joe_target_jeep":{
+            "joe_target_jeep": {
                 "text": "It’s likely that the jeep was rented out by the demonstrators.\nIt had two loudspeakers on the roof."
             },
-            "joe_target_riot_talk1":{
+            "joe_target_riot_talk1": {
                 "text": "Blind obedience."
             },
-            "joe_target_riot_talk2":{
+            "joe_target_riot_talk2": {
                 "text": "The cops, wearing crash helmets and carrying wicker shields, were\nstriking out and beating up the students surrounding the jeepney."
             },
-            "joe_target_demonstrator_talk1":{
+            "joe_target_demonstrator_talk1": {
                 "text": "He’s downed and crumpled to the ground, his legs to his chest and his\narms over his head."
             },
-            "joe_target_demonstrator_talk2":{
+            "joe_target_demonstrator_talk2": {
                 "text": "Is that blood? He must’ve been beaten up by those cops."
             },
-            "cop2_end":{
+            "cop2_end": {
                 "text": "Come closer and you’ll get what you’re looking for."
             },
             "joe_end": {
                 "text": "Okay, okay."
             }
         },
-        "m7":{
-            "joe_intro1":{
+        "m7": {
+            "joe_intro1": {
                 "text": "Where am I?"
             },
-            "doc_intro1":{
+            "doc_intro1": {
                 "text": "PGH, Mr. Constantino. You were brought here after passing out."
             },
-            "joe_intro2":{
+            "joe_intro2": {
                 "text": "I see, thank you."
             },
-            "joe_target_demonstrator":{
+            "joe_target_demonstrator": {
                 "text": "He's one of them. I’d estimate there’s around thirty or so demonstrators with bloody heads\nand broken wrists."
             },
-            "joe_target_nusp_talk1":{
+            "joe_target_nusp_talk1": {
                 "text": "I thought they’ve left early. It seems like some members of the NUSP\nweren’t able to escape the violence."
             },
-            "joe_target_police_talk1":{
+            "joe_target_police_talk1": {
                 "text": "I see maybe three to four policemen, possibly hit by rocks."
             },
-            "joe_target_doctor_talk1":{
+            "joe_target_doctor_talk1": {
                 "text": "She’s probably busy speaking with the other patients."
             },
-            "joe_target_door_talk1":{
+            "joe_target_door_talk1": {
                 "text": "I’ll be on my way, thank you."
             }
         }
     }
-} 
+}
