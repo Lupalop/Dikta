@@ -53,7 +53,8 @@
         "guard": "Guard",
         "driver": "Taxi Driver",
         "police_mac": "Police Officer",
-        "cop2": "Cop"
+        "cop2": "Cop",
+        "doc": "Dr. Salvacion"
     },
     "report": {
         "e1": [
@@ -383,20 +384,20 @@
             }
         },
         "m7":{
-            "joe_d1_talk1":{
+            "joe_intro1":{
                 "text": "Where am I?"
             },
-            "nurse_d1_talk1":{
+            "doc_intro1":{
                 "text": "PGH, Mr. Constantino. You were brought here after passing out."
             },
-            "joe_d1_talk2":{
+            "joe_intro2":{
                 "text": "I see, thank you."
             },
             "joe_target_demonstrator":{
-                "text": "I’d estimate there’s around thirty or so demonstrators with bloody heads\nand broken wrists."
+                "text": "He's one of them. I’d estimate there’s around thirty or so demonstrators with bloody heads\nand broken wrists."
             },
             "joe_target_nusp_talk1":{
-                "text": "I thought they’ve left early. It seems like some members of the NUSP weren’t able to escape the violence."
+                "text": "I thought they’ve left early. It seems like some members of the NUSP\nweren’t able to escape the violence."
             },
             "joe_target_police_talk1":{
                 "text": "I see maybe three to four policemen, possibly hit by rocks."
@@ -404,7 +405,7 @@
             "joe_target_doctor_talk1":{
                 "text": "She’s probably busy speaking with the other patients."
             },
-             "joe_target_door_talk1":{
+            "joe_target_door_talk1":{
                 "text": "I’ll be on my way, thank you."
             }
         }

@@ -43,7 +43,7 @@ class E1M6Scene(Mission):
 
         def _cop2_talk(sender):
             self.emitter.add("cop2", "end", "cop2-talk1")
-            self.emitter.add("joe", "end", "joe-faceright", callback = lambda:game.scenes.set_scene("e1m7"))
+            self.emitter.add("joe", "end", "joe-faceright", callback = lambda:game.scenes.set_scene("e1m7joe"))
 
         if not self.exists_clue("flashlight"):
             _cop2_talk(None)
