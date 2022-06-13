@@ -60,9 +60,82 @@
         "e1": [
             {
                 "title": "SONA Location",
-                "description": "IT WAS FIVE MINUTES PAST FIVE in the afternoon,\nby the clock on the Maharnilad tower, when I\narrived at:",
+                "description": "IT WAS FIVE MINUTES PAST FIVE in the afternoon,\nby the clock on the Maharnilad tower, when I\narrived at [?].",
                 "choices": ["Luneta Park", "Congress", "Home"],
                 "answer": 1
+            },
+            {
+                "title": "Session Hall Doors",
+                "description": "The doors of the session hall were [?].",
+                "choices": ["OPEN, LOCKED"],
+                "answer": 1
+            },
+            {
+                "title": "Crowd Estimate",
+                "description": "There were, according to conservative estimates,\n at least [?] of them, perhaps even 50,000.",
+                "choices": ["20,000", "30,000", "40,000"],
+                "answer": 0
+            }, 
+            {
+                "title": "Speaker",
+                "description": "There were two mikes, taped together; … They were\nin the hands of [?] Jopson of the National Union of Students of the Philippines,\nthe group that had organized the rally and secured the permit for it.",
+                "choices": ["EDGAR", "RICK", "JOE"],
+                "answer": 0
+            },
+            
+            {
+                "title": "Demonstrators' guns",
+                "description": "Among the demonstrators it was possible to feel at\nease. [?] of them carried guns, they didn’t stand on ceremony,\n and there was no need for the aura of privilege that a press badge automatically\nconfers on its wearer.",
+                "choices": ["NONE", "SOME", "ALL"],
+                "answer": 0
+            },
+            
+                "title": "Demonstration name",
+                "description": "The NUSP dubbed its demonstration [?].",
+                "choices": ["the January 26 Movement", "Anti-Police Movement", "Anti-Marcos Movement"],
+                "answer": 0
+            }, 
+            {
+                "title": "Chief Objective",
+                "description": "Its chief objective was to demand [?].",
+                "choices": ["a nonpartisan Constitutional Convention in 1971", "a resignation from the president", "the imposition of martial law"],
+                "answer": 0
+            },
+            {
+                "title": "Effigies",
+                "description": "WHERE THE DEMONSTRATION LEADERS STOOD, emblems of the\nenemy were prominently displayed: a cardboard [?] representing the\ndeath of democracy at the hands of the goonstabulary in the last elections. ",
+                "choices": ["COFFIN", "CROCODILE", "FERDINAND MARCOS"],
+                "answer": 0
+            },
+            {
+                "title": "Weapons in the Chaos",
+                "description": "The demonstrators who got as far as the sidewalk that led\nto the Muni golf links started to pick up pebbles and rocks with\nwhich they pelted the police. Very soon, placards had\nturned into missiles, and the sound of broken glass punctuated the yelling [?] were flying, too. The effigy was down on the ground, still burning.",
+                "choices": ["soft-drink bottles", "pebbles", "placards"],
+                "answer": 0
+            },
+            {
+                "title": "Perception of cops",
+                "description": "… the cops are generally believed to be [?]",
+                "choices": ["corrupt and brutal", "kind and honest", "trustworthy and protective"],
+                "answer": 0
+            },
+            {
+                "title": "Demonstartors' vehicle",
+                "description": "The demonstrators had hired a [?] in which rode some of\ntheir leaders. It had two loudspeakers on its roof,\nwas surrounded by students, and inched its way\nforward and backward throughout the melee.",
+                "choices": ["corrupt and brutal", "kind and honest", "trustworthy and protective"],
+                "answer": 0
+            },
+            {
+                "title": "Cops actions",
+                "description": "When the cops were through [?] the jeepney’s passengers,\nthey backed away. ",
+                "choices": ["beating up", "driving away", "reprimanding"],
+                "answer": 0
+            },
+            {
+                "title": "Injured People Count",
+                "description": "More than [?] demonstrators with bloody heads\nand broken wrists had been or were being treated along with\nthree or four policemen hit by rocks.",
+                "choices": ["THIRTY", "TWENTY", "FORTY"],
+                "answer": 0
             }
         ]
     },
