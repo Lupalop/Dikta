@@ -126,6 +126,9 @@ class Dialog(ClickableEntity):
         self.label_speech.update(game, events)
         self.label_name.update(game, events)
 
+    def _can_skip(self):
+        return prefs.default.get("game.dialog.can_skip", True)
+
     def next_or_skip(self):
         if self.label_speech.is_completed and \
            (self.flags & DialogFlags.CLOSEABLE):
@@ -134,7 +137,8 @@ class Dialog(ClickableEntity):
             utils.reset_cursor()
             self.emitter.set_viewed(self.text_key)
             self.emitter.next()
-        elif self.flags & DialogFlags.SKIPPABLE:
+        elif self._can_skip() and \
+             (self.flags & DialogFlags.SKIPPABLE):
             self.label_speech.skip()
 
     # XXX The following overrides the intersection check to always return true,
