@@ -52,7 +52,8 @@
         "dan": "Student",
         "guard": "Guard",
         "driver": "Taxi Driver",
-        "police_mac": "Police Officer"
+        "police_mac": "Police Officer",
+        "cop2": "Cop"
     },
     "report": {
         "e1": [
@@ -356,14 +357,17 @@
             }
         },
         "m6":{
-            "joe_target_jeep_talk1":{
-                "text": "It’s likely that the jeep was rented out by the demonstrators. It had two loudspeakers on the roof."
+            "joe_intro": {
+                "text": "It’s probably seven o’clock. It’s difficult to see anything."
+            },
+            "joe_target_jeep":{
+                "text": "It’s likely that the jeep was rented out by the demonstrators.\nIt had two loudspeakers on the roof."
             },
             "joe_target_riot_talk1":{
-                "text": "Blind obedience. "
+                "text": "Blind obedience."
             },
             "joe_target_riot_talk2":{
-                "text": "The cops, who are wearing crash helmets and carrying wicker shields, were \n striking out and beating up the students surrounding the jeepney."
+                "text": "The cops, wearing crash helmets and carrying wicker shields, were\nstriking out and beating up the students surrounding the jeepney."
             },
             "joe_target_demonstrator_talk1":{
                 "text": "He’s downed and crumpled to the ground, his legs to his chest and his\narms over his head."
@@ -371,10 +375,12 @@
             "joe_target_demonstrator_talk2":{
                 "text": "Is that blood? He must’ve been beaten up by those cops."
             },
-            "police_d2_talk1":{
-                "text": "Come closer and you’ll get what you’re looking for"
+            "cop2_end":{
+                "text": "Come closer and you’ll get what you’re looking for."
+            },
+            "joe_end": {
+                "text": "Okay, okay."
             }
-        
         },
         "m7":{
             "joe_d1_talk1":{
@@ -386,7 +392,7 @@
             "joe_d1_talk2":{
                 "text": "I see, thank you."
             },
-            "joe_target_demonstrators_talk1":{
+            "joe_target_demonstrator":{
                 "text": "I’d estimate there’s around thirty or so demonstrators with bloody heads\nand broken wrists."
             },
             "joe_target_nusp_talk1":{
