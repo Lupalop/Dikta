@@ -57,7 +57,7 @@ class E1M7Scene(Mission):
 
         target6 = TargetMask(self, self.get_image("main-target-door"))
         def _end():
-            game.scenes.set_scene("e1end")
+            game.scenes.set_scene("e1mend")
         target6.leftclick += lambda sender: self.emitter.add("joe", "target_door_talk1", "joe-faceright", callback=_end)
 
         self.entities = {
