@@ -39,7 +39,7 @@ class DialogFlags(IntFlag):
     NORMAL = 3
 
 class Dialog(ClickableEntity):
-    def __init__(self, emitter, position, text_key, name, text, portrait_id = None, flags = DialogFlags.NORMAL, callback = None):
+    def __init__(self, emitter, position, text_key, name, text, portrait_id = None, vox_key = None, flags = DialogFlags.NORMAL, callback = None):
         super().__init__(
             emitter.owner,
             position,
@@ -51,6 +51,11 @@ class Dialog(ClickableEntity):
         self.text_key = text_key
         self.callback = callback
         self.flags = flags
+
+        # Speech
+        self._played = False
+        self._vox_key = vox_key
+        self._vox = utils.load_vox(self._vox_key)
 
         rect_speech_final = RECT_SPEECH
         rect_name_final = RECT_NAME
@@ -125,6 +130,9 @@ class Dialog(ClickableEntity):
         super().update(game, events)
         self.label_speech.update(game, events)
         self.label_name.update(game, events)
+        if self._vox and not self._played:
+            self._vox.play()
+            self._played = True
 
     def _can_skip(self):
         return prefs.default.get("game.dialog.can_skip", True)
@@ -134,6 +142,8 @@ class Dialog(ClickableEntity):
            (self.flags & DialogFlags.CLOSEABLE):
             if self.callback:
                 self.callback()
+            if self._played:
+                self._vox.stop()
             utils.reset_cursor()
             self.emitter.set_viewed(self.text_key)
             self.emitter.next()
@@ -320,11 +330,11 @@ class DialogEmitter():
         return position
 
     # Add dialogue with all features
-    def add_custom(self, text_key, name, text, portrait_id = None, side = None, flags = DialogFlags.NORMAL, callback = None):
+    def add_custom(self, text_key, name, text, portrait_id = None, vox_key = None, side = None, flags = DialogFlags.NORMAL, callback = None):
         if not side:
             side = self.default_side
         position = self.compute_position(RECT_DIALOG, side)
-        dialog = Dialog(self, position, text_key, name, text, portrait_id, flags, callback)
+        dialog = Dialog(self, position, text_key, name, text, portrait_id, vox_key, flags, callback)
         self.queue.put(dialog)
         if not self.current_dialog:
             self.next()
@@ -346,6 +356,7 @@ class DialogEmitter():
             string[0],
             string[1],
             portrait_id,
+            string[3],
             side,
             flags,
             callback

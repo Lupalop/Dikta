@@ -22,12 +22,18 @@ def load_ca_image(image_name):
 def load_clue_image(image_name):
     return load_png_image(image_name, "items")
 
+def load_vox(file_name):
+    file_name = file_name + ".mp3"
+    sound = content.load_sound(file_name, "vox")
+    return sound
+
 strings = content.load_json_asset("strings")
 
 def get_ep_string(episode_id, mission_id, character_id, text_id):
     episode_key = "e{}".format(episode_id)
     mission_key = "m{}".format(mission_id)
     text_key = "{}_{}".format(character_id, text_id)
+    vox_key = "{}{}_{}".format(episode_key, mission_key, text_key)
     
     nametag_string = ""
     try:
@@ -41,7 +47,7 @@ def get_ep_string(episode_id, mission_id, character_id, text_id):
     except KeyError:
         text_string = "XXXmissing: [{}][{}][{}]".format(episode_key, mission_key, text_key)
 
-    return (nametag_string, text_string, text_key)
+    return (nametag_string, text_string, text_key, vox_key)
 
 FONT_DEFAULT = "franklingothicmediumcond"
 FONT_COMIC = "badcomic_italic"

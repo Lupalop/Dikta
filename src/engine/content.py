@@ -5,7 +5,9 @@ import json
 
 font_cache = {}
 image_cache = {}
+sound_cache = {}
 
+pygame.mixer.init()
 pygame.freetype.init()
 
 def load_image(image_name, *subdirectories):
@@ -66,3 +68,13 @@ def load_json_asset(file_name, *subdirectories):
 
 def save_json_asset(file_name, data, *subdirectories):
     save_json(file_name, data, "app", "assets", *subdirectories)
+
+def load_sound(file_name, *subdirectories):
+    if file_name in sound_cache:
+        return sound_cache[file_name]
+    file_path = os.path.join("app", "assets", *subdirectories, file_name)
+    if not os.path.exists(file_path):
+        return None
+    sound = pygame.mixer.Sound(file_path)
+    sound_cache[file_name] = sound
+    return sound
