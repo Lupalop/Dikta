@@ -107,11 +107,11 @@ class E1M3Scene(Mission):
 
         self.entities = {
             "target_entrance": target_entrance,
+            "target_police": target_police,
             "target_speakers": target_speakers,
             "target_podium": target_podium,
             "target_people_count": target_people_count,
             "target_no_guns": target_no_guns,
-            "target_police": target_police,
             "target_coffin": target_coffin,
         }
 
