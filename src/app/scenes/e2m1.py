@@ -16,8 +16,8 @@ class E2M1(Mission):
     def draw(self, layer):
         super().draw(layer)
 
-    def _to_main_menu(self):
-        game.scenes.set_scene("main_menu")
+    def _to_credits(self):
+        game.scenes.set_scene("credits")
 
     def load_content(self):
         super().load_content()
@@ -29,7 +29,7 @@ class E2M1(Mission):
             self.fade_timer = self.animator.fadeout(
                 intro1,
                 750,
-                self._to_main_menu,
+                self._to_credits,
             )
 
         def fadein_intro1():

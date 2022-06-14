@@ -51,7 +51,10 @@ class MainMenuScene(Scene):
 
         btn_options = FadeButton(self, utils.load_mm_image("btn-options"), (740, 500))
 
+        def to_credits(sender, button):
+            game.scenes.set_scene("credits")
         btn_credits = FadeButton(self, utils.load_mm_image("btn-credits"), (1105, 335))
+        btn_credits.click += to_credits
 
         btn_exit = FadeButton(self, utils.load_mm_image("btn-exit"), (1280, 280))
         btn_exit.click += lambda sender, button: game.exit()
@@ -64,7 +67,7 @@ class MainMenuScene(Scene):
             "btn_new": btn_new,
             "btn_load": btn_load,
             #"btn_options": btn_options,
-            #"btn_credits": btn_credits,
+            "btn_credits": btn_credits,
             "btn_exit": btn_exit,
         }
 

@@ -1,0 +1,57 @@
+-Dikta
+
++Development Team
+
+-Writers
+Francis Dominic Fajardo
+Timothy Jay Sayson
+
+-Lead Programmer
+Francis Dominic Fajardo
+
+-Programmer
+Aser James Hubero
+
+-Music
+Eric Matyas
+www.soundimage.org
+
+-Sound Effects
+Nicholas Ian Mojica
+
+Storyblocks
+www.storyblocks.com
+
+Eric Matyas
+www.soundimage.org
+
+-Voice Cast
+Microsoft Azure Cognitive Services
+Joe - James (en-PH, Neural)
+Taxi Driver - Tony (en-US, Neural)
+Dr. Constantino - Rosa (en-PH, Neural)
+
+-Lead Artist
+Francis Dominic Fajardo
+
+The Sims 3/Electronic Arts
+In-game footage was used as reference
+
+-Additional Art
+"Roret Cursor"
+by Lintnaya
+
+"Bad Comic" 
+Copyright © 2020-2021 GGBot
+Licensed under the SIL Open Font License, Version 1.1.
+
++Bootcamp Advisers
+Mr. Kevin Brian Valmonte
+Mr. Manuel L. Calimlim, Jr.
+
++Mentors
+Ms. Jamilah Bianca F. Salvador
+Mr. Carlo Antonio C. Cordero
+
+
+-Thanks for playing!
