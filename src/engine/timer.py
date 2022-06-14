@@ -68,7 +68,11 @@ class Timer():
         if not self.enabled:
             return
 
-        self.time_elapsed += clock.get_time()
+        # XXX we clamp the delta time to 20, which should hopefully prevent
+        # stuck animations which fail to do anything. This is caused by timers
+        # that suddenly close because of the huge delta time.
+        delta_time = min(clock.get_time(), 20)
+        self.time_elapsed += delta_time
 
         if self.time_elapsed >= self.interval:
             self.on_elapsed()
