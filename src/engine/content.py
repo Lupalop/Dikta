@@ -72,6 +72,14 @@ def load_json_asset(file_name, *subdirectories):
 def save_json_asset(file_name, data, *subdirectories):
     save_json(file_name, data, "app", "assets", *subdirectories)
 
+def read_all_lines(file_name, *subdirectories):
+    file_name = file_name
+    file_path = os.path.join("app", "assets", *subdirectories, file_name);
+    file = open(file_path, "r", encoding="utf-8")
+    data = file.readlines()
+    file.close()
+    return data
+
 def load_sound(file_name, *subdirectories):
     if file_name in sound_cache:
         return sound_cache[file_name]
