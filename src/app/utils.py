@@ -23,6 +23,10 @@ def load_clue_image(image_name):
     return load_png_image(image_name, "items")
 
 def load_vox(file_name):
+    is_enabled = prefs.default.get("audio.vox.enabled", True)
+    if not is_enabled:
+        return None
+
     file_name = file_name + ".mp3"
     sound = content.load_sound(file_name, "vox")
     return sound
@@ -103,12 +107,20 @@ def get_music():
     return content.music_current
 
 def set_music(file_name, volume = 1.0):
+    is_enabled = prefs.default.get("audio.music.enabled", True)
+    if not is_enabled:
+        return None
+
     is_loaded = content.load_music(file_name + ".mp3")
     if is_loaded:
         pygame.mixer.music.play(loops=-1, fade_ms=500)
         pygame.mixer.music.set_volume(volume)
 
 def play_sfx(file_name, volume = 1.0, looping = False):
+    is_enabled = prefs.default.get("audio.sfx.enabled", True)
+    if not is_enabled:
+        return None
+
     file_name = file_name + ".mp3"
     sound = content.load_sound(file_name, "sfx")
     sound.set_volume(volume)
