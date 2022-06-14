@@ -7,7 +7,7 @@ class GameManager():
         print("Initialized: Game Manager")
         prefs.default.load()
         self._init_display()
-        self.fps_limit = 60
+        self.fps_limit = prefs.default.get("app.fps_limit", 60)
         self.clock = None
         self._title = ""
         self._mouse_pos = (0, 0)
