@@ -98,6 +98,23 @@ def create_listitem_data(text, id, value):
     }
     return data
 
+# BGM/SFX
+def get_music():
+    return content.music_current
+
+def set_music(file_name, volume = 1.0):
+    is_loaded = content.load_music(file_name + ".mp3")
+    if is_loaded:
+        pygame.mixer.music.play(loops=-1, fade_ms=500)
+        pygame.mixer.music.set_volume(volume)
+
+def play_sfx(file_name, volume = 1.0):
+    file_name = file_name + ".mp3"
+    sound = content.load_sound(file_name, "sfx")
+    sound.set_volume(volume)
+    sound.play()
+    return sound
+
 # PyGame's color cursors don't scale properly. Instead, we draw our own cursor
 # via an overlay, which then references this module's current cursor variable.
 cursor_current = None

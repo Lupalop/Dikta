@@ -6,6 +6,9 @@ import json
 font_cache = {}
 image_cache = {}
 sound_cache = {}
+music_current = None
+
+FADEOUT_MS = 1000
 
 pygame.mixer.init()
 pygame.freetype.init()
@@ -78,3 +81,16 @@ def load_sound(file_name, *subdirectories):
     sound = pygame.mixer.Sound(file_path)
     sound_cache[file_name] = sound
     return sound
+
+def load_music(file_name, *subdirectories):
+    global music_current
+    if music_current == file_name:
+        return False
+    file_path = os.path.join("app", "assets", "bgm", *subdirectories, file_name)
+    if not os.path.exists(file_path):
+        return False
+    if pygame.mixer.music.get_busy():
+        pygame.mixer.music.fadeout(FADEOUT_MS)
+    pygame.mixer.music.load(file_path)
+    music_current = file_name
+    return True
