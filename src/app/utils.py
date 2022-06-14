@@ -108,11 +108,15 @@ def set_music(file_name, volume = 1.0):
         pygame.mixer.music.play(loops=-1, fade_ms=500)
         pygame.mixer.music.set_volume(volume)
 
-def play_sfx(file_name, volume = 1.0):
+def play_sfx(file_name, volume = 1.0, looping = False):
     file_name = file_name + ".mp3"
     sound = content.load_sound(file_name, "sfx")
     sound.set_volume(volume)
-    sound.play()
+
+    loop_count = 0
+    if looping:
+        loop_count = -1
+    sound.play(loops=loop_count)
     return sound
 
 # PyGame's color cursors don't scale properly. Instead, we draw our own cursor
