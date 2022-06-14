@@ -3,7 +3,7 @@ from engine import Entity
 import pygame
 
 class Label(Entity):
-    def __init__(self, owner, text, font, color, position_or_rect = (0, 0), size = None, outline_color = (0, 0, 0), outline_width = 0):
+    def __init__(self, owner, text, font, color, position_or_rect = (0, 0), size = None, outline_color = (0, 0, 0), outline_width = 0, ignore_newline = False):
         super().__init__(owner, position_or_rect, size)
         self._font = font
         self._color = color
@@ -12,6 +12,7 @@ class Label(Entity):
         self._outline_width = outline_width
         self._outline_padding = (2 * outline_width)
         self.line_height = 13
+        self.ignore_newline = ignore_newline
         if not font or not color or not text:
             self._surface = None
             return
@@ -53,7 +54,11 @@ class Label(Entity):
     def _render_lines(self):
         # XXX For now, we'll just check for the presence of newline
         # characters as markers for breaking.
-        textlines = self._text.split("\n")
+        textlines = None
+        if self.ignore_newline:
+            textlines = [self._text.replace("\n", "")]
+        else:
+            textlines = self._text.split("\n")
         self._renders = []
         self._outline_renders = []
         height = 0
