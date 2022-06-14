@@ -18,6 +18,7 @@ class GameOverScene(Scene):
         game.scenes.set_scene("main_menu")
 
     def load_content(self):
+        utils.set_music("main_menu", 0.5)
         background = Image(
             self,
             utils.load_ui_image("fsc-static-gameover"),

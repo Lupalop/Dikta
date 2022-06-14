@@ -18,6 +18,7 @@ class E1M4CongressPolice(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m3", 0.15)
         self.background.set_surface(self.get_image("bg-mac"))
 
         ca_mac = Image(self, utils.load_ca_image("mac-talk1"), (318, 66))
@@ -55,6 +56,7 @@ class E1M4CongressJoe(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m3", 0.15)
         self.background.set_surface(self.get_image("bg-joe"))
 
         ca_joe = Image(self, utils.load_ca_image("joe-talk1"), (830, 100))

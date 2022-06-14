@@ -15,6 +15,8 @@ class MainMenuScene(Scene):
         super().draw(layer)
 
     def load_content(self):
+        utils.set_music("main_menu", 0.15)
+
         background = Image(
             self,
             utils.load_mm_image("bg-main"),

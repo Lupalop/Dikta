@@ -1,5 +1,5 @@
 from engine import *
-from app import defaults, scene_list
+from app import defaults, scene_list, utils
 from app.entities import *
 from app.mission import Mission
 from app.dialog import DialogSide, DialogFlags
@@ -59,6 +59,8 @@ class E1M2Intermezzo(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m1", 0.15)
+        self.ambient_sound = utils.play_sfx("car")
         self.background.set_surface(self.get_image("outside-bg"))
         self.emitter.add(
             "joe",
@@ -123,6 +125,7 @@ class E1M2TaxiInsideJoe(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m1", 0.15)
         self.background.set_surface(self.get_image("taxi-bg-joe"))
 
         taxi_choice = self.find_switch("taxi_choice")
@@ -160,7 +163,9 @@ class E1M2TaxiInsideDriver(Mission):
 
     def _to_pay(self):
         self.set_switch("taxi_pay", True)
-        game.scenes.set_scene("e1m2taxi_driver")
+        game.scenes.set_scene("e1m2taxi_driver", 10000)
+        _car_sfx = utils.play_sfx("car")
+        _car_sfx.fadeout(10500)
 
     def _to_joe(self):
         taxi_reset = self.find_switch("taxi_reset")
@@ -170,6 +175,7 @@ class E1M2TaxiInsideDriver(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m1", 0.15)
         self.background.set_surface(self.get_image("taxi-bg-driver"))
 
         taxi_pay = self.find_switch("taxi_pay")

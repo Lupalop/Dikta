@@ -1,5 +1,5 @@
 from engine import *
-from app import defaults, scene_list
+from app import defaults, scene_list, utils
 from app.entities import *
 from app.mission import Mission
 from app.dialog import DialogSide, DialogFlags
@@ -14,6 +14,7 @@ class E1M1Scene(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m1", 0.15)
         self.emitter.add("joe", "intro1", repeat = False)
         self.emitter.add("joe", "intro2", callback=lambda: game.scenes.set_scene("e1m1desk_outside"))
 
@@ -29,6 +30,7 @@ class E1M1DeskOutside(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m1", 0.15)
         self.background.set_surface(self.get_image("bg-main"))
         self.emitter.add("tut", "hovercursor", repeat = False)
 
@@ -61,10 +63,14 @@ class E1M1DeskOutside(Mission):
 
         if len(self.get_clues()) > 0:
             self.emitter.add("joe", "exit", flags = DialogFlags.SKIPPABLE)
+            def _on_leave(sender):
+                utils.play_sfx("interiordoor_unlock")
+                game.scenes.set_scene("e1m2intermezzo", 1000)
+
             def _handle_choice(sender, value):
                 # Choice 1: Leave
                 if value[0] == 1:
-                    sender.hidden += lambda sender: game.scenes.set_scene("e1m2intermezzo")
+                    sender.hidden += _on_leave
                 # Choice 2: Stay
                 else:
                     self.emitter.add("joe", "return")
@@ -76,12 +82,15 @@ scene_list.add_mission(E1M1DeskOutside())
 
 # E1M1 - Desk - Inside (HO)
 
+SW_DRAWER_CLOSED = "e1m1_drawer_closed"
+
 class E1M1DeskInside(Mission):
     def __init__(self):
         super().__init__(1, 1, "desk_inside", "Desk - Inside", DialogSide.TOP)
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m1", 0.15)
         self.background.set_surface(self.get_image("bg-desk"))
         self.emitter.add("tut", "rightclickreturn", repeat = False)
         self.emitter.add("joe", "desk", "joe-faceright", repeat = False)
@@ -146,12 +155,17 @@ class E1M1DeskInside(Mission):
 
         drawer = TargetMask(self, self.get_image("tm-desk-drawer"))
         def drawer_leftclick(sender):
+            utils.play_sfx("drawer_open")
             if self.exists_clue("flashlight"):
-                self.emitter.add("joe", "drawer_empty", "joe-faceright")
+                self.emitter.add("joe", "drawer_empty", "joe-faceright", callback=lambda:utils.play_sfx("drawer_open"))
             else:
                 game.scenes.set_scene("e1m1popup_flashlight")
         drawer.leftclick += drawer_leftclick
         self.entities["drawer"] = drawer
+
+        if self.exists_clue("flashlight") and not self.find_switch(SW_DRAWER_CLOSED):
+            utils.play_sfx("drawer_close")
+            self.set_switch(SW_DRAWER_CLOSED, True)
 
 scene_list.add_mission(E1M1DeskInside())
 
@@ -163,7 +177,7 @@ class E1M1PopupPressCardScene(Mission):
 
     def load_content(self):
         super().load_content()
-
+        utils.set_music("e1m1", 0.15)
         self.emitter.add("tut", "rightclickreturn", repeat = False)
 
         if not self.exists_clue("press_card"):
@@ -199,7 +213,7 @@ class E1M1PopupNoteScene(Mission):
 
     def load_content(self):
         super().load_content()
-
+        utils.set_music("e1m1", 0.15)
         self.emitter.add("tut", "rightclickreturn", repeat = False)
 
         if not self.exists_clue("note"):
@@ -235,7 +249,7 @@ class E1M1PopupFlashlightScene(Mission):
 
     def load_content(self):
         super().load_content()
-
+        utils.set_music("e1m1", 0.15)
         self.emitter.add("tut", "rightclickreturn", repeat = False)
 
         if not self.exists_clue("flashlight"):

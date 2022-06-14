@@ -38,12 +38,17 @@ class E1M6Scene(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m6", 0.15)
         self.background.set_surface(self.get_image("main-bg"))
         self.emitter.add("joe", "intro", "joe-faceright")
 
+        def _next():
+            _car_sfx = utils.play_sfx("punch_groan")
+            game.scenes.set_scene("e1m7joe", 2000)
+
         def _cop2_talk(sender):
             self.emitter.add("cop2", "end", "cop2-talk1")
-            self.emitter.add("joe", "end", "joe-faceright", callback = lambda:game.scenes.set_scene("e1m7joe"))
+            self.emitter.add("joe", "end", "joe-faceright", callback = _next)
 
         if not self.exists_clue("flashlight"):
             _cop2_talk(None)

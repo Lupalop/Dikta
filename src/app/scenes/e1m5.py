@@ -18,7 +18,7 @@ class E1M5Scene(Mission):
 
     def load_content(self):
         super().load_content()
-
+        utils.set_music("e1m5", 0.15)
         self.background.set_surface(self.get_image("main-bg"))
         self.emitter.add("joe", "intro", "joe-faceright", repeat = False)
 
@@ -46,6 +46,7 @@ class E1M5Joe(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m5", 0.15)
         self.background.set_surface(self.get_image("joe-bg"))
 
         ca_joe = Image(self, utils.load_ca_image("joe-talk2"), (474, 90))
@@ -147,6 +148,7 @@ class E1M5Dan(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m5", 0.15)
         self.background.set_surface(self.get_image("dan-bg"))
 
         prop_people = Image(
@@ -288,7 +290,7 @@ class E1M5Questions(Mission):
 
     def load_content(self):
         super().load_content()
-
+        utils.set_music("e1m5", 0.15)
         self.background.set_surface(self.get_image("main-bg"))
 
         self._load_questions()
@@ -360,6 +362,7 @@ class E1M5Comic(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m5comic", 0.5)
         slice1 = Image(
             self, self.get_image("comic-1"), (-11.333, -21.943))
         slice2 = Image(
@@ -390,7 +393,7 @@ class E1M5Comic(Mission):
                 slice3,
                 750,
                 fadein_slice4,
-                2000
+                5000
             )
 
         def fadein_slice2():
@@ -398,7 +401,7 @@ class E1M5Comic(Mission):
                 slice2,
                 750,
                 fadein_slice3,
-                2000
+                5000
             )
 
         def fadein_slice1():
@@ -406,7 +409,7 @@ class E1M5Comic(Mission):
                 slice1,
                 750,
                 fadein_slice2,
-                2000
+                5000
             )
 
         fadein_slice1()

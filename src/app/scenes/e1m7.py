@@ -12,6 +12,7 @@ class E1M7Joe(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m7", 0.3)
         self.emitter.add("joe", "intro1", repeat = False, callback=lambda: game.scenes.set_scene("e1m7doc"))
 
         self.background.set_surface(self.get_image("joe-bg"))
@@ -24,6 +25,7 @@ class E1M7Doc(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m7", 0.3)
         self.emitter.add("doc", "intro1", repeat = False, callback=lambda: game.scenes.set_scene("e1m7"))
 
         self.background.set_surface(self.get_image("doc-bg"))
@@ -37,6 +39,7 @@ class E1M7Scene(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m7", 0.3)
         self.background.set_surface(self.get_image("main-bg"))
         self.emitter.add("joe", "intro2", "joe-faceright", repeat = False)
 

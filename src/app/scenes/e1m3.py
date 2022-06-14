@@ -1,5 +1,5 @@
 from engine import *
-from app import defaults, scene_list
+from app import defaults, scene_list, utils
 from app.entities import *
 from app.mission import Mission
 from app.dialog import DialogSide, DialogFlags
@@ -18,6 +18,8 @@ class E1M3Scene(Mission):
 
     def load_content(self):
         super().load_content()
+        utils.set_music("e1m3", 0.15)
+        self.ambient_sound = utils.play_sfx("street_amb", 0.5, True)
         self.background.set_surface(self.get_image("main-bg"))
         self.emitter.add("joe", "text1", "joe-faceright", repeat = False)
         self.emitter.add("joe", "text2", "joe-faceright", repeat = False)
