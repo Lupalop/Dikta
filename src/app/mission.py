@@ -18,6 +18,8 @@ class Mission(Scene):
         self.menu_blocked = menu_blocked
         self.default_side = default_side
         self.return_scene = None
+        self.ambient_sound = None
+        self.ambient_fadeout = 500
 
         if mission_desc:
             name = "Episode {} - Mission {} - {}".format(episode_id, mission_id, mission_desc)
@@ -121,3 +123,9 @@ class Mission(Scene):
         prefs.savedgame.set("user.episode_id", self.episode_id)
         prefs.savedgame.set("user.mission_id", self.mission_id)
         prefs.savedgame.set("user.mission_key", self.mission_key)
+
+
+    def dispose(self):
+        if self.ambient_sound:
+            self.ambient_sound.fadeout(self.ambient_fadeout)
+        super().dispose()
