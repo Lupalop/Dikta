@@ -2,6 +2,7 @@ from engine import ClickableEntity
 from engine.enums import MouseButton, ClickState
 from engine.event_handler import EventHandler
 from app.entities import Label
+from app import utils
 
 import pygame
 
@@ -72,6 +73,10 @@ class Button(ClickableEntity):
         print("Changing the surface of a Button entity is not allowed.")
 
     # Event handlers
+    def _on_click(self, button):
+        super()._on_click(button)
+        utils.play_sfx("click")
+
     def _on_state_changed(self, state):
         if state == ClickState.HOVER and \
            "hover" in self._bg_list:

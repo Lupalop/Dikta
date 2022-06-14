@@ -49,6 +49,10 @@ class ChoiceButton(ClickableEntity):
         return entity_copy
 
     # Event handlers
+    def _on_click(self, button):
+        super()._on_click(button)
+        utils.play_sfx("click")
+
     def _on_state_changed(self, state):
         super()._on_state_changed(state)
 

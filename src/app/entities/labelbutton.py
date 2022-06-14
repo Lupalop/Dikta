@@ -1,6 +1,7 @@
 from engine import ClickableEntity
 from engine.enums import MouseButton, ClickState
 from app.entities import Label
+from app import utils
 
 import pygame
 
@@ -38,6 +39,10 @@ class LabelButton(ClickableEntity):
         self._on_entity_dirty(resize)
 
     # Overridden base entity setter functions
+    def _on_click(self, button):
+        super()._on_click(button)
+        utils.play_sfx("click")
+
     def _on_entity_dirty(self, resize):
         if resize:
             self._rect.size = self.get_label().get_size()

@@ -245,6 +245,7 @@ class DialogEmitter():
             self.current_popup = None
         else:
             self.current_popup = self.popup_queue.get()
+            utils.play_sfx("clue", 0.5)
 
     def next_popup_image(self):
         self.current_popup_image = None

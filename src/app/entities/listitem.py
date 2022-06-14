@@ -60,6 +60,10 @@ class ListItem(ClickableEntity):
             self._anim = None
 
     # Event handlers
+    def _on_click(self, button):
+        super()._on_click(button)
+        utils.play_sfx("click")
+
     def _on_state_changed(self, state):
         self._close_anim()
 

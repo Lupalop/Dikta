@@ -75,6 +75,10 @@ class KeyedButton(ClickableEntity):
         print("Changing the surface of a KeyedButton entity is not allowed.")
 
     # Event handlers
+    def _on_click(self, button):
+        super()._on_click(button)
+        utils.play_sfx("click")
+
     def _on_state_changed(self, state):
         if state == ClickState.HOVER:
             self._bg_current = "hover"
