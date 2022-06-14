@@ -20,7 +20,7 @@ class SceneManager:
     def get_scene(self):
         return self._scene
 
-    def set_scene(self, scene):
+    def set_scene(self, scene, delay = None):
         if self._switching:
             print("Cannot switch to another scene while a scene switch is in progress.")
             return
@@ -51,7 +51,8 @@ class SceneManager:
             animator.default.fadein(
                 self.fade_surface,
                 self.fade_duration,
-                _fade_in_done
+                _fade_in_done,
+                delay
             )
         else:
             _fade_in_done()
