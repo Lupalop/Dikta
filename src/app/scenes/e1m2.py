@@ -114,7 +114,7 @@ class E1M2TaxiInsideJoe(Mission):
         game.scenes.set_scene("e1m3")
 
     def _clue_selected(self, sender, data):
-        if data["id"] == "wallet":
+        if ("id" in data) and (data["id"] == "wallet"):
             self.emitter.add("joe", "pay2a", callback=self._next)
             self.emitter.next()
         else:
