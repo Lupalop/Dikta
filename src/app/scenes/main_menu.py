@@ -25,9 +25,10 @@ class MainMenuScene(Scene):
             self,
             utils.load_mm_image("logo"),
             (930, 590))
+        version_data = content.read_all_lines("version.txt")
         label_version = Label(
             self,
-            "Version 1.0.0a2",
+            "Version {}".format(version_data[0]),
             utils.get_font(14),
             pygame.Color("white"),
             (20, 690))
