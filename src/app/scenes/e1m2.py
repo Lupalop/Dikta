@@ -148,6 +148,7 @@ class E1M2TaxiInsideJoe(Mission):
 
         taxi_pay = self.find_switch("taxi_pay")
         if taxi_pay:
+            self.menu_blocked = True
             self.emitter.add("joe", "pay1", flags=DialogFlags.SKIPPABLE)
             items = self.emitter.add_clues_selector()
             items.selected += self._clue_selected
