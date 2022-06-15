@@ -78,6 +78,8 @@ class InGameCluesOverlay(Scene):
             self,
             None,
             (745, 525))
+        btn_return = KeyedButton(self, (64, 64), "Return", pygame.K_F12, "TAB")
+        btn_return.leftclick += lambda sender: self.toggle_visibility()
 
         self.entities = {
             "background": background,
@@ -86,6 +88,7 @@ class InGameCluesOverlay(Scene):
             "details_bg": details_bg,
             "details_text": self._details_text,
             "listbox_image": self._listbox_image,
+            "btn_return": btn_return,
         }
 
     def update(self, game, events):
