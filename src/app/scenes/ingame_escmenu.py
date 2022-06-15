@@ -35,8 +35,10 @@ class InGameEscMenuOverlay(Scene):
 
         if self.visible:
             scene_list.all["ig_clues"].set_visibility(False)
+            scene_list.all["ig_options"].set_visibility(False)
 
         self.entities["action_clues"].hidden = self.entities["action_clues"].disabled = ig_blocked
+        self.entities["action_options"].hidden = self.entities["action_options"].disabled = ig_blocked
 
     def load_content(self):
         bg_solid = pygame.Surface(prefs.default.get("app.display.layer_size", (0, 0)))
@@ -57,7 +59,8 @@ class InGameEscMenuOverlay(Scene):
         action_clues.click += to_clues
 
         def to_options(sender, button):
-            pass
+            self.toggle_visibility()
+            scene_list.all["ig_options"].toggle_visibility()
         action_options = FadeButton(self, utils.load_ui_image("igesc-action-options"), (802, 348))
         action_options.click += to_options
 
@@ -72,7 +75,7 @@ class InGameEscMenuOverlay(Scene):
             "background": background,
             "action_continue": action_continue,
             "action_clues": action_clues,
-            #"action_options": action_options,
+            "action_options": action_options,
             "action_exit": action_exit,
         }
 

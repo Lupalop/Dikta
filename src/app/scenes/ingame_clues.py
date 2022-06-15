@@ -44,6 +44,7 @@ class InGameCluesOverlay(Scene):
            current_scene.emitter.current_dialog or \
            current_scene.emitter.current_selector or \
            scene_list.all["ig_escmenu"].visible or \
+           scene_list.all["ig_options"].visible or \
            game.scenes._switching:
             return
 

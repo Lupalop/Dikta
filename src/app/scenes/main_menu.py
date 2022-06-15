@@ -49,7 +49,10 @@ class MainMenuScene(Scene):
         btn_load = FadeButton(self, utils.load_mm_image("btn-load"), (610, 595))
         btn_load.click += to_loadgame
 
+        def to_options(sender, button):
+            scene_list.all["ig_options"].toggle_visibility()
         btn_options = FadeButton(self, utils.load_mm_image("btn-options"), (740, 500))
+        btn_options.click += to_options
 
         def to_credits(sender, button):
             game.scenes.set_scene("credits")
@@ -66,7 +69,7 @@ class MainMenuScene(Scene):
             "label_version": label_version,
             "btn_new": btn_new,
             "btn_load": btn_load,
-            #"btn_options": btn_options,
+            "btn_options": btn_options,
             "btn_credits": btn_credits,
             "btn_exit": btn_exit,
         }

@@ -8,6 +8,7 @@ game.scenes.add_overlay("debug")
 game.scenes.add_overlay("mouse", True)
 game.scenes.add_overlay("ig_escmenu")
 game.scenes.add_overlay("ig_clues")
+game.scenes.add_overlay("ig_options")
 
 game.scenes.set_scene("main_menu")
 game.set_window_title("Dikta")
