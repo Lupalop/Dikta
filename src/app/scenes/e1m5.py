@@ -6,6 +6,9 @@ from app.dialog import DialogSide, DialogFlags
 
 import pygame
 
+def _toggle_clues(sender):
+    scene_list.all["ig_clues"].toggle_visibility()
+
 class E1M5Scene(Mission):
     def __init__(self):
         super().__init__(1, 5, "", "Congress - Outside 2", DialogSide.TOP)
@@ -241,9 +244,8 @@ class E1M5Dan(Mission):
         choiceset = ChoiceSet.from_entity(self, defaults.FDA_CHOICESET)
         choiceset.selected += self._handle_choice
         self.entities["fda"] = choiceset
-
         btn_clues = KeyedButton(self, (64, 64), "Review clues", pygame.K_F12, "TAB")
-        btn_clues.leftclick += lambda sender: scene_list.all["ig_clues"].toggle_visibility()
+        btn_clues.leftclick += _toggle_clues
         self.entities["btn_clues"] = btn_clues
 
     def _handle_choice(self, sender, value):
@@ -298,7 +300,7 @@ class E1M5Questions(Mission):
         listbox.selected += self._listbox_on_selected
 
         btn_clues = KeyedButton(self, (64, 64), "Review clues", pygame.K_F12, "TAB")
-        btn_clues.leftclick += lambda sender: scene_list.all["ig_clues"].toggle_visibility()
+        btn_clues.leftclick += _toggle_clues
 
         self.entities = {
             "hand": defaults.hand_left,
