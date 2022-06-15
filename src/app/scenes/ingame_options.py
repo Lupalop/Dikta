@@ -15,22 +15,42 @@ class InGameOptionsOverlay(Scene):
     def set_visibility(self, is_visible):
         self.visible = is_visible
 
-    def _listbox_on_marked(self, sender, data):
-        description = None
+    def _update_desc(self, data):
+        description = ""
         if "desc" in data["value"]:
             description = data["value"]["desc"]
+
+        pref = self._get_pref(data)
+        if pref:
+            pref_value = prefs.default.get(pref)
+            pref_value_string = "N/A"
+            if pref_value == True:
+                pref_value_string = "Enabled"
+            elif pref_value == False:
+                pref_value_string = "Disabled"
+            value_string = "\n\nCurrent setting: {}".format(pref_value_string)
+            description += value_string
+        
         if description:
             self._details_text.set_text(description)
         else:
             self._details_text.set_text(DT_PLACEHOLDER)
 
-    def _listbox_on_selected(self, sender, data):
-        pref = ""
+    def _get_pref(self, data):
+        pref = None
         if "pref" in data["value"]:
             pref = data["value"]["pref"]
+        return pref
+
+    def _listbox_on_marked(self, sender, data):
+        self._update_desc(data)
+
+    def _listbox_on_selected(self, sender, data):
+        pref = self._get_pref(data)
         if pref:
             new_value = (not prefs.default.get(pref, True))
             prefs.default.set(pref, new_value)
+        self._update_desc(data)
 
         refresh = False
         if "refresh" in data["value"]:
@@ -92,9 +112,9 @@ class InGameOptionsOverlay(Scene):
                 }
             },
             {
-                "text": "Toggle scaling mode",
+                "text": "Toggle smooth scaling",
                 "value": {
-                    "desc": "Set which scaling mode will be used.",
+                    "desc": "Set whether smooth scaling will be used.",
                     "pref": "app.display.use_smoothscale",
                     "refresh": True
                 }
