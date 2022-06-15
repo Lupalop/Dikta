@@ -60,6 +60,7 @@ class E1M2Intermezzo(Mission):
     def load_content(self):
         super().load_content()
         utils.set_music("e1m1", 0.15)
+        self.menu_blocked = True
         self.ambient_sound = utils.play_sfx("car")
         self.background.set_surface(self.get_image("outside-bg"))
         self.emitter.add(
