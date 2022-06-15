@@ -10,8 +10,15 @@ music_current = None
 
 FADEOUT_MS = 1000
 
-pygame.mixer.init()
-pygame.freetype.init()
+try:
+    pygame.mixer.init()
+except:
+    print("Failed to initialize audio mixer")
+
+try:
+    pygame.freetype.init()
+except:
+    print("Failed to initialize FreeType")
 
 def load_image(image_name, *subdirectories):
     image_path = os.path.join("app", "assets", *subdirectories, image_name);
