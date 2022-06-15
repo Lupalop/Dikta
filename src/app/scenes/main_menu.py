@@ -17,6 +17,10 @@ class MainMenuScene(Scene):
     def load_content(self):
         utils.set_music("main_menu", 0.15)
 
+        scene_list.all["ig_clues"].set_visibility(False)
+        scene_list.all["ig_options"].set_visibility(False)
+        scene_list.all["ig_escmenu"].set_visibility(False)
+
         background = Image(
             self,
             utils.load_mm_image("bg-main"),
