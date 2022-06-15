@@ -147,7 +147,7 @@ class InGameOptionsOverlay(Scene):
                 "text": "Toggle sound effects",
                 "value": {
                     "desc": "Set whether the game should play\nsound effects.",
-                    "pref": "audio.music.enabled",
+                    "pref": "audio.sfx.enabled",
                     "refresh": False
                 }
             },
@@ -155,7 +155,7 @@ class InGameOptionsOverlay(Scene):
                 "text": "Toggle speech/voices",
                 "value": {
                     "desc": "Set whether the game should play\nspeech dialogue.",
-                    "pref": "audio.music.enabled",
+                    "pref": "audio.vox.enabled",
                     "refresh": False
                 }
             }
