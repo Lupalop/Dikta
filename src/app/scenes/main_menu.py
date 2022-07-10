@@ -38,7 +38,7 @@ class MainMenuScene(Scene):
             (20, 690))
         logo_company = Image(
             self,
-            utils.load_mm_image("logo-company-alt"),
+            utils.load_mm_image("logo-company"),
             (20, 710))
 
         def to_newgame(sender, button):
