@@ -1,6 +1,7 @@
 from engine import prefs
 
 import pygame
+import os
 
 class GameManager():
     def __init__(self):
@@ -66,8 +67,8 @@ class GameManager():
         self.is_resizable = prefs.default.get("app.display.resizable", False)
         self.is_dpi_aware = prefs.default.get("app.display.dpi_aware", True)
         self.is_scale_smooth = prefs.default.get("app.display.use_smoothscale", True)
-        # Prevent automatic scaling
-        if self.is_dpi_aware:
+        # Prevent automatic scaling on Windows
+        if os.name == "nt" and self.is_dpi_aware:
             import ctypes
             ctypes.windll.user32.SetProcessDPIAware()
         # Update display mode and render layer surface
