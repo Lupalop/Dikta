@@ -7,7 +7,12 @@ import pygame
 pygame.display.set_icon(utils.load_ui_image("icon"))
 
 utils.set_cursor("default")
-game.scenes.all = game.scenes.all | scene_list.all
+
+if not game.scenes.all:
+	game.scenes.all = scene_list.all
+else:
+	game.scenes.all = game.scenes.all.update(scene_list.all)
+
 game.scenes.add_overlay("debug")
 game.scenes.add_overlay("mouse", True)
 game.scenes.add_overlay("ig_escmenu")
