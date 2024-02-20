@@ -32,6 +32,6 @@ Welcome to Dikta. This is an investigative point-and-click adventure game explor
 
 ## Troubleshooting
 - If you encounter any errors or issues while running the game, ensure that you have installed all dependencies correctly and that your Python environment is set up properly.
-- If you encounter any specific errors, try searching online for solutions or consult the game's documentation (if available).
+- If you encounter any errors, please report the issue as a bug in the repository.
 
-Thank you for playing Dikta! We hope you enjoy it. More episodes to come in the future.
+Thank you for playing Dikta! More episodes to come in the future.
