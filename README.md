@@ -1,5 +1,3 @@
-# README
-
 ## Introduction
 Welcome to Dikta. This is an investigative point-and-click adventure game exploring Martial Law and its surrounding events. Delve into a captivating narrative as you uncover mysteries and navigate through challenging scenarios.
 
