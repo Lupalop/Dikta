@@ -1,7 +1,7 @@
 # Dikta
 
 ## Introduction
-Welcome to Dikta. This is an investigative point-and-click adventure game exploring Martial Law and its surrounding events. Delve into a captivating narrative as you uncover mysteries and navigate through challenging scenarios prevelent to that era.
+**An investigative point-and-click adventure set in the Philippines, 1970.** Dikta plunges you into a pivotal moment in Philippine history, just before the declaration of Martial Law. You play as Joe Constantino, a reporter for The Times, tasked with covering President Ferdinand Marcos’ State of the Nation Address on January 26, 1970. As political tensions rise, you must navigate a complex web of characters and uncover the truth behind the headlines.
 
 ## Requirements
 - Python 3.x
