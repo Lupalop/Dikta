@@ -2,6 +2,7 @@ from engine import prefs
 
 import pygame
 import os
+import asyncio
 
 class GameManager():
     def __init__(self):
@@ -17,7 +18,7 @@ class GameManager():
         self.updateable = set()
         self.drawable = set()
 
-    def run(self):
+    async def run(self):
         self.running = True
         # We need to initialize this before running the main loop to ensure
         # that PyGame returns the right delta time if requested on startup.
@@ -53,6 +54,7 @@ class GameManager():
 
             pygame.display.update()
             self.clock.tick(self.fps_limit)
+            await asyncio.sleep(0)
 
         pygame.quit()
         prefs.default.save()

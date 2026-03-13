@@ -21,4 +21,3 @@ game.scenes.add_overlay("ig_options")
 
 game.scenes.set_scene("main_menu")
 game.set_window_title("Dikta")
-game.run()
