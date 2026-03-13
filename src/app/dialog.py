@@ -8,7 +8,6 @@ from app.entities.listbox import LISTBOX_MAIN_RECT as RECT_LISTBOX
 
 import pygame
 import random
-from queue import Queue
 from enum import IntEnum, IntFlag
 
 RECT_NAME = pygame.Rect(0, 0, 155, 38)
@@ -227,24 +226,24 @@ class DialogEmitter():
     def __init__(self, owner, default_side):
         self.owner = owner
         self.default_side = default_side
-        self.queue = Queue()
-        self.popup_queue = Queue()
+        self.queue = []
+        self.popup_queue = []
         self.current_dialog = None
         self.current_popup = None
         self.current_selector = None
         self.current_popup_image = None
 
     def next(self):
-        if self.queue.empty():
+        if not self.queue:
             self.current_dialog = None
         else:
-            self.current_dialog = self.queue.get()
+            self.current_dialog = self.queue.pop(0)
 
     def next_popup(self):
-        if self.popup_queue.empty():
+        if not self.popup_queue:
             self.current_popup = None
         else:
-            self.current_popup = self.popup_queue.get()
+            self.current_popup = self.popup_queue.pop(0)
             utils.play_sfx("clue", 0.5)
 
     def next_popup_image(self):
@@ -336,7 +335,7 @@ class DialogEmitter():
             side = self.default_side
         position = self.compute_position(RECT_DIALOG, side)
         dialog = Dialog(self, position, text_key, name, text, portrait_id, vox_key, flags, callback)
-        self.queue.put(dialog)
+        self.queue.append(dialog)
         if not self.current_dialog:
             self.next()
         utils.reset_cursor()
@@ -367,7 +366,7 @@ class DialogEmitter():
         clue_name = utils.get_clue_data(clue_id)["name"]
         position = self.compute_position(RECT_POPUP, side)
         popup = Popup(self, position, clue_name)
-        self.popup_queue.put(popup)
+        self.popup_queue.append(popup)
         if not self.current_popup:
             self.next_popup()
         return popup
