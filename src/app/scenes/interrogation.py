@@ -230,8 +230,9 @@ class InterrogationBase(Mission):
                 self.emitter.add(character, "outro_result", callback=callback)
 
         self.emitter.add_note(
-            "Questions: {}/{} Correct | {}".format(correct, total, verdict),
+            "{}/{} Correct | {}".format(correct, total, verdict),
             duration_ms=3200,
+            title="Questions",
             callback=_finish_part
         )
 

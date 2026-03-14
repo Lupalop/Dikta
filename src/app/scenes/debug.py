@@ -152,7 +152,8 @@ class DebugOverlay(Scene):
             verdict = "Weak read, revisit testimony"
 
         self.emitter.add_note(
-            f"Questions: {correct}/{total} Correct | {verdict}",
+            f"{correct}/{total} Correct | {verdict}",
+            title="Questions",
             callback=lambda: None,
             duration_ms=3200
         )

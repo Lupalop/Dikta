@@ -303,17 +303,26 @@ class DialogEmitter():
 
     def add_popup(self, clue_id, side = DialogSide.TOP_RIGHT):
         clue_name = utils.get_clue_data(clue_id)["name"]
-        position = self.compute_position(RECT_SIDENOTE, side)
-        popup = SideNote(self, position, "NEW CLUE: {}".format(clue_name), icon_type="clue")
+        popup = self.add_note(
+            clue_name,
+            side=side,
+            title="NEW CLUE",
+            icon_type="clue"
+        )
         popup.play_sfx = True
-        self.popup_queue.append(popup)
-        if not self.current_popup:
-            self.next_popup()
         return popup
 
-    def add_note(self, text, side = DialogSide.TOP_RIGHT, callback = None, duration_ms = 2800):
+    def add_note(self, text, side = DialogSide.TOP_RIGHT, callback = None, duration_ms = 2800, title = None, icon_type = "note"):
         position = self.compute_position(RECT_SIDENOTE, side)
-        popup = SideNote(self, position, text, callback=callback, duration_ms=duration_ms)
+        popup = SideNote(
+            self,
+            position,
+            text,
+            callback=callback,
+            duration_ms=duration_ms,
+            title=title,
+            icon_type=icon_type
+        )
         self.popup_queue.append(popup)
         if not self.current_popup:
             self.next_popup()
@@ -343,7 +352,7 @@ class DialogEmitter():
         return listbox
 
 class SideNote(ClickableEntity):
-    def __init__(self, emitter, position, text, callback = None, duration_ms = 2800, icon_type = "note"):
+    def __init__(self, emitter, position, text, callback = None, duration_ms = 2800, icon_type = "note", title = None):
         super().__init__(
             emitter.owner,
             position,
@@ -364,22 +373,22 @@ class SideNote(ClickableEntity):
         self._panel = None
         self._panel_rect = pygame.Rect(0, 0, 0, 0)
 
-        title = "QUESTIONS"
+        title_final = "QUESTIONS"
         subtitle = text
         detail = None
-        if isinstance(text, str) and ":" in text:
-            parts = text.split(":", 1)
-            title = parts[0].strip().upper()
-            subtitle = parts[1].strip().replace("correct", "Correct")
+        if isinstance(title, str) and title.strip():
+            title_final = title.strip().upper()
+        if isinstance(subtitle, str):
+            subtitle = subtitle.strip()
         if isinstance(subtitle, str) and "|" in subtitle:
             details = subtitle.split("|", 1)
             subtitle = details[0].strip()
             detail = details[1].strip()
 
         # Layered shadows provide a stronger soft blur behind text.
-        self._title_shadow = Label(self.owner, title, utils.get_font(24), pygame.Color(0, 0, 0, 215))
-        self._title_shadow_soft = Label(self.owner, title, utils.get_font(24), pygame.Color(0, 0, 0, 120))
-        self._title_label = Label(self.owner, title, utils.get_font(24), pygame.Color("white"))
+        self._title_shadow = Label(self.owner, title_final, utils.get_font(24), pygame.Color(0, 0, 0, 215))
+        self._title_shadow_soft = Label(self.owner, title_final, utils.get_font(24), pygame.Color(0, 0, 0, 120))
+        self._title_label = Label(self.owner, title_final, utils.get_font(24), pygame.Color("white"))
         self._subtitle_shadow = Label(self.owner, subtitle, utils.get_comic_font(20), pygame.Color(0, 0, 0, 205), ignore_newline = True)
         self._subtitle_shadow_soft = Label(self.owner, subtitle, utils.get_comic_font(20), pygame.Color(0, 0, 0, 115), ignore_newline = True)
         self._subtitle_label = Label(self.owner, subtitle, utils.get_comic_font(20), pygame.Color(225, 225, 225), ignore_newline = True)
