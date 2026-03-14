@@ -1,7 +1,7 @@
 from engine.enums import ClickState
 from engine import game, ClickableEntity, prefs
 
-from app import utils
+from app import utils, icons
 from app.entities import Label, SequenceLabel, Image, ChoiceSet, ListBox
 from app.entities.listbox import LISTBOX_MAIN_RECT as RECT_LISTBOX
 
@@ -388,7 +388,7 @@ class SideNote(ClickableEntity):
             self._detail_label = Label(self.owner, detail, utils.get_comic_font(16), pygame.Color(210, 210, 210), ignore_newline = True)
 
         self._icon_type = icon_type
-        self._icon = self._build_note_icon()
+        self._icon = icons.build_icon(self._icon_type)
         self._icon_rect = pygame.Rect(0, 0, 0, 0)
         if self._icon:
             self._icon_rect = self._icon.get_rect()
@@ -438,37 +438,6 @@ class SideNote(ClickableEntity):
         pygame.draw.rect(small, (0, 0, 0, 220), (pad, pad, sw - pad * 2, sh - pad * 2))
         panel = pygame.transform.smoothscale(small, (width, height))
         return panel
-
-    def _build_note_icon(self):
-        if self._icon_type == "clue":
-            return self._build_clue_icon()
-        return self._build_result_icon()
-
-    def _build_clue_icon(self):
-        icon = pygame.Surface((24, 24), pygame.SRCALPHA, 32)
-        col = pygame.Color(235, 235, 235)
-
-        # Magnifying glass lens
-        pygame.draw.circle(icon, col, (10, 9), 6, 2)
-        # Handle
-        pygame.draw.line(icon, col, (15, 14), (21, 21), 3)
-
-        return icon
-
-    def _build_result_icon(self):
-        icon = pygame.Surface((24, 24), pygame.SRCALPHA, 32)
-
-        # Outline speech bubble.
-        bubble_rect = pygame.Rect(2, 2, 19, 15)
-        pygame.draw.rect(icon, pygame.Color(235, 235, 235), bubble_rect, 2, border_radius=4)
-        tail_points = [(9, 17), (11, 22), (14, 17)]
-        pygame.draw.polygon(icon, pygame.Color(235, 235, 235), tail_points, 2)
-
-        # Tiny check mark to suggest "correct" results.
-        check_points = [(6, 10), (9, 13), (15, 7)]
-        pygame.draw.lines(icon, pygame.Color(235, 235, 235), False, check_points, 2)
-
-        return icon
 
     def _on_done(self, sender):
         if self._finished:
