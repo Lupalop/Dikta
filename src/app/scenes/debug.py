@@ -16,22 +16,21 @@ class DebugOverlay(Scene):
             self.entities["xy"].set_text(scaled_pos)
 
         for event in events:
-            if event.type == pygame.KEYDOWN and \
-               (event.mod == pygame.KMOD_LSHIFT or \
-                event.mod == pygame.KMOD_RSHIFT):
-                if event.key == pygame.K_BACKQUOTE:
-                    self.reset()
-                elif event.key == pygame.K_F1:
-                    self.generate_xy_counter()
-                elif event.key == pygame.K_F2:
-                    self.generate_scene_list(game)
-                elif event.key == pygame.K_F3:
-                    self.generate_test_button()
-                elif event.key == pygame.K_F4:
-                    self.get_captured_action(game)
-                elif event.key == pygame.K_F5:
-                    self.clear_prefs()
-                break
+            if event.type == pygame.KEYDOWN:
+                if event.mod & pygame.KMOD_SHIFT:
+                    if event.key == pygame.K_BACKQUOTE:
+                        self.reset()
+                    elif event.key == pygame.K_F1:
+                        self.generate_xy_counter()
+                    elif event.key == pygame.K_F2:
+                        self.generate_scene_list(game)
+                    elif event.key == pygame.K_F3:
+                        self.generate_test_button()
+                    elif event.key == pygame.K_F4:
+                        self.get_captured_action(game)
+                    elif event.key == pygame.K_F5:
+                        self.clear_prefs()
+                    break
 
     def load_content(self):
         pass
