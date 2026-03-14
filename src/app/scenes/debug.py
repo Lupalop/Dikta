@@ -34,6 +34,8 @@ class DebugOverlay(Scene):
                         self.clear_prefs()
                     elif event.key == pygame.K_F6:
                         self.grant_all_clues(game)
+                    elif event.key == pygame.K_F7:
+                        self.show_interrogation_result_note(game)
                     break
 
     def load_content(self):
@@ -119,6 +121,40 @@ class DebugOverlay(Scene):
             "cheat_clues_success",
             "DEBUG",
             f"Granted {len(all_clue_ids)} clues for episode {episode_id}."
+        )
+
+    def show_interrogation_result_note(self, game):
+        episode_id = prefs.savedgame.get("user.episode_id", 1)
+        mission_id = prefs.savedgame.get("user.mission_id", 5)
+
+        key_questions = f"e{episode_id}m{mission_id}_fda_questions"
+        key_correct = f"e{episode_id}m{mission_id}_fda_correct_count"
+
+        questions = prefs.savedgame.get(key_questions, [])
+        total = len(questions) if isinstance(questions, list) else 0
+        correct = prefs.savedgame.get(key_correct, 0)
+        if not isinstance(correct, int):
+            correct = 0
+        if total > 0 and correct > total:
+            correct = total
+
+        if total <= 0:
+            total = 3
+            correct = min(correct, total)
+
+        ratio = correct / total if total > 0 else 0
+        verdict = "Case remains open"
+        if ratio >= 0.9:
+            verdict = "Solid read on the witness"
+        elif ratio >= 0.6:
+            verdict = "Good read, some loose ends"
+        else:
+            verdict = "Weak read, revisit testimony"
+
+        self.emitter.add_note(
+            f"Questions: {correct}/{total} Correct | {verdict}",
+            callback=lambda: None,
+            duration_ms=3200
         )
 
 scene_list.all["debug"] = DebugOverlay()
