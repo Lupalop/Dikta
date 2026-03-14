@@ -338,6 +338,7 @@ class DialogEmitter():
         position = self.compute_position(RECT_LISTBOX, side)
         dataset = self.owner.get_clues_dataset()
         listbox = ListBox(self.owner, position, TITLE_CLUES, dataset, True)
+        listbox.hidden += self.clear_choiceset
         self.current_selector = listbox
         return listbox
 
