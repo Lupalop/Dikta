@@ -341,6 +341,12 @@
             "dan_talk2": {
                 "text": "Ask straight, and I'll answer straight."
             },
+            "joe_outro_result": {
+                "text": "That wraps my questions. I've got enough to write this clean."
+            },
+            "dan_outro_result": {
+                "text": "That's all, then? All right. Just make sure the paper carries what we actually said."
+            },
             "joe_q1_text1": {
                 "text": "You’re a member of what organization?"
             },
