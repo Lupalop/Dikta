@@ -5,13 +5,16 @@ from app.mission import Mission
 from app.dialog import DialogSide
 
 import pygame
-from typing import Any
+from typing import Any, cast
 
 CHOICE_KEYS = {
     1: "fact",
     2: "doubt",
     3: "accuse",
 }
+
+QUESTION_RESULT_CORRECT = "correct"
+QUESTION_RESULT_WRONG = "wrong"
 
 class InterrogationBase(Mission):
     def __init__(self, episode_id, mission_id, child_id, desc, tree_name, side=DialogSide.TOP):
@@ -29,6 +32,50 @@ class InterrogationBase(Mission):
         self.SW_RETURN_TO_CHOICES = "e{}m{}_fda_return_to_choices".format(episode_id, mission_id)
         self.SW_CORRECT_COUNT = "e{}m{}_fda_correct_count".format(episode_id, mission_id)
         self.SW_RESULT_PENDING = "e{}m{}_fda_result_pending".format(episode_id, mission_id)
+
+    def _get_total_questions_count(self):
+        tree = self._load_tree()
+        questions = tree.get("questions") if isinstance(tree, dict) else None
+        if isinstance(questions, list):
+            return len(questions)
+
+        loaded = self.find_switch(self.SW_QUESTIONS)
+        if isinstance(loaded, list):
+            return len(loaded)
+        return 0
+
+    def _render_question_text(self, item):
+        text_base = item.get("text_base", item.get("text", ""))
+        item["text_base"] = text_base
+
+        status_icon = None
+        if item.get("locked", False):
+            status_icon = "lock"
+        elif item.get("result") == QUESTION_RESULT_CORRECT:
+            status_icon = "correct"
+        elif item.get("result") == QUESTION_RESULT_WRONG:
+            status_icon = "wrong"
+
+        item["status_icon"] = status_icon
+        item["text"] = text_base
+
+    def _set_question_result(self, question_value, result):
+        questions = self.find_switch(self.SW_QUESTIONS)
+        if not isinstance(questions, list):
+            return False
+
+        for item in questions:
+            if item.get("value") != question_value:
+                continue
+
+            item["locked"] = False
+            item["disabled"] = True
+            item["result"] = result
+            self._render_question_text(item)
+            self.set_switch(self.SW_QUESTIONS, questions)
+            return True
+
+        return False
 
     def _get_callbacks(self):
         return {}
@@ -141,10 +188,7 @@ class InterrogationBase(Mission):
         if self.find_switch(self.SW_RESULT_PENDING):
             return
 
-        questions = self.find_switch(self.SW_QUESTIONS)
-        if not isinstance(questions, list):
-            questions = []
-        total = len(questions)
+        total = self._get_total_questions_count()
 
         correct = self.find_switch(self.SW_CORRECT_COUNT)
         if not isinstance(correct, int):
@@ -286,13 +330,7 @@ class InterrogationConversation(InterrogationBase):
     def _get_callbacks(self):
         def finish_question():
             q = self.find_switch(self.SW_QUESTION_CURRENT)
-            questions = self.find_switch(self.SW_QUESTIONS)
-            if questions:
-                for item in questions:
-                    if item["value"] == q:
-                        item["disabled"] = True
-                        self.set_switch(self.SW_QUESTIONS, questions)
-                        break
+            self._set_question_result(q, QUESTION_RESULT_WRONG)
             self._to_questions()
 
         def backoff_to_choices():
@@ -408,16 +446,10 @@ class InterrogationConversation(InterrogationBase):
         current_correct = self.find_switch(self.SW_CORRECT_COUNT)
         if not isinstance(current_correct, int):
             current_correct = 0
-        self.set_switch(self.SW_CORRECT_COUNT, current_correct + 1)
 
         q = self.find_switch(self.SW_QUESTION_CURRENT)
-        questions = self.find_switch(self.SW_QUESTIONS)
-        if questions:
-            for item in questions:
-                if item["value"] == q:
-                    item["disabled"] = True
-                    self.set_switch(self.SW_QUESTIONS, questions)
-                    break
+        if self._set_question_result(q, QUESTION_RESULT_CORRECT):
+            self.set_switch(self.SW_CORRECT_COUNT, current_correct + 1)
         self._to_questions()
 
     def _show_fda(self):
@@ -520,14 +552,53 @@ class InterrogationMenu(InterrogationBase):
         self.entities["listbox"] = listbox
 
     def _load_questions(self):
-        self.questions = self.find_switch(self.SW_QUESTIONS)
-        if not self.questions:
-            clues = self.get_clues()
-            self.questions = [
-                q for q in self._load_tree()["questions"]
-                if q.get("requires_clue") is None or q["requires_clue"] in clues
-            ]
-            self.set_switch(self.SW_QUESTIONS, self.questions)
+        saved_questions = self.find_switch(self.SW_QUESTIONS)
+        if not isinstance(saved_questions, list):
+            saved_questions = []
+
+        saved_by_value = {
+            item.get("value"): item
+            for item in saved_questions
+            if isinstance(item, dict)
+        }
+
+        clues = self.get_clues()
+        tree_questions = self._load_tree().get("questions", [])
+        if not isinstance(tree_questions, list):
+            tree_questions = []
+        normalized_questions = []
+
+        for base_item in tree_questions:
+            if not isinstance(base_item, dict):
+                continue
+
+            item = cast(dict[str, Any], dict(base_item))
+            item["text_base"] = item.get("text", "")
+            value = item.get("value")
+            saved = saved_by_value.get(value)
+            if not isinstance(saved, dict):
+                saved = {}
+
+            is_locked = item.get("requires_clue") is not None and item.get("requires_clue") not in clues
+
+            item["locked"] = is_locked
+            item["result"] = saved.get("result")
+
+            if is_locked:
+                item["disabled"] = True
+            else:
+                item["disabled"] = bool(saved.get("disabled", False))
+
+            if isinstance(saved.get("text_base"), str):
+                item["text_base"] = saved.get("text_base")
+
+            self._render_question_text(item)
+            normalized_questions.append(item)
+
+        self.questions = normalized_questions
+        self.set_switch(self.SW_QUESTIONS, self.questions)
+
+        if not saved_questions:
             self.set_switch(self.SW_CORRECT_COUNT, 0)
             self.set_switch(self.SW_RESULT_PENDING, False)
 

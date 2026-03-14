@@ -8,7 +8,6 @@ import pygame
 COLOR_ACTIVE = pygame.Color("red")
 COLOR_NORMAL = pygame.Color("black")
 COLOR_DISABLED = pygame.Color(80, 80, 80)
-CHAR_BULLET = "•"
 LABEL_DISTANCE = 16
 LISTITEM_RECT = pygame.Rect(0, 0, 400, 32)
 LISTITEM_RECT_INF = LISTITEM_RECT.inflate(0, 8)
@@ -36,17 +35,21 @@ class ListItem(ClickableEntity):
         elif is_disabled:
             color = COLOR_DISABLED
             alpha = ALPHA_DISABLED
+
+        status_icon = self.data.get("status_icon")
         surface = pygame.Surface(LISTITEM_RECT_INF.size, pygame.SRCALPHA, 32)
         surface.set_alpha(alpha)
-        text_final = "{}  {}".format(CHAR_BULLET, self.data["text"])
+        text_final = self.data["text"]
         self.label_item = Label(
             self.owner, text_final, utils.get_comic_font(FONT_HEIGHT), color)
         self.label_item.set_position((
-            25,
+            38,
             LISTITEM_RECT.height - (FONT_HEIGHT - 7)
         ))
         # pygame.draw.rect(surface, (255, 32, 5, 200), LISTITEM_RECT, 0)
+        self._draw_left_marker(surface, status_icon, color)
         self.label_item.draw(surface)
+
         if is_disabled and self.strike_disabled:
             label_rect = self.label_item.get_rect()
             strike_y = self.label_item.get_position()[1] + (label_rect.height // 2)
@@ -54,6 +57,32 @@ class ListItem(ClickableEntity):
             strike_end = (self.label_item.get_position()[0] + label_rect.width, strike_y)
             pygame.draw.line(surface, color, strike_start, strike_end, 2)
         self.set_surface(surface)
+
+    def _draw_left_marker(self, surface, status_icon, color):
+        cx = 18
+        cy = LISTITEM_RECT.height - 11
+
+        if status_icon is None:
+            pygame.draw.circle(surface, color, (cx, cy), 5)
+            return
+
+        if status_icon == "correct":
+            pygame.draw.line(surface, color, (cx - 6, cy), (cx - 1, cy + 5), 4)
+            pygame.draw.line(surface, color, (cx - 1, cy + 5), (cx + 7, cy - 6), 4)
+            return
+
+        if status_icon == "wrong":
+            pygame.draw.line(surface, color, (cx - 6, cy - 5), (cx + 6, cy + 5), 4)
+            pygame.draw.line(surface, color, (cx + 6, cy - 5), (cx - 6, cy + 5), 4)
+            return
+
+        if status_icon == "lock":
+            lock_cy = cy - 1
+            body = pygame.Rect(cx - 6, lock_cy - 1, 12, 9)
+            pygame.draw.rect(surface, color, body, 2, border_radius=2)
+            shackle_rect = pygame.Rect(cx - 5, lock_cy - 9, 10, 9)
+            pygame.draw.arc(surface, color, shackle_rect, 3.14, 0.0, 2)
+            pygame.draw.circle(surface, color, (cx, lock_cy + 2), 2)
 
     def is_selected(self):
         return self._is_selected
