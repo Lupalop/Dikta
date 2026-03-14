@@ -28,12 +28,11 @@ www.soundimage.org
 -Voice Cast
 Microsoft Azure Cognitive Services
 Text to Speech
-Joe - James (en-PH, Neural)
-Taxi Driver - Tony (en-US, Neural)
 Cop 1/Mac - Davis (en-US, Neural)
 Cop 2 - Jason (en-US, Neural)
-Student/Dan - Angelo (fil-PH, Neural)
 Dr. Constantino - Rosa (en-PH, Neural)
+
+Fish Audio
 
 -Lead Artist
 Francis Dominic Fajardo
