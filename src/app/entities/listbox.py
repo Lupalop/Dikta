@@ -41,6 +41,7 @@ class ListBox(Entity):
         self.selected = EventHandler()
         self.marked = EventHandler()
         self.hidden = EventHandler()
+        self.cancelled = EventHandler()
         self.listitems = []
         # Set-up base UI elements.
         base_bg = Image(self.owner, utils.load_ui_image("note-bg"))
@@ -102,6 +103,28 @@ class ListBox(Entity):
         self.is_hidden = True
         self.hidden(self)
 
+    def _on_cancelled(self):
+        self.cancelled(self)
+        self._close_anim()
+
+    def _close_anim(self, on_complete=None):
+        self.is_hiding = True
+        utils.reset_cursor()
+
+        for item in self.listitems:
+            item._close_anim()
+            self.owner.animator.to_alpha(
+                item,
+                250,
+                0
+            )
+        self.owner.animator.to_alpha(
+            self,
+            250,
+            0,
+            on_complete or self._on_hidden
+        )
+
     def _on_selected(self, sender, value):
         # Send only the attached item data to subscribers.
         self.selected(self, value[1])
@@ -110,22 +133,7 @@ class ListBox(Entity):
 
         # Update state and fade out everything if necessary.
         if self.hide_on_select:
-            self.is_hiding = True
-            utils.reset_cursor()
-
-            for item in self.listitems:
-                item._close_anim()
-                self.owner.animator.to_alpha(
-                    item,
-                    250,
-                    0
-                )
-            self.owner.animator.to_alpha(
-                self,
-                250,
-                0,
-                self._on_hidden
-            )
+            self._close_anim()
 
     def _handle_keys(self, key):
         is_enter = (key == pygame.K_KP_ENTER or \
@@ -140,6 +148,8 @@ class ListBox(Entity):
             self._mark_listitems(self.index - 1)
         elif is_down and self.index < (len(self.listitems) - 1):
             self._mark_listitems(self.index + 1)
+        elif key == pygame.K_ESCAPE:
+            self._on_cancelled()
 
     def update(self, game, events):
         # Stop updating the listbox if we're hiding.
@@ -155,6 +165,10 @@ class ListBox(Entity):
         for event in events:
             if event.type == pygame.KEYUP:
                 self._handle_keys(event.key)
+                break
+            if event.type == pygame.MOUSEBUTTONUP and \
+               event.button == MouseButton.RIGHT:
+                self._on_cancelled()
                 break
 
     def draw(self, layer):
