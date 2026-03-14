@@ -16,7 +16,6 @@ RECT_DIALOG = pygame.Rect(0, 0, RECT_BASE.width, RECT_NAME.height + RECT_BASE.he
 RECT_PORTRAIT = pygame.Rect(RECT_DIALOG.x, RECT_DIALOG.y, RECT_DIALOG.height, RECT_DIALOG.height)
 RECT_NAME_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_NAME.y, RECT_NAME.width, RECT_NAME.height)
 RECT_SPEECH_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_SPEECH.y, RECT_SPEECH.width, RECT_SPEECH.height)
-RECT_POPUP = pygame.Rect(0, 0, 380, 40)
 RECT_SIDENOTE = pygame.Rect(0, 0, 340, 72)
 
 TITLE_CLUES = "CLUES"
@@ -156,79 +155,6 @@ class Dialog(ClickableEntity):
     # so as to cover the entire screen. This isn't ideal, but it is what it is.
     def intersects(self, point, use_rect = False):
         return True
-
-class Popup(ClickableEntity):
-    def __init__(self, emitter, position, clue_name = None, text = None, callback = None, play_sfx = True):
-        super().__init__(
-            emitter.owner,
-            position,
-            RECT_POPUP.size,
-            pygame.Surface(RECT_POPUP.size, pygame.SRCALPHA, 32)
-        )
-
-        self.clue_name = clue_name
-        self.callback = callback
-        self.play_sfx = play_sfx
-        self.emitter = emitter
-
-        # Draw boxes to entity surface
-        self.box_base = utils.load_ui_image("popup-box")
-        if self._surface and self.box_base:
-            self._surface.blit(self.box_base, RECT_POPUP)
-        # Initialize speech text and its position
-        if text is None:
-            text = "New clue: {}".format(clue_name)
-        self.label_item = SequenceLabel(self.owner, text, utils.get_font(24), pygame.Color("white"))
-        label_item_pos = (
-            position[0] + 55,
-            position[1] + (RECT_POPUP.height / 2) - (self.label_item.get_rect().height / 2)
-        )
-        self.label_item.set_position(label_item_pos)
-        def _hide_popup(sender):
-            self.owner.animator.fadeout(
-                self.label_item,
-                250,
-                lambda: None
-            )
-            self.owner.animator.fadeout(
-                self,
-                250,
-                lambda: self.next_or_skip()
-            )
-        def _delay(sender):
-            timer = self.owner.timers.add(1500, True)
-            timer.elapsed += _hide_popup
-        self.label_item.completed += _delay
-
-    def set_position(self, position):
-        raise Exception("Changing the position of a dialog is not allowed.")
-
-    def set_rect(self, rect, resize = True):
-        raise Exception("Changing the rectangle of a dialog is not allowed.")
-
-    def set_size(self, size, resize = True):
-        raise Exception("Changing the size of a dialog is not allowed.")
-
-    def set_surface(self, surface, resize = True):
-        raise Exception("Changing the surface of a dialog is not allowed.")
-
-    # Event handlers
-    def draw(self, layer):
-        super().draw(layer)
-        self.label_item.draw(layer)
-
-    def update(self, game, events):
-        super().update(game, events)
-        self.label_item.update(game, events)
-
-    def next_or_skip(self):
-        if self.label_item.is_completed:
-            utils.reset_cursor()
-            if self.callback:
-                self.callback()
-            self.emitter.next_popup()
-            return
-        self.label_item.skip()
 
 class DialogEmitter():
     def __init__(self, owner, default_side):
@@ -375,10 +301,11 @@ class DialogEmitter():
             callback
         )
 
-    def add_popup(self, clue_id, side = DialogSide.BOTTOM_LEFT):
+    def add_popup(self, clue_id, side = DialogSide.TOP_RIGHT):
         clue_name = utils.get_clue_data(clue_id)["name"]
-        position = self.compute_position(RECT_POPUP, side)
-        popup = Popup(self, position, clue_name=clue_name)
+        position = self.compute_position(RECT_SIDENOTE, side)
+        popup = SideNote(self, position, "NEW CLUE: {}".format(clue_name), icon_type="clue")
+        popup.play_sfx = True
         self.popup_queue.append(popup)
         if not self.current_popup:
             self.next_popup()
@@ -415,7 +342,7 @@ class DialogEmitter():
         return listbox
 
 class SideNote(ClickableEntity):
-    def __init__(self, emitter, position, text, callback = None, duration_ms = 2800):
+    def __init__(self, emitter, position, text, callback = None, duration_ms = 2800, icon_type = "note"):
         super().__init__(
             emitter.owner,
             position,
@@ -460,6 +387,7 @@ class SideNote(ClickableEntity):
             self._detail_shadow_soft = Label(self.owner, detail, utils.get_comic_font(16), pygame.Color(0, 0, 0, 100), ignore_newline = True)
             self._detail_label = Label(self.owner, detail, utils.get_comic_font(16), pygame.Color(210, 210, 210), ignore_newline = True)
 
+        self._icon_type = icon_type
         self._icon = self._build_note_icon()
         self._icon_rect = pygame.Rect(0, 0, 0, 0)
         if self._icon:
@@ -512,6 +440,22 @@ class SideNote(ClickableEntity):
         return panel
 
     def _build_note_icon(self):
+        if self._icon_type == "clue":
+            return self._build_clue_icon()
+        return self._build_result_icon()
+
+    def _build_clue_icon(self):
+        icon = pygame.Surface((24, 24), pygame.SRCALPHA, 32)
+        col = pygame.Color(235, 235, 235)
+
+        # Magnifying glass lens
+        pygame.draw.circle(icon, col, (10, 9), 6, 2)
+        # Handle
+        pygame.draw.line(icon, col, (15, 14), (21, 21), 3)
+
+        return icon
+
+    def _build_result_icon(self):
         icon = pygame.Surface((24, 24), pygame.SRCALPHA, 32)
 
         # Outline speech bubble.
