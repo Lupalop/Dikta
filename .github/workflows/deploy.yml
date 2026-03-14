@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -24,12 +24,17 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install pygbag
-        run: pip install pygbag
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Convert MP3 to OGG
+        run: |
+          sudo apt-get install -y ffmpeg
+          find src/app/assets -name "*.mp3" -exec sh -c \
+            'ffmpeg -y -i "$1" -q:a 4 "${1%.mp3}.ogg"' _ {} \;
 
       - name: Build
         working-directory: src
-        # --build only — no dev server, just emit to build/web
         run: pygbag --build .
 
       - uses: actions/upload-pages-artifact@v3
