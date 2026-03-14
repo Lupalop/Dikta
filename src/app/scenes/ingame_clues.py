@@ -1,4 +1,5 @@
-from engine import Scene, prefs, game
+from engine import prefs, game
+from engine.overlay import Overlay
 from app import utils, scene_list, defaults
 from app.mission import Mission
 from app.entities import ListBox, Image, Label, KeyedButton
@@ -7,13 +8,9 @@ import pygame
 
 DT_PLACEHOLDER = "Select a clue to view more details."
 
-class InGameCluesOverlay(Scene):
+class InGameCluesOverlay(Overlay):
     def __init__(self):
         super().__init__("In-Game Overlay - Clues")
-        self.visible = False
-
-    def set_visibility(self, is_visible):
-        self.visible = is_visible
 
     def _listbox_on_marked(self, sender, data):
         value = data["value"]
@@ -48,9 +45,8 @@ class InGameCluesOverlay(Scene):
            game.scenes._switching:
             return
 
-        self.set_visibility(not self.visible)
-        current_scene.enabled = (not self.visible)
-        utils.set_cursor("default")
+        super().toggle_visibility()
+        utils.reset_cursor()
 
         dataset = current_scene.get_clues_dataset()
         listbox = ListBox(self, (450, 95), "CLUES", dataset)
@@ -93,8 +89,10 @@ class InGameCluesOverlay(Scene):
         }
 
     def update(self, game, events):
-        if self.visible:
-            super().update(game, events)
+        if not self.visible:
+            return
+
+        super().update(game, events)
 
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -106,9 +104,5 @@ class InGameCluesOverlay(Scene):
                self.visible:
                 self.toggle_visibility()
                 break
-
-    def draw(self, layer):
-        if self.visible:
-            super().draw(layer)
 
 scene_list.all["ig_clues"] = InGameCluesOverlay()

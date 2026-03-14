@@ -1,4 +1,5 @@
-from engine import Scene, prefs, game
+from engine import prefs, game
+from engine.overlay import Overlay
 from app import utils, scene_list, defaults
 from app.mission import Mission
 from app.entities import Image, Label, KeyedButton, ListBox
@@ -7,13 +8,9 @@ import pygame
 
 DT_PLACEHOLDER = "Select an option to view more details."
 
-class InGameOptionsOverlay(Scene):
+class InGameOptionsOverlay(Overlay):
     def __init__(self):
         super().__init__("In-Game Overlay - Options")
-        self.visible = False
-
-    def set_visibility(self, is_visible):
-        self.visible = is_visible
 
     def _update_desc(self, data):
         description = ""
@@ -73,10 +70,8 @@ class InGameOptionsOverlay(Scene):
            game.scenes._switching:
             return
 
-        self.set_visibility(not self.visible)
-        if current_scene:
-            current_scene.enabled = (not self.visible)
-        utils.set_cursor("default")
+        super().toggle_visibility()
+        utils.reset_cursor()
 
     def load_content(self):
         bg_solid = pygame.Surface(prefs.default.get("app.display.layer_size", (0, 0)))

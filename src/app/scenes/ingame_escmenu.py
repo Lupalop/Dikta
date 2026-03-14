@@ -1,17 +1,15 @@
-from engine import Scene, prefs, game
+from asyncio import events
+from engine import prefs, game
+from engine.overlay import Overlay
 from app import utils, scene_list
 from app.mission import Mission
 from app.entities import Image, FadeButton
 
 import pygame
 
-class InGameEscMenuOverlay(Scene):
+class InGameEscMenuOverlay(Overlay):
     def __init__(self):
         super().__init__("In-Game Overlay - Paused")
-        self.visible = False
-
-    def set_visibility(self, is_visible):
-        self.visible = is_visible
 
     def toggle_visibility(self):
         current_scene = game.scenes.get_scene()
@@ -23,9 +21,8 @@ class InGameEscMenuOverlay(Scene):
         if current_scene.menu_blocked:
             return
 
-        self.set_visibility(not self.visible)
-        current_scene.enabled = (not self.visible)
-        utils.set_cursor("default")
+        super().toggle_visibility()
+        utils.reset_cursor()
 
         ig_blocked = (
             current_scene.emitter.current_dialog or \
@@ -80,8 +77,7 @@ class InGameEscMenuOverlay(Scene):
         }
 
     def update(self, game, events):
-        if self.visible:
-            super().update(game, events)
+        super().update(game, events)
 
         for event in events:
             if event.type == pygame.KEYDOWN:
