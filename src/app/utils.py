@@ -27,7 +27,7 @@ def load_vox(file_name):
     if not is_enabled:
         return None
 
-    file_name = file_name + ".mp3"
+    file_name = file_name + content.AUDIO_EXT
     sound = content.load_sound(file_name, "vox")
     return sound
 
@@ -111,7 +111,7 @@ def set_music(file_name, volume = 1.0):
     if not is_enabled:
         return None
 
-    is_loaded = content.load_music(file_name + ".mp3")
+    is_loaded = content.load_music(file_name + content.AUDIO_EXT)
     if is_loaded:
         pygame.mixer.music.play(loops=-1, fade_ms=500)
         pygame.mixer.music.set_volume(volume)
@@ -121,7 +121,7 @@ def play_sfx(file_name, volume = 1.0, looping = False):
     if not is_enabled:
         return None
 
-    file_name = file_name + ".mp3"
+    file_name = file_name + content.AUDIO_EXT
     sound = content.load_sound(file_name, "sfx")
     sound.set_volume(volume)
 

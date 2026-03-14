@@ -10,6 +10,7 @@ sound_cache = {}
 music_current = None
 
 FADEOUT_MS = 1000
+AUDIO_EXT = ".ogg" if prefs.IS_WASM else ".mp3"
 
 try:
     pygame.mixer.init()
