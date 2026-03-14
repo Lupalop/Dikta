@@ -53,7 +53,7 @@ def get_ep_string(episode_id, mission_id, character_id, text_id):
 
     return (nametag_string, text_string, text_key, vox_key)
 
-FONT_DEFAULT = "franklingothicmediumcond"
+FONT_DEFAULT = "Oswald-Medium"
 FONT_COMIC = "badcomic_italic"
 FONT_EXT_TTF = ".ttf"
 
@@ -62,7 +62,7 @@ fonts = {}
 def get_font(size):
     key = "{}_{}".format(FONT_DEFAULT, size)
     if key not in fonts:
-        fonts[key] = content.load_font(FONT_DEFAULT, size)
+        fonts[key] = content.load_font(FONT_DEFAULT + FONT_EXT_TTF, size, False)
     return fonts[key]
 
 def get_comic_font(size):
