@@ -99,8 +99,16 @@ class InterrogationBase(Mission):
                         # This shouldn't happen unless we're waiting for Joe.
                         return
                         
+                    if isinstance(presented, dict):
+                        presented = presented.get("id")
+
                     responses = choice_data["clue_responses"]
-                    nodes = responses.get(presented) if presented in responses else responses.get("else", [])
+                    try:
+                        has_response = (presented in responses)
+                    except TypeError:
+                        has_response = False
+
+                    nodes = responses.get(presented) if has_response else responses.get("else", [])
                     for node in nodes:
                         self._emit_node(node, callbacks)
                 else:
@@ -193,7 +201,8 @@ class InterrogationInterrogator(InterrogationBase):
     def _accuse(self):
         items = self.emitter.add_clues_selector()
         def _on_clue_selected(sender, data):
-            self.set_switch(self.SW_PRESENTED_CLUE, data["value"])
+            clue_id = data.get("id")
+            self.set_switch(self.SW_PRESENTED_CLUE, clue_id)
             self._to_respondent()
             
         def _on_clue_cancelled(sender):
