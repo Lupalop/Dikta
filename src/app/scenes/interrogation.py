@@ -305,7 +305,14 @@ class InterrogationMenu(InterrogationBase):
     def load_content(self):
         super().load_content()
         self._load_questions()
-        listbox = ListBox(self, self.menu_pos, self.menu_title, self.questions)
+        listbox = ListBox(
+            self,
+            self.menu_pos,
+            self.menu_title,
+            self.questions,
+            show_disabled=True,
+            strike_disabled=True
+        )
         listbox.selected += self._listbox_on_selected
         self.set_switch(self.SW_TALK1, True)
         self.entities["listbox"] = listbox

@@ -1,5 +1,5 @@
-from engine import ClickableEntity, Entity
-from engine.enums import MouseButton, ClickState
+from engine import Entity
+from engine.enums import MouseButton
 from engine.event_handler import EventHandler
 from app import utils
 from app.entities import Image, Label, ListItem
@@ -25,10 +25,12 @@ class ListBox(Entity):
     After a list item is selected, the sender and the attached item's data is
     passed to subscribers of the `selected` event.
     """
-    def __init__(self, owner, position, title, dataset, hide_on_select = False):
+    def __init__(self, owner, position, title, dataset, hide_on_select = False, show_disabled = False, strike_disabled = False):
         surface = pygame.Surface(LISTBOX_MAIN_RECT.size, pygame.SRCALPHA, 32)
         super().__init__(owner, position, LISTBOX_MAIN_RECT.size, surface, False)
         self.hide_on_select = hide_on_select
+        self.show_disabled = show_disabled
+        self.strike_disabled = strike_disabled
         self.is_hiding = False
         self.is_hidden = False
         self.dataset = dataset
@@ -43,6 +45,7 @@ class ListBox(Entity):
         self.hidden = EventHandler()
         self.cancelled = EventHandler()
         self.listitems = []
+        self.index = 0
         # Set-up base UI elements.
         base_bg = Image(self.owner, utils.load_ui_image("note-bg"))
         base_title = Label(
@@ -60,7 +63,8 @@ class ListBox(Entity):
             listitem = ListItem(
                 owner,
                 (position[0], position[1] + currenty),
-                i[1]
+                i[1],
+                strike_disabled=self.strike_disabled
             )
             # Update y-coordinate of the next list item.
             currenty += listitem.get_rect().height
@@ -70,8 +74,10 @@ class ListBox(Entity):
             # Keep track and store the created list item.
             self.listitems.append(listitem)
         # Set the active list item now.
-        self.index = 0
-        self._mark_listitems(self.index)
+        initial_index = self._get_next_enabled_index(0)
+        if initial_index is None:
+            initial_index = 0
+        self._mark_listitems(initial_index)
 
     @classmethod
     def from_entity(cls, owner, entity):
@@ -80,9 +86,22 @@ class ListBox(Entity):
             entity.get_position(),
             entity.title,
             entity.dataset,
-            entity.hide_on_select
+            entity.hide_on_select,
+            entity.show_disabled,
+            entity.strike_disabled
         )
         return entity_copy
+
+    def _is_item_disabled(self, index):
+        return self.listitems[index].data.get("disabled", False)
+
+    def _get_next_enabled_index(self, start, step=1):
+        index = start
+        while index >= 0 and index < len(self.listitems):
+            if not self._is_item_disabled(index):
+                return index
+            index += step
+        return None
 
     def _mark_listitems(self, index):
         self.index = index
@@ -126,6 +145,8 @@ class ListBox(Entity):
         )
 
     def _on_selected(self, sender, value):
+        if value[1].get("disabled", False):
+            return
         # Send only the attached item data to subscribers.
         self.selected(self, value[1])
         # Mark the selected list item.
@@ -143,11 +164,16 @@ class ListBox(Entity):
         is_down = (key == pygame.K_DOWN)
 
         if is_enter:
-            self.listitems[self.index]._on_click(MouseButton.LEFT)
+            if not self._is_item_disabled(self.index):
+                self.listitems[self.index]._on_click(MouseButton.LEFT)
         elif is_up and self.index > 0:
-            self._mark_listitems(self.index - 1)
+            target = self._get_next_enabled_index(self.index - 1, -1)
+            if target is not None:
+                self._mark_listitems(target)
         elif is_down and self.index < (len(self.listitems) - 1):
-            self._mark_listitems(self.index + 1)
+            target = self._get_next_enabled_index(self.index + 1, 1)
+            if target is not None:
+                self._mark_listitems(target)
         elif key == pygame.K_ESCAPE:
             self._on_cancelled()
 
@@ -158,7 +184,7 @@ class ListBox(Entity):
 
         super().update(game, events)
         for item in self.listitems:
-            if "disabled" in item.data:
+            if item.data.get("disabled", False):
                 continue
             item.update(game, events)
         # We always steal keyboard events.
@@ -177,6 +203,6 @@ class ListBox(Entity):
             return
         super().draw(layer)
         for item in self.listitems:
-            if "disabled" in item.data:
+            if item.data.get("disabled", False) and not self.show_disabled:
                 continue
             item.draw(layer)
