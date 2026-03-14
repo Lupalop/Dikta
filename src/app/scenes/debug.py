@@ -1,6 +1,7 @@
 from engine import Scene, prefs
 from app import utils, defaults, scene_list
 from app.entities import *
+from app.dialog import DialogEmitter, DialogSide
 
 import pygame
 
@@ -10,6 +11,7 @@ class DebugOverlay(Scene):
 
     def update(self, game, events):
         super().update(game, events)
+        self.emitter.update(game, events)
 
         if "xy" in self.entities:
             scaled_pos = str(game.get_mouse_pos())
@@ -30,10 +32,16 @@ class DebugOverlay(Scene):
                         self.get_captured_action(game)
                     elif event.key == pygame.K_F5:
                         self.clear_prefs()
+                    elif event.key == pygame.K_F6:
+                        self.grant_all_clues(game)
                     break
 
     def load_content(self):
-        pass
+        self.emitter = DialogEmitter(self, DialogSide.TOP)
+
+    def draw(self, layer):
+        super().draw(layer)
+        self.emitter.draw(layer)
 
     def generate_test_button(self):
         btn_test = Button.from_entity(self, defaults.button_default, "Test")
@@ -84,5 +92,33 @@ class DebugOverlay(Scene):
     def clear_prefs(self):
         prefs.default.clear()
         prefs.savedgame.clear()
+
+    def grant_all_clues(self, game):
+        current_scene = game.scenes.get_scene()
+        from app.mission import Mission
+        if not isinstance(current_scene, Mission):
+            self.emitter.add_custom(
+                "cheat_clues_fail",
+                "DEBUG",
+                "Cheat failed: Not currently in a mission."
+            )
+            return
+
+        episode_id = prefs.savedgame.get("user.episode_id", 1)
+        clues_key = utils.get_clues_key(episode_id)
+        
+        # Get all clue keys from strings.json
+        all_clue_ids = list(utils.strings.get("clues", {}).keys())
+        
+        # Merge with existing clues
+        current_clues = prefs.savedgame.get(clues_key, [])
+        new_clues = list(set(current_clues + all_clue_ids))
+        
+        prefs.savedgame.set(clues_key, new_clues)
+        self.emitter.add_custom(
+            "cheat_clues_success",
+            "DEBUG",
+            f"Granted {len(all_clue_ids)} clues for episode {episode_id}."
+        )
 
 scene_list.all["debug"] = DebugOverlay()
