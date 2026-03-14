@@ -44,6 +44,22 @@
         "effigies_general": {
             "name": "Creative effigies",
             "desc": "The student activists are at it again with\ntheir effigies.\n\nWhat could the coffin represent?"
+        },
+        "demo_objective": {
+            "name": "Demonstration objective",
+            "desc": "The NUSP is here to appeal for a nonpartisan\nConstitutional Convention from the president\nand to ask him to refrain from running for a third term."
+        },
+        "effigies_meaning": {
+            "name": "Effigies meaning",
+            "desc": "The cardboard coffin represents the death of democracy.\nThe cardboard crocodile symbolizes the cronies and\ngreed of congressmen for money."
+        },
+        "invited_orgs": {
+            "name": "Invited organizations",
+            "desc": "Other organizations present include KM\n(Kabataan Makabayan) and the SDK\n(Samahang Demokratiko ng Kabataan)."
+        },
+        "cops_reputation": {
+            "name": "Police reputation",
+            "desc": "Two words – corrupt and brutal.\nThey serve only the interests of the rich and powerful."
         }
     },
     "characters": {
@@ -353,7 +369,7 @@
                 "text": "Not true. You’ve a very wide imagination, Sir Joe. "
             },
             "joe_q2_accuse_talk1": {
-                "text": "That’s all? There must be something more to your cause. You’re not\nplanning on overthrowing the government aren’t you?"
+                "text": "The real objective of your demonstration is to manipulate the people's minds!"
             },
             "dan_q2_accuse_talk1": {
                 "text": "I don’t get it."
@@ -413,7 +429,7 @@
                 "text": "How did you say that they are brutal? I think it’s the other way around.\nYou and your organizations are framing them and making them look bad."
             },
             "dan_q5_accuse_talk1": {
-                "text": "That doesn’t make any sense."
+                "text": "We are fighting for our rights peacefully, and here you are, throwing far-fetched accusations."
             }
         },
         "m6": {
