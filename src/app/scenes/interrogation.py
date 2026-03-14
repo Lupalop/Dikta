@@ -22,6 +22,8 @@ class InterrogationBase(Mission):
         self.SW_FDA_CHOICE = "e{}m{}_fda_choice".format(episode_id, mission_id)
         self.SW_PRESENTED_CLUE = "e{}m{}_presented_clue".format(episode_id, mission_id)
         self.SW_RETURN_TO_CHOICES = "e{}m{}_fda_return_to_choices".format(episode_id, mission_id)
+        self.SW_CORRECT_COUNT = "e{}m{}_fda_correct_count".format(episode_id, mission_id)
+        self.SW_RESULT_PENDING = "e{}m{}_fda_result_pending".format(episode_id, mission_id)
 
     def _get_callbacks(self):
         # Base callbacks available to all interrogation scenes
@@ -160,10 +162,56 @@ class InterrogationBase(Mission):
         self._to_questions()
 
     def _mark_correct(self):
+        current_correct = self.find_switch(self.SW_CORRECT_COUNT)
+        if not isinstance(current_correct, int):
+            current_correct = 0
+        self.set_switch(self.SW_CORRECT_COUNT, current_correct + 1)
+
         if not self._disable_current_question():
             self._to_questions()
             return
         self._to_questions()
+
+    def _show_result_and_switch(self, next_scene):
+        if self.find_switch(self.SW_RESULT_PENDING):
+            return
+
+        questions = self.find_switch(self.SW_QUESTIONS)
+        if not isinstance(questions, list):
+            questions = []
+        total = len(questions)
+
+        correct = self.find_switch(self.SW_CORRECT_COUNT)
+        if not isinstance(correct, int):
+            correct = 0
+
+        # Guard against stale values from previous runs.
+        if correct > total:
+            correct = total
+
+        verdict = "Case remains open"
+        if total <= 0:
+            verdict = "No questions answered"
+        else:
+            ratio = correct / total
+            if ratio >= 0.9:
+                verdict = "Solid read on the witness"
+            elif ratio >= 0.6:
+                verdict = "Good read, some loose ends"
+            else:
+                verdict = "Weak read, revisit testimony"
+
+        self.set_switch(self.SW_RESULT_PENDING, True)
+
+        def _to_scene():
+            self.set_switch(self.SW_RESULT_PENDING, False)
+            game.scenes.set_scene(next_scene)
+
+        self.emitter.add_note(
+            "Questions: {}/{} Correct | {}".format(correct, total, verdict),
+            duration_ms=3200,
+            callback=_to_scene
+        )
 
 
 class InterrogationInterrogator(InterrogationBase):
@@ -193,7 +241,7 @@ class InterrogationInterrogator(InterrogationBase):
         if not questions or has_remaining:
             game.scenes.set_scene(self.questions_scene)
         else:
-            game.scenes.set_scene(self.next_scene)
+            self._show_result_and_switch(self.next_scene)
 
     def _get_backdown_text_id(self):
         return "accuse_backdown"
@@ -254,7 +302,7 @@ class InterrogationRespondent(InterrogationBase):
         if not questions or has_remaining:
             game.scenes.set_scene(self.questions_scene)
         else:
-            game.scenes.set_scene(self.next_scene)
+            self._show_result_and_switch(self.next_scene)
 
     def _show_fda(self):
         if self.find_switch(self.SW_FDA_CHOICE) is not None:
@@ -335,6 +383,8 @@ class InterrogationMenu(InterrogationBase):
                 if q.get("requires_clue") is None or q["requires_clue"] in clues
             ]
             self.set_switch(self.SW_QUESTIONS, self.questions)
+            self.set_switch(self.SW_CORRECT_COUNT, 0)
+            self.set_switch(self.SW_RESULT_PENDING, False)
 
     def _listbox_on_selected(self, sender, data):
         self.set_switch(self.SW_QUESTION_CURRENT, data["value"])
