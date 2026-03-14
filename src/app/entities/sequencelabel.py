@@ -4,7 +4,8 @@ from engine.event_handler import EventHandler
 
 import pygame
 
-PIXEL_INCREMENT = 5
+# Milliseconds between each revealed character
+CHAR_INTERVAL_MS = 30
 
 class SequenceLabel(Label):
     def __init__(self, owner, text, font, color, position_or_rect = (0, 0), size = None):
@@ -24,42 +25,75 @@ class SequenceLabel(Label):
         self._reset_placeholder_suface()
         self._blit_lines()
 
+    def _blit_partial(self):
+        self._reset_placeholder_suface()
+        chars_remaining = self._char_index
+
+        for i, line in enumerate(self._textlines):
+            if chars_remaining <= 0:
+                break
+
+            chars_in_line = len(line)
+            visible_count = min(chars_remaining, chars_in_line)
+
+            # Compute the pixel width of the visible substring
+            if visible_count >= chars_in_line:
+                clip_width = self._renders[i][1].width
+            else:
+                clip_width = self._font.get_rect(line[:visible_count]).width
+
+            clip_area = pygame.Rect(0, 0, clip_width, self._renders[i][1].height)
+            dest = self._render_dests[i]
+
+            # Blit outline first (if enabled)
+            if self._outline_width > 0:
+                for dx, dy in Label._get_circle_points(self._outline_width):
+                    self._surface.blit(
+                        self._outline_renders[i][0],
+                        (dest.x + dx, dest.y + dy),
+                        clip_area
+                    )
+
+            # Blit the text
+            self._surface.blit(self._renders[i][0], dest, clip_area)
+            chars_remaining -= chars_in_line
+
     def _add_char_to_surface(self, sender):
-        render = self._renders[self._render_index]
-        render_dest = self._render_dests[self._render_index]
-        render_area = self._render_areas[self._render_index]
+        self._char_index += 1
 
-        if render_dest.x >= self._render_size[0]:
-            if self._render_index >= len(self._renders) - 1:
-                sender.close()
-                self._on_completed()
-                return
-            self._render_index += 1
+        if self._char_index >= self._total_chars:
+            sender.close()
+            self._on_completed()
+            self._reset_placeholder_suface()
+            self._blit_lines()
+            return
 
-        self._surface.blit(render[0], render_dest, render_area)
-        render_dest.x += PIXEL_INCREMENT
-        render_area.x += PIXEL_INCREMENT
+        self._blit_partial()
 
     def _render_lines(self):
         super()._render_lines()
-        # Generate render offsets
-        self._render_index = 0
-        self._render_dests = []
-        self._render_areas = []
-        desty = self._outline_width
-        for i in range(len(self._renders)):
-            if i >= 1 and i < len(self._renders):
-                desty += self.line_height
-            dest_rect = pygame.Rect(self._renders[i][1].x, desty, PIXEL_INCREMENT, self._renders[i][1].height)
-            area_rect = pygame.Rect(0, 0, PIXEL_INCREMENT, self._renders[i][1].height)
-            desty += self._renders[i][1].height
-            self._render_dests.append(dest_rect)
-            self._render_areas.append(area_rect)
+
+        # Store lines for per-character indexing
+        if self.ignore_newline:
+            self._textlines = [self._text.replace("\n", "")]
+        else:
+            self._textlines = self._text.split("\n")
+
+        self._total_chars = sum(len(line) for line in self._textlines)
+        self._char_index = 0
+
+        # Build destination rects from the already-computed render rects
+        self._render_dests = [
+            pygame.Rect(r[1].x, r[1].y, r[1].width, r[1].height)
+            for r in self._renders
+        ]
 
     def _on_entity_dirty(self, resize = True):
         self._render_lines()
+        # Start with a blank surface; typewriter will fill it in tick by tick
+        self._reset_placeholder_suface()
 
-        self._timer = self.owner.timers.add(1, False, True)
+        self._timer = self.owner.timers.add(CHAR_INTERVAL_MS, False, True)
         self._timer.elapsed += self._add_char_to_surface
         self.is_completed = False
 
