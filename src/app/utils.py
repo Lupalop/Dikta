@@ -33,6 +33,10 @@ def load_vox(file_name):
 
 strings = content.load_json_asset("strings")
 
+def load_json_asset(file_name):
+    return content.load_json_asset(file_name)
+
+
 def get_ep_string(episode_id, mission_id, character_id, text_id):
     episode_key = "e{}".format(episode_id)
     mission_key = "m{}".format(mission_id)
