@@ -192,10 +192,6 @@ class ListBox(Entity):
             if event.type == pygame.KEYUP:
                 self._handle_keys(event.key)
                 break
-            if event.type == pygame.MOUSEBUTTONUP and \
-               event.button == MouseButton.RIGHT:
-                self._on_cancelled()
-                break
 
     def draw(self, layer):
         # There's no use of drawing a hidden entity.

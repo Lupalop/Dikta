@@ -1,19 +1,24 @@
-from engine import game
+from engine import game, ClickableEntity
 from app import defaults, scene_list, utils
-from app.entities import ChoiceSet, KeyedButton, ListBox
+from app.entities import ChoiceSet, KeyedButton, ListBox, Image
 from app.mission import Mission
 from app.dialog import DialogSide
 
 import pygame
+from typing import Any
 
-def _toggle_clues(sender):
-    scene_list.all["ig_clues"].toggle_visibility()
+CHOICE_KEYS = {
+    1: "fact",
+    2: "doubt",
+    3: "accuse",
+}
 
 class InterrogationBase(Mission):
     def __init__(self, episode_id, mission_id, child_id, desc, tree_name, side=DialogSide.TOP):
         super().__init__(episode_id, mission_id, child_id, desc, side)
         self.tree_name = tree_name
         self._tree_cache = None
+        self._btn_clues = None
         
         # Switches
         self.SW_TALK1 = "e{}m{}_talk1".format(episode_id, mission_id)
@@ -26,22 +31,35 @@ class InterrogationBase(Mission):
         self.SW_RESULT_PENDING = "e{}m{}_fda_result_pending".format(episode_id, mission_id)
 
     def _get_callbacks(self):
-        # Base callbacks available to all interrogation scenes
-        return {
-            "to_interrogator": self._to_interrogator,
-            "to_respondent": self._to_respondent,
-            "to_questions": self._to_questions,
-            "show_fda": self._show_fda,
-            "backoff_to_choices": self._backoff_to_choices,
-            "finish_question": self._finish_question,
-            "mark_correct": self._mark_correct,
-            "accuse": self._accuse,
-        }
+        return {}
 
     def _load_tree(self):
         if self._tree_cache is None:
             self._tree_cache = utils.load_json_asset(self.tree_name)
         return self._tree_cache
+
+    def _build_review_clues_button(self, pos=(64, 64)):
+        btn_clues = KeyedButton(self, pos, "Review clues", pygame.K_F12, "TAB")
+        btn_clues.leftclick += lambda sender=None: getattr(scene_list.all["ig_clues"], "toggle_visibility", lambda: None)()
+        return btn_clues
+
+    def _set_review_clues_button_visible(self, visible):
+        if not visible:
+            self._btn_clues = None
+            return
+        if self._btn_clues:
+            return
+        self._btn_clues = self._build_review_clues_button((64, 64))
+
+    def update(self, game, events):
+        super().update(game, events)
+        if self._btn_clues:
+            self._btn_clues.update(game, events)
+
+    def draw(self, layer):
+        super().draw(layer)
+        if self._btn_clues:
+            self._btn_clues.draw(layer)
 
     def _emit_node(self, node, callbacks):
         cb_name = node.get("callback")
@@ -84,93 +102,36 @@ class InterrogationBase(Mission):
         
         choice = self.find_switch(self.SW_FDA_CHOICE)
         q_data = tree[branch]["questions"][q]
-        
         for node in q_data["initial"]:
             self._emit_node(node, callbacks)
-            
-        choice_key = {1: "fact", 2: "doubt", 3: "accuse"}.get(choice) if isinstance(choice, int) else None
-        if choice_key and choice_key in q_data["choices"]:
-            choice_data = q_data["choices"][choice_key]
-            
-            # Handle clue-specific responses for accusations
-            if choice_key == "accuse":
-                presented = self.find_switch(self.SW_PRESENTED_CLUE)
-                if "clue_responses" in choice_data:
-                    if presented is None:
-                        # We haven't picked a clue yet, but we are in Dan's scene.
-                        # This shouldn't happen unless we're waiting for Joe.
-                        return
-                        
-                    if isinstance(presented, dict):
-                        presented = presented.get("id")
 
-                    responses = choice_data["clue_responses"]
-                    try:
-                        has_response = (presented in responses)
-                    except TypeError:
-                        has_response = False
-
-                    nodes = responses.get(presented) if has_response else responses.get("else", [])
-                    for node in nodes:
-                        self._emit_node(node, callbacks)
-                else:
-                    # Simple accusation with no clue selection logic on this side
-                    for node in choice_data.get("nodes", []):
-                        self._emit_node(node, callbacks)
-            else:
-                for node in choice_data.get("nodes", []):
-                    self._emit_node(node, callbacks)
-
-    def _to_interrogator(self):
-        # To be implemented by subclasses if needed
-        pass
-
-    def _to_respondent(self):
-        # To be implemented by subclasses if needed
-        pass
-
-    def _to_questions(self):
-        # To be implemented by subclasses if needed
-        pass
-
-    def _show_fda(self):
-        # To be implemented by subclasses if needed
-        pass
-
-    def _backoff_to_choices(self):
-        # To be implemented by subclasses if needed
-        pass
-
-    def _accuse(self):
-        # To be implemented by subclasses if needed
-        pass
-
-    def _disable_current_question(self):
-        q = self.find_switch(self.SW_QUESTION_CURRENT)
-        questions = self.find_switch(self.SW_QUESTIONS)
-        if not questions:
-            return False
-        for item in questions:
-            if item["value"] == q:
-                item["disabled"] = True
-                self.set_switch(self.SW_QUESTIONS, questions)
-                return True
-        return False
-
-    def _finish_question(self):
-        self._disable_current_question()
-        self._to_questions()
-
-    def _mark_correct(self):
-        current_correct = self.find_switch(self.SW_CORRECT_COUNT)
-        if not isinstance(current_correct, int):
-            current_correct = 0
-        self.set_switch(self.SW_CORRECT_COUNT, current_correct + 1)
-
-        if not self._disable_current_question():
-            self._to_questions()
+        choice_key = CHOICE_KEYS.get(choice) if isinstance(choice, int) else None
+        choice_data = q_data["choices"].get(choice_key) if choice_key else None
+        if not choice_data:
             return
-        self._to_questions()
+
+        if choice_key != "accuse":
+            nodes = choice_data.get("nodes", [])
+        else:
+            responses = choice_data.get("clue_responses")
+            if not responses:
+                # Simple accusation with no clue selection logic on this side.
+                nodes = choice_data.get("nodes", [])
+            else:
+                # We haven't picked a clue yet, but we are in Dan's scene.
+                # This shouldn't happen unless we're waiting for Joe.
+                presented = self.find_switch(self.SW_PRESENTED_CLUE)
+                if isinstance(presented, dict):
+                    presented = presented.get("id")
+                if presented is None:
+                    return
+                try:
+                    nodes = responses.get(presented, responses.get("else", []))
+                except TypeError:
+                    nodes = responses.get("else", [])
+
+        for node in nodes:
+            self._emit_node(node, callbacks)
 
     def _show_result_and_switch(self, next_scene):
         if self.find_switch(self.SW_RESULT_PENDING):
@@ -189,7 +150,6 @@ class InterrogationBase(Mission):
         if correct > total:
             correct = total
 
-        verdict = "Case remains open"
         if total <= 0:
             verdict = "No questions answered"
         else:
@@ -203,154 +163,296 @@ class InterrogationBase(Mission):
 
         self.set_switch(self.SW_RESULT_PENDING, True)
 
-        def _to_scene():
+        outro_characters = [c for c in self._get_outro_characters() if c]
+        pending = 2 if outro_characters else 1
+
+        def _finish_part():
+            nonlocal pending
+            pending -= 1
+            if pending > 0:
+                return
             self.set_switch(self.SW_RESULT_PENDING, False)
             game.scenes.set_scene(next_scene)
+
+        if outro_characters:
+            self._switch_speaker_visual(outro_characters[0])
+            for i, character in enumerate(outro_characters):
+                next_character = outro_characters[i + 1] if i + 1 < len(outro_characters) else None
+                callback = (lambda ch=next_character: self._switch_speaker_visual(ch)) if next_character else _finish_part
+                self.emitter.add(character, "outro_result", callback=callback)
 
         self.emitter.add_note(
             "Questions: {}/{} Correct | {}".format(correct, total, verdict),
             duration_ms=3200,
-            callback=_to_scene
+            callback=_finish_part
         )
 
+    def _get_outro_characters(self):
+        return []
 
-class InterrogationInterrogator(InterrogationBase):
-    def __init__(self, episode_id, mission_id, child_id, desc, tree_name, respondent_scene, questions_scene, next_scene, side=DialogSide.BOTTOM):
+    def _switch_speaker_visual(self, character, callback=None):
+        self._apply_outro_cutout(character)
+        if callback:
+            callback()
+
+    def _get_outro_visual(self, character) -> dict[str, Any] | None:
+        return None
+
+    def _apply_outro_cutout(self, character):
+        visual = self._get_outro_visual(character)
+        if not visual or not isinstance(self.entities, dict):
+            return
+
+        background_id = visual.get("background")
+        if background_id:
+            self.background.set_surface(self.get_image(background_id))
+
+        # Keep only speaker-dependent visuals in sync for the outro sequence.
+        self.entities.pop("prop_people", None)
+
+        for key in [k for k in self.entities.keys() if isinstance(k, str) and k.startswith("ca_")]:
+            self.entities.pop(key, None)
+
+        prop_id = visual.get("prop")
+        prop_pos = visual.get("prop_pos")
+        if prop_id and prop_pos:
+            self.entities["prop_people"] = Image(self, self.get_image(prop_id), prop_pos)
+
+        cutout_id = visual.get("cutout")
+        cutout_pos = visual.get("cutout_pos")
+        if cutout_id and cutout_pos:
+            self.entities["ca_{}".format(character)] = Image(self, utils.load_ca_image(cutout_id), cutout_pos)
+
+class InterrogationConversation(InterrogationBase):
+    def __init__(self, episode_id, mission_id, child_id, desc, tree_name, questions_scene, next_scene, interrogator_branch, respondent_branch, side=DialogSide.TOP):
         super().__init__(episode_id, mission_id, child_id, desc, tree_name, side)
-        self.respondent_scene = respondent_scene
         self.questions_scene = questions_scene
         self.next_scene = next_scene
-        self.interrogator_branch = None # Set by subclass
+        self.interrogator_branch = interrogator_branch
+        self.respondent_branch = respondent_branch
+        self.SW_ACTIVE_BRANCH = "e{}m{}_fda_active_branch".format(episode_id, mission_id)
 
     def load_content(self):
         super().load_content()
-        self._run_dialog_tree(self.interrogator_branch, self._get_callbacks())
 
-    def _to_respondent(self):
-        game.scenes.set_scene(self.respondent_scene)
+        # Match original split-scene behavior: every entry from question select
+        # starts on the interrogator side.
+        active_branch = self.interrogator_branch
+        self.set_switch(self.SW_ACTIVE_BRANCH, active_branch)
+
+        self._apply_outro_cutout(active_branch)
+        self._run_dialog_tree(active_branch, self._get_callbacks())
+
+    def _get_callbacks(self):
+        def finish_question():
+            q = self.find_switch(self.SW_QUESTION_CURRENT)
+            questions = self.find_switch(self.SW_QUESTIONS)
+            if questions:
+                for item in questions:
+                    if item["value"] == q:
+                        item["disabled"] = True
+                        self.set_switch(self.SW_QUESTIONS, questions)
+                        break
+            self._to_questions()
+
+        def backoff_to_choices():
+            self.set_switch(self.SW_FDA_CHOICE, None)
+            self.set_switch(self.SW_PRESENTED_CLUE, None)
+            self._show_fda()
+
+        callbacks = super()._get_callbacks()
+        callbacks.update({
+            "to_interrogator": lambda: self._switch_branch_and_run(self.interrogator_branch),
+            "to_respondent": lambda: self._switch_branch_and_run(self.respondent_branch),
+            "to_questions": self._to_questions,
+            "show_fda": self._show_fda,
+            "backoff_to_choices": backoff_to_choices,
+            "finish_question": finish_question,
+            "mark_correct": self._mark_correct,
+            "accuse": self._accuse,
+        })
+        return callbacks
+
+    def update(self, game, events):
+        super().update(game, events)
+
+        selector = self.emitter.current_selector
+        if not isinstance(selector, ListBox):
+            return
+
+        # Scene-owned behavior: right-click cancels the interrogation clue
+        # selector (backdown path), but ListBox itself stays generic.
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONUP and event.button == pygame.BUTTON_RIGHT:
+                selector._on_cancelled()
+                break
+
+    def _fade_switch_visual(self, character, callback=None):
+        duration_ms = 180
+        overlay_key = "_vn_visual_fade"
+
+        if not isinstance(self.entities, dict):
+            self._apply_outro_cutout(character)
+            if callback:
+                callback()
+            return
+
+        # Guard against overlapping transitions.
+        if self.entities.get(overlay_key):
+            self._apply_outro_cutout(character)
+            if callback:
+                callback()
+            return
+
+        overlay = ClickableEntity(
+            self,
+            (0, 0),
+            game.layer_size,
+            pygame.Surface(game.layer_size, pygame.SRCALPHA, 32)
+        )
+        overlay_surface = overlay.get_surface()
+        if overlay_surface:
+            overlay_surface.fill((0, 0, 0))
+            overlay_surface.set_alpha(0)
+        self.entities[overlay_key] = overlay
+
+        def _on_fadein_done(sender = None):
+            self._apply_outro_cutout(character)
+
+            def _on_fadeout_done(fade_sender = None):
+                self.entities.pop(overlay_key, None)
+                if callback:
+                    callback()
+
+            self.animator.fadeout(overlay, duration_ms, callback=_on_fadeout_done)
+
+        self.animator.fadein(overlay, duration_ms, callback=_on_fadein_done)
+
+    def _switch_branch_and_run(self, branch):
+        if branch not in (self.interrogator_branch, self.respondent_branch):
+            return
+
+        current_branch = self.find_switch(self.SW_ACTIVE_BRANCH)
+        self.set_switch(self.SW_ACTIVE_BRANCH, branch)
+
+        def run_branch():
+            if branch == self.respondent_branch and self.find_switch(self.SW_RETURN_TO_CHOICES):
+                self.clear_switch(self.SW_RETURN_TO_CHOICES)
+                self._show_fda()
+                return
+            self._set_review_clues_button_visible(False)
+            self._run_dialog_tree(branch, self._get_callbacks())
+
+        if current_branch == branch:
+            run_branch()
+            return
+
+        self._fade_switch_visual(branch, callback=run_branch)
+
+    def _switch_speaker_visual(self, character, callback=None):
+        self._fade_switch_visual(character, callback=callback)
 
     def _to_questions(self):
         questions = self.find_switch(self.SW_QUESTIONS)
-        has_remaining = False
-        if questions:
-            for item in questions:
-                if not item.get("disabled", False):
-                    has_remaining = True
-                    break
+        has_remaining = bool(questions) and any(not item.get("disabled", False) for item in questions)
 
         if not questions or has_remaining:
             game.scenes.set_scene(self.questions_scene)
         else:
             self._show_result_and_switch(self.next_scene)
 
-    def _get_backdown_text_id(self):
-        return "accuse_backdown"
+    def _mark_correct(self):
+        current_correct = self.find_switch(self.SW_CORRECT_COUNT)
+        if not isinstance(current_correct, int):
+            current_correct = 0
+        self.set_switch(self.SW_CORRECT_COUNT, current_correct + 1)
+
+        q = self.find_switch(self.SW_QUESTION_CURRENT)
+        questions = self.find_switch(self.SW_QUESTIONS)
+        if questions:
+            for item in questions:
+                if item["value"] == q:
+                    item["disabled"] = True
+                    self.set_switch(self.SW_QUESTIONS, questions)
+                    break
+        self._to_questions()
+
+    def _show_fda(self):
+        if self.find_switch(self.SW_FDA_CHOICE) is not None:
+            return
+
+        if self.emitter.current_selector:
+            return
+
+        choiceset = ChoiceSet.from_entity(self, defaults.FDA_CHOICESET)
+        choiceset.selected += self._handle_choice
+        choiceset.hidden += self.emitter.clear_choiceset
+        self.emitter.current_selector = choiceset
+        self._set_review_clues_button_visible(True)
 
     def _accuse(self):
         items = self.emitter.add_clues_selector()
+
         def _on_clue_selected(sender, data):
             clue_id = data.get("id")
             self.set_switch(self.SW_PRESENTED_CLUE, clue_id)
-            self._to_respondent()
-            
+            self._switch_branch_and_run(self.respondent_branch)
+
         def _on_clue_cancelled(sender):
-            self.set_switch(self.SW_PRESENTED_CLUE, None)
             self.set_switch(self.SW_FDA_CHOICE, None)
+            self.set_switch(self.SW_PRESENTED_CLUE, None)
             self.set_switch(self.SW_RETURN_TO_CHOICES, True)
 
             def _after_selector_hidden(hidden_sender):
                 self.emitter.add(
                     self.interrogator_branch,
-                    self._get_backdown_text_id(),
-                    callback=self._to_respondent
+                    "accuse_backdown",
+                    callback=lambda: self._switch_branch_and_run(self.respondent_branch)
                 )
 
             items.hidden += _after_selector_hidden
-            
+
         items.selected += _on_clue_selected
         items.cancelled += _on_clue_cancelled
-
-class InterrogationRespondent(InterrogationBase):
-    def __init__(self, episode_id, mission_id, child_id, desc, tree_name, interrogator_scene, questions_scene, next_scene, side=DialogSide.TOP):
-        super().__init__(episode_id, mission_id, child_id, desc, tree_name, side)
-        self.interrogator_scene = interrogator_scene
-        self.questions_scene = questions_scene
-        self.next_scene = next_scene
-        self.respondent_branch = None # Set by subclass
-
-    def load_content(self):
-        super().load_content()
-        if self.find_switch(self.SW_RETURN_TO_CHOICES):
-            self.clear_switch(self.SW_RETURN_TO_CHOICES)
-            retry_timer = self.timers.add(0, True)
-            retry_timer.elapsed += lambda sender: self._show_fda()
-            return
-        self._run_dialog_tree(self.respondent_branch, self._get_callbacks())
-
-    def _to_interrogator(self):
-        game.scenes.set_scene(self.interrogator_scene)
-
-    def _to_questions(self):
-        questions = self.find_switch(self.SW_QUESTIONS)
-        has_remaining = False
-        if questions:
-            for item in questions:
-                if not item.get("disabled", False):
-                    has_remaining = True
-                    break
-        
-        if not questions or has_remaining:
-            game.scenes.set_scene(self.questions_scene)
-        else:
-            self._show_result_and_switch(self.next_scene)
-
-    def _show_fda(self):
-        if self.find_switch(self.SW_FDA_CHOICE) is not None:
-            # We already made a choice, don't show the menu again.
-            return
-
-        choiceset = ChoiceSet.from_entity(self, defaults.FDA_CHOICESET)
-        choiceset.selected += self._handle_choice
-        self.entities["fda"] = choiceset
-        btn_clues = KeyedButton(self, (64, 64), "Review clues", pygame.K_F12, "TAB")
-        btn_clues.leftclick += _toggle_clues
-        self.entities["btn_clues"] = btn_clues
-
-    def _backoff_to_choices(self):
-        self.set_switch(self.SW_FDA_CHOICE, None)
-        self.set_switch(self.SW_PRESENTED_CLUE, None)
-        self._show_fda()
 
     def _handle_choice(self, sender, value):
         i = value[0]
         self.set_switch(self.SW_FDA_CHOICE, i)
-        self.set_switch(self.SW_PRESENTED_CLUE, None) # Clear any previous cancelled state
-        choice_key = {1: "fact", 2: "doubt", 3: "accuse"}.get(i)
+        self.set_switch(self.SW_PRESENTED_CLUE, None)
+        self._set_review_clues_button_visible(False)
+        choice_key = CHOICE_KEYS.get(i) if isinstance(i, int) else None
 
         if choice_key in ("fact", "doubt", "accuse"):
-            self.entities["fda"].hidden += lambda sender: self._to_interrogator()
+            sender.hidden += lambda hidden_sender: self._switch_branch_and_run(self.interrogator_branch)
             return
-        
-        # Trigger the response dialogue nodes.
-        # This will emit the nodes for the chosen branch (Fact/Doubt/Accuse).
+
         self._run_question_tree(self.respondent_branch, self._get_callbacks())
-        
+
         tree = self._load_tree()
         q = self.find_switch(self.SW_QUESTION_CURRENT)
         q_data = tree[self.respondent_branch]["questions"][q]
-        
-        # If there are no nodes to play, we need to transition immediately via the hide callback.
-        # But if there ARE nodes, they should handle the transition via their own callbacks.
-        choice_data = q_data["choices"].get(choice_key, {})
-        if not choice_data.get("nodes") and not choice_data.get("clue_responses"):
-            is_correct = choice_data.get("correct", False)
-            def _to_scene(sender):
-                if is_correct:
-                    self._mark_correct()
-                else:
-                    self._to_interrogator()
-            self.entities["fda"].hidden += _to_scene
 
+        choice_data = q_data["choices"].get(choice_key, {})
+        if choice_data.get("nodes") or choice_data.get("clue_responses"):
+            return
+
+        is_correct = choice_data.get("correct", False)
+
+        def _to_scene(hidden_sender):
+            if is_correct:
+                self._mark_correct()
+            else:
+                self._switch_branch_and_run(self.interrogator_branch)
+
+        sender.hidden += _to_scene
+
+    def _get_outro_characters(self):
+        speakers = []
+        if self.respondent_branch:
+            speakers.append(self.respondent_branch)
+        if self.interrogator_branch and self.interrogator_branch not in speakers:
+            speakers.append(self.interrogator_branch)
+        return speakers
 
 class InterrogationMenu(InterrogationBase):
     def __init__(self, episode_id, mission_id, child_id, desc, tree_name, interrogator_scene, title="QUESTIONS", pos=(312, 192), side=DialogSide.TOP):

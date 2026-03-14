@@ -102,6 +102,11 @@ class InGameCluesOverlay(Scene):
                 if event.key == pygame.K_TAB:
                     self.toggle_visibility()
                     break
+            if event.type == pygame.MOUSEBUTTONUP and \
+               event.button == pygame.BUTTON_RIGHT and \
+               self.visible:
+                self.toggle_visibility()
+                break
 
     def draw(self, layer):
         if self.visible:

@@ -1,12 +1,10 @@
 from engine import game
 from app import defaults, scene_list, utils
-from app.entities import Image, TargetItem, KeyedButton, TargetMask
+from app.entities import Image, TargetItem, TargetMask
 from app.mission import Mission
 from app.dialog import DialogSide
 
-from .interrogation import InterrogationInterrogator, InterrogationRespondent, InterrogationMenu
-
-import pygame
+from .interrogation import InterrogationConversation, InterrogationMenu
 
 class E1M5Scene(Mission):
     def __init__(self):
@@ -25,7 +23,7 @@ class E1M5Scene(Mission):
             grabbable = False
         )
         prop_people.leftclick += lambda sender: \
-            game.scenes.set_scene("e1m5talk_joe")
+            game.scenes.set_scene("e1m5talk")
 
         self.entities = {
             "prop_people": prop_people,
@@ -33,46 +31,58 @@ class E1M5Scene(Mission):
 
 scene_list.add_mission(E1M5Scene())
 
-class E1M5Joe(InterrogationInterrogator):
+class E1M5Talk(InterrogationConversation):
     def __init__(self):
-        super().__init__(1, 5, "talk_joe", "Interrogation - Joe", "e1m5_tree", "e1m5talk_dan", "e1m5questions", "e1m5comic")
-        self.interrogator_branch = "joe"
+        super().__init__(
+            1,
+            5,
+            "talk",
+            "Interrogation - Talk",
+            "e1m5_tree",
+            "e1m5questions",
+            "e1m5comic",
+            "joe",
+            "dan",
+            side=DialogSide.BOTTOM
+        )
 
     def load_content(self):
         super().load_content()
         utils.set_music("e1m5", 0.15)
-        self.background.set_surface(self.get_image("joe-bg"))
-        self.entities["ca_joe"] = Image(self, utils.load_ca_image("joe-talk2"), (474, 90))
+        active_branch = self.find_switch(self.SW_ACTIVE_BRANCH)
+        if active_branch not in ("joe", "dan"):
+            active_branch = "joe"
+        self._apply_outro_cutout(active_branch)
 
-class E1M5Dan(InterrogationRespondent):
-    def __init__(self):
-        super().__init__(1, 5, "talk_dan", "Interrogation - Dan", "e1m5_tree", "e1m5talk_joe", "e1m5questions", "e1m5comic", side=DialogSide.BOTTOM)
-        self.respondent_branch = "dan"
-
-    def load_content(self):
-        super().load_content()
-        utils.set_music("e1m5", 0.15)
-        self.background.set_surface(self.get_image("dan-bg"))
-        prop_people = Image(self, self.get_image("dan-prop-people"), (205, 103))
-        self.entities["prop_people"] = prop_people
-        self.entities["ca_dan"] = Image(self, utils.load_ca_image("dan-talk1"), (550, 70))
+    def _get_outro_visual(self, character):
+        if character == "joe":
+            return {
+                "background": "joe-bg",
+                "cutout": "joe-talk2",
+                "cutout_pos": (474, 90),
+            }
+        if character == "dan":
+            return {
+                "background": "dan-bg",
+                "cutout": "dan-talk1",
+                "cutout_pos": (550, 70),
+                "prop": "dan-prop-people",
+                "prop_pos": (205, 103),
+            }
+        return None
 
 class E1M5Questions(InterrogationMenu):
     def __init__(self):
-        super().__init__(1, 5, "questions", "Interrogation - IGQ", "e1m5_tree", "e1m5talk_joe", pos=(450, 95))
+        super().__init__(1, 5, "questions", "Interrogation - IGQ", "e1m5_tree", "e1m5talk", pos=(450, 95))
 
     def load_content(self):
         self.entities["hand"] = defaults.hand_left
         super().load_content()
         utils.set_music("e1m5", 0.15)
         self.background.set_surface(self.get_image("main-bg"))
-        btn_clues = KeyedButton(self, (64, 64), "Review clues", pygame.K_F12, "TAB")
-        from .interrogation import _toggle_clues
-        btn_clues.leftclick += _toggle_clues
-        self.entities["btn_clues"] = btn_clues
+        self._set_review_clues_button_visible(True)
 
-scene_list.add_mission(E1M5Joe())
-scene_list.add_mission(E1M5Dan())
+scene_list.add_mission(E1M5Talk())
 scene_list.add_mission(E1M5Questions())
 
 class E1M5Comic(Mission):
