@@ -233,3 +233,5 @@ local.properties
 # Game files
 prefs.json
 savedgame.json
+
+*-pygbag.*
