@@ -1,0 +1,154 @@
+{
+    "questions": [
+        { "text": "Affiliation", "value": 0 },
+        { "text": "Demonstration objective", "value": 1 },
+        { "text": "Coffin and other effigies", "value": 2 },
+        { "text": "Invited organizations", "value": 3 },
+        { "text": "Surrounding cops", "value": 4 }
+    ],
+    "joe": {
+        "intro": [
+            { "character": "joe", "text_id": "talk1", "callback": "to_dan" }
+        ],
+        "questions": [
+            {
+                "initial": [
+                    { "character": "joe", "text_id": "q1_text1", "repeat": false, "callback": "to_dan" }
+                ],
+                "choices": {
+                    "doubt": [
+                        { "character": "joe", "text_id": "q1_doubt_talk1", "callback": "to_dan" }
+                    ],
+                    "accuse": [
+                        { "character": "joe", "text_id": "q1_accuse_talk1", "callback": "accuse" }
+                    ]
+                }
+            },
+            {
+                "initial": [
+                    { "character": "joe", "text_id": "q2_talk1", "repeat": false, "callback": "to_dan" }
+                ],
+                "choices": {
+                    "doubt": [
+                        { "character": "joe", "text_id": "q2_doubt_talk1", "callback": "to_dan" }
+                    ],
+                    "accuse": [
+                        { "character": "joe", "text_id": "q2_accuse_talk1", "callback": "accuse" }
+                    ]
+                }
+            },
+            {
+                "initial": [
+                    { "character": "joe", "text_id": "q3_talk1", "repeat": false, "callback": "to_dan" }
+                ],
+                "choices": {
+                    "doubt": [
+                        { "character": "joe", "text_id": "q3_doubt_talk1", "callback": "to_dan" }
+                    ],
+                    "accuse": [
+                        { "character": "joe", "text_id": "q3_accuse_talk1", "callback": "accuse" }
+                    ]
+                }
+            },
+            {
+                "initial": [
+                    { "character": "joe", "text_id": "q4_talk1", "repeat": false, "callback": "to_dan" }
+                ],
+                "choices": {
+                    "doubt": [
+                        { "character": "joe", "text_id": "q4_doubt_talk1", "callback": "to_dan" }
+                    ],
+                    "accuse": [
+                        { "character": "joe", "text_id": "q4_accuse_talk1", "callback": "accuse" }
+                    ]
+                }
+            },
+            {
+                "initial": [
+                    { "character": "joe", "text_id": "q5_talk1", "repeat": false, "callback": "to_dan" }
+                ],
+                "choices": {
+                    "doubt": [
+                        { "character": "joe", "text_id": "q5_doubt_talk1", "callback": "to_dan" }
+                    ],
+                    "accuse": [
+                        { "character": "joe", "text_id": "q5_accuse_talk1", "callback": "accuse" }
+                    ]
+                }
+            }
+        ]
+    },
+    "dan": {
+        "intro": [
+            { "character": "dan", "text_id": "talk1", "callback": "to_questions" }
+        ],
+        "questions": [
+            {
+                "initial": [
+                    { "character": "dan", "text_id": "q1_text1", "repeat": false, "callback": "show_fda" }
+                ],
+                "choices": {
+                    "doubt": [
+                        { "character": "dan", "text_id": "q1_doubt_talk1", "callback": "to_questions" }
+                    ],
+                    "accuse": [
+                        { "character": "dan", "text_id": "q1_accuse_talk1", "callback": "to_questions" }
+                    ]
+                }
+            },
+            {
+                "initial": [
+                    { "character": "dan", "text_id": "q2_talk1", "repeat": false, "callback": "show_fda" }
+                ],
+                "choices": {
+                    "doubt": [
+                        { "character": "dan", "text_id": "q2_doubt_talk1", "callback": "to_questions" }
+                    ],
+                    "accuse": [
+                        { "character": "dan", "text_id": "q2_accuse_talk1", "callback": "to_questions" }
+                    ]
+                }
+            },
+            {
+                "initial": [
+                    { "character": "dan", "text_id": "q3_talk1", "repeat": false },
+                    { "character": "dan", "text_id": "q3_talk2", "repeat": false, "callback": "show_fda" }
+                ],
+                "choices": {
+                    "doubt": [
+                        { "character": "dan", "text_id": "q3_doubt_talk1", "callback": "to_questions" }
+                    ],
+                    "accuse": [
+                        { "character": "dan", "text_id": "q3_accuse_talk1", "callback": "to_questions" }
+                    ]
+                }
+            },
+            {
+                "initial": [
+                    { "character": "dan", "text_id": "q4_talk1", "repeat": false, "callback": "show_fda" }
+                ],
+                "choices": {
+                    "doubt": [
+                        { "character": "dan", "text_id": "q4_doubt_talk1", "callback": "to_questions" }
+                    ],
+                    "accuse": [
+                        { "character": "dan", "text_id": "q4_accuse_talk1", "callback": "to_questions" }
+                    ]
+                }
+            },
+            {
+                "initial": [
+                    { "character": "dan", "text_id": "q5_talk1", "repeat": false, "callback": "show_fda" }
+                ],
+                "choices": {
+                    "doubt": [
+                        { "character": "dan", "text_id": "q5_doubt_talk1", "callback": "to_questions" }
+                    ],
+                    "accuse": [
+                        { "character": "dan", "text_id": "q5_accuse_talk1", "callback": "to_questions" }
+                    ]
+                }
+            }
+        ]
+    }
+}

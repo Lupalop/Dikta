@@ -43,6 +43,14 @@ scene_list.add_mission(E1M5Scene())
 SW_TALK1 = "e1m5_talk1"
 SW_TALK2 = "e1m5_talk2"
 
+_tree_cache = None
+
+def _load_tree():
+    global _tree_cache
+    if _tree_cache is None:
+        _tree_cache = utils.load_json_asset("e1m5_tree")
+    return _tree_cache
+
 class E1M5Joe(Mission):
     def __init__(self):
         super().__init__(1, 5, "talk_joe", "Interrogation - Joe", DialogSide.BOTTOM)
@@ -57,78 +65,37 @@ class E1M5Joe(Mission):
             "ca_joe": ca_joe,
         }
 
+        callbacks = {
+            "to_dan": self._to_dan,
+            "accuse": self._accuse,
+        }
+        self._run_dialog_tree("joe", callbacks)
+
+    def _run_dialog_tree(self, branch, callbacks):
+        tree = _load_tree()
         talk1 = self.find_switch(SW_TALK1)
         if not talk1:
-            self.emitter.add("joe", "talk1", callback=self._to_dan)
+            for node in tree[branch]["intro"]:
+                self._emit_node(node, callbacks)
             return
+        q = self.find_switch(SW_QUESTION_CURRENT)
+        choice = self.find_switch(SW_FDA_CHOICE)
+        q_data = tree[branch]["questions"][q]
+        for node in q_data["initial"]:
+            self._emit_node(node, callbacks)
+        choice_key = {1: "fact", 2: "doubt", 3: "accuse"}.get(choice)
+        if choice_key and choice_key in q_data["choices"]:
+            for node in q_data["choices"][choice_key]:
+                self._emit_node(node, callbacks)
 
-        current_question = self.find_switch(SW_QUESTION_CURRENT)
-        current_choice = self.find_switch(SW_FDA_CHOICE)
-        # Affiliation
-        if current_question == 0:
-            self.emitter.add("joe", "q1_text1", callback=self._to_dan, repeat = False)
-            # FACT
-            if current_choice == 1:
-                # XXX never reached
-                pass
-            # DOUBT
-            elif current_choice == 2:
-                self.emitter.add("joe", "q1_doubt_talk1", callback=self._to_dan)
-            # ACCUSE
-            elif current_choice == 3:
-                self.emitter.add("joe", "q1_accuse_talk1", callback=self._accuse)
-        # Demonstration objective
-        elif current_question == 1:
-            self.emitter.add("joe", "q2_talk1", callback=self._to_dan, repeat = False)
-            # FACT
-            if current_choice == 1:
-                # XXX never reached
-                pass
-            # DOUBT
-            elif current_choice == 2:
-                self.emitter.add("joe", "q2_doubt_talk1", callback=self._to_dan)
-            # ACCUSE
-            elif current_choice == 3:
-                self.emitter.add("joe", "q2_accuse_talk1", callback=self._accuse)
-        # Effigies
-        elif current_question == 2:
-            self.emitter.add("joe", "q3_talk1", callback=self._to_dan, repeat = False)
-            # FACT
-            if current_choice == 1:
-                # XXX never reached
-                pass
-            # DOUBT
-            elif current_choice == 2:
-                self.emitter.add("joe", "q3_doubt_talk1", callback=self._to_dan)
-            # ACCUSE
-            elif current_choice == 3:
-                self.emitter.add("joe", "q3_accuse_talk1", callback=self._accuse)
-        # Organizations
-        elif current_question == 3:
-            self.emitter.add("joe", "q4_talk1", callback=self._to_dan, repeat = False)
-            # FACT
-            if current_choice == 1:
-                # XXX never reached
-                pass
-            # DOUBT
-            elif current_choice == 2:
-                self.emitter.add("joe", "q4_doubt_talk1", callback=self._to_dan)
-            # ACCUSE
-            elif current_choice == 3:
-                self.emitter.add("joe", "q4_accuse_talk1", callback=self._accuse)
-        # Cops
-        elif current_question == 4:
-            self.emitter.add("joe", "q5_talk1", callback=self._to_dan, repeat = False)
-            # FACT
-            if current_choice == 1:
-                # XXX never reached
-                pass
-            # DOUBT
-            elif current_choice == 2:
-                self.emitter.add("joe", "q5_doubt_talk1", callback=self._to_dan)
-            # ACCUSE
-            elif current_choice == 3:
-                self.emitter.add("joe", "q5_accuse_talk1", callback=self._accuse)
+    def _emit_node(self, node, callbacks):
+        cb_name = node.get("callback")
+        cb = callbacks.get(cb_name) if cb_name else None
+        self.emitter.add(
+            node["character"], node["text_id"],
+            callback=cb,
+            repeat=node.get("repeat", True)
+        )
 
     def _to_dan(self):
         game.scenes.set_scene("e1m5talk_dan")
@@ -165,80 +132,38 @@ class E1M5Dan(Mission):
             "ca_dan": ca_dan,
         }
 
+        callbacks = {
+            "show_fda": self._show_fda,
+            "to_questions": self._to_questions,
+        }
         talk1 = self.find_switch(SW_TALK1)
         if not talk1:
-            self.emitter.add("dan", "talk1", callback=self._to_questions)
+            for node in _load_tree()["dan"]["intro"]:
+                self._emit_node(node, callbacks)
             self.set_switch(SW_TALK1, True)
             return
+        self._run_dialog_tree("dan", callbacks)
 
-        current_question = self.find_switch(SW_QUESTION_CURRENT)
-        current_choice = self.find_switch(SW_FDA_CHOICE)
-        # Affiliation
-        if current_question == 0:
-            self.emitter.add("dan", "q1_text1", callback=self._show_fda, repeat = False)
-            # FACT
-            if current_choice == 1:
-                # XXX never reached
-                pass
-            # DOUBT
-            elif current_choice == 2:
-                self.emitter.add("dan", "q1_doubt_talk1", callback=self._to_questions)
-            # ACCUSE
-            elif current_choice == 3:
-                self.emitter.add("dan", "q1_accuse_talk1", callback=self._to_questions)
-        # Demonstration objective
-        elif current_question == 1:
-            self.emitter.add("dan", "q2_talk1", callback=self._show_fda, repeat = False)
-            # FACT
-            if current_choice == 1:
-                # XXX never reached
-                pass
-            # DOUBT
-            elif current_choice == 2:
-                self.emitter.add("dan", "q2_doubt_talk1", callback=self._to_questions)
-            # ACCUSE
-            elif current_choice == 3:
-                self.emitter.add("dan", "q2_accuse_talk1", callback=self._to_questions)
-        # Effigies
-        elif current_question == 2:
-            self.emitter.add("dan", "q3_talk1", repeat = False)
-            self.emitter.add("dan", "q3_talk2", callback=self._show_fda, repeat = False)
-            # FACT
-            if current_choice == 1:
-                # XXX never reached
-                pass
-            # DOUBT
-            elif current_choice == 2:
-                self.emitter.add("dan", "q3_doubt_talk1", callback=self._to_questions)
-            # ACCUSE
-            elif current_choice == 3:
-                self.emitter.add("dan", "q3_accuse_talk1", callback=self._to_questions)
-        # Organizations
-        elif current_question == 3:
-            self.emitter.add("dan", "q4_talk1", callback=self._show_fda, repeat = False)
-            # FACT
-            if current_choice == 1:
-                # XXX never reached
-                pass
-            # DOUBT
-            elif current_choice == 2:
-                self.emitter.add("dan", "q4_doubt_talk1", callback=self._to_questions)
-            # ACCUSE
-            elif current_choice == 3:
-                self.emitter.add("dan", "q4_accuse_talk1", callback=self._to_questions)
-        # Cops
-        elif current_question == 4:
-            self.emitter.add("dan", "q5_talk1", callback=self._show_fda, repeat = False)
-            # FACT
-            if current_choice == 1:
-                # XXX never reached
-                pass
-            # DOUBT
-            elif current_choice == 2:
-                self.emitter.add("dan", "q5_doubt_talk1", callback=self._to_questions)
-            # ACCUSE
-            elif current_choice == 3:
-                self.emitter.add("dan", "q5_accuse_talk1", callback=self._to_questions)
+    def _run_dialog_tree(self, branch, callbacks):
+        tree = _load_tree()
+        q = self.find_switch(SW_QUESTION_CURRENT)
+        choice = self.find_switch(SW_FDA_CHOICE)
+        q_data = tree[branch]["questions"][q]
+        for node in q_data["initial"]:
+            self._emit_node(node, callbacks)
+        choice_key = {1: "fact", 2: "doubt", 3: "accuse"}.get(choice)
+        if choice_key and choice_key in q_data["choices"]:
+            for node in q_data["choices"][choice_key]:
+                self._emit_node(node, callbacks)
+
+    def _emit_node(self, node, callbacks):
+        cb_name = node.get("callback")
+        cb = callbacks.get(cb_name) if cb_name else None
+        self.emitter.add(
+            node["character"], node["text_id"],
+            callback=cb,
+            repeat=node.get("repeat", True)
+        )
 
     def _show_fda(self):
         choiceset = ChoiceSet.from_entity(self, defaults.FDA_CHOICESET)
@@ -317,28 +242,7 @@ class E1M5Questions(Mission):
     def _load_questions(self):
         self.questions = self.find_switch(SW_QUESTIONS)
         if not self.questions:
-            self.questions = [
-                {
-                    "text": "Affiliation",
-                    "value": 0
-                },
-                {
-                    "text": "Demonstration objective",
-                    "value": 1
-                },
-                {
-                    "text": "Coffin and other effigies",
-                    "value": 2
-                },
-                {
-                    "text": "Invited organizations",
-                    "value": 3
-                },
-                {
-                    "text": "Surrounding cops",
-                    "value": 4
-                }
-            ]
+            self.questions = _load_tree()["questions"]
             self.set_switch(SW_QUESTIONS, self.questions)
 
     def _listbox_on_selected(self, sender, data):
