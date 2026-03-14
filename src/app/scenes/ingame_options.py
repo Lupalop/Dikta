@@ -163,7 +163,6 @@ class InGameOptionsOverlay(Scene):
 
         if prefs.IS_WASM:
             unsupported_prefs = [
-                "app.display.use_smoothscale",
                 "app.display.resizable"
             ]
             self._dataset = [item for item in self._dataset if item["value"].get("pref") not in unsupported_prefs]

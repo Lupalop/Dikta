@@ -69,7 +69,7 @@ class GameManager():
         self.is_fullscreen = prefs.default.get("app.display.fullscreen", False)
         self.is_resizable = prefs.default.get("app.display.resizable", False)
         self.is_dpi_aware = prefs.default.get("app.display.dpi_aware", True)
-        self.is_scale_smooth = prefs.default.get("app.display.use_smoothscale", not prefs.IS_WASM)
+        self.is_scale_smooth = prefs.default.get("app.display.use_smoothscale", True)
         # Prevent automatic scaling on Windows
         if os.name == "nt" and self.is_dpi_aware:
             import ctypes
