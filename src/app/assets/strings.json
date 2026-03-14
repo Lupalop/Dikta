@@ -333,7 +333,7 @@
                 "text": "I'm from The Times, and I’d like to get your thoughts about this demonstration."
             },
             "dan_talk1": {
-                "text": "Yeah, sure."
+                "text": "Yeah, all right. Ask what you need."
             },
             "joe_q1_text1": {
                 "text": "You’re a member of what organization?"
@@ -345,7 +345,13 @@
                 "text": "You sure?"
             },
             "dan_q1_doubt_talk1": {
-                "text": "Of course!"
+                "text": "Of course. NUSP's why I'm here."
+            },
+            "joe_q1_fact_talk1": {
+                "text": "The NUSP. I've seen your group's posters around the university."
+            },
+            "dan_q1_fact_talk1": {
+                "text": "We're trying to reach as many people as possible, sir."
             },
             "joe_q1_accuse_talk1": {
                 "text": "You’re lying. The truth is, you’re an undercover communist seeking to\ndestabilize the government!"
@@ -354,7 +360,7 @@
                 "text": "How will you prove that?"
             },
             "dan_q1_accuse_talk2": {
-                "text": "That doesn’t make any sense at all!"
+                "text": "That's absurd, Sir Joe. You can't brand every student activist a communist."
             },
             "joe_q2_talk1": {
                 "text": "What’s the objective of this demonstration?"
@@ -366,13 +372,19 @@
                 "text": "That’s all? There must be something more to your cause. You’re not\nplanning on overthrowing the government aren’t you?"
             },
             "dan_q2_doubt_talk1": {
-                "text": "Not true. You’ve a very wide imagination, Sir Joe. "
+                "text": "Not true, Sir Joe. We have said exactly what we came here for."
+            },
+            "joe_q2_fact_talk1": {
+                "text": "A nonpartisan convention. It's a clear demand, if nothing else."
+            },
+            "dan_q2_fact_talk1": {
+                "text": "We won't settle for less."
             },
             "joe_q2_accuse_talk1": {
                 "text": "The real objective of your demonstration is to manipulate the people's minds!"
             },
             "dan_q2_accuse_talk1": {
-                "text": "I don’t get it."
+                "text": "Our demands are printed on every banner here, Sir Joe. There is nothing hidden."
             },
             "joe_q3_talk1": {
                 "text": "For you, what does the effigies symbolize?"
@@ -387,13 +399,13 @@
                 "text": "The coffin… You’re not planning on placing the president inside it, no?"
             },
             "dan_q3_doubt_talk1": {
-                "text": "Where are these questions coming from?"
+                "text": "It's papier-mâché, Sir Joe. A symbol of democracy's death — nothing more."
             },
             "joe_q3_accuse_talk1": {
                 "text": "The coffin… You’re not planning on placing the president inside it, no?"
             },
             "dan_q3_accuse_talk1": {
-                "text": "I don’t get it."
+                "text": "The coffin stands for dead democracy, not a person. Surely a journalist can read a symbol."
             },
             "joe_q4_talk1": {
                 "text": "How about the other organizations?"
@@ -405,13 +417,31 @@
                 "text": "I don’t think so. You know them because you’re with them."
             },
             "dan_q4_doubt_talk1": {
-                "text": "That doesn’t make any sense. Being here doesn’t mean that I know everyone here."
+                "text": "Sharing a rallyground doesn't mean I know every organization here by heart."
             },
             "joe_q4_accuse_talk1": {
                 "text": "I don’t think so. You know them because you’re with them."
             },
             "dan_q4_accuse_talk1": {
-                "text": "That doesn’t make any sense."
+                "text": "Attending the same rally does not make me their spokesman, Sir Joe."
+            },
+            "joe_q4_fact_talk1": {
+                "text": "Youth groups and student unions. It's a miracle you're all working together."
+            },
+            "dan_q4_fact_talk1": {
+                "text": "Unity is our only strength against the administration."
+            },
+            "joe_q3_fact_talk1": {
+                "text": "A coffin for democracy and a crocodile for Congress. Hard to miss the point."
+            },
+            "dan_q3_fact_talk1": {
+                "text": "Exactly. We want people to see what this government is doing to the country."
+            },
+            "joe_q5_fact_talk1": {
+                "text": "They certainly seem ready for trouble."
+            },
+            "dan_q5_fact_talk1": {
+                "text": "They're usually the ones who start it."
             },
             "joe_q5_talk1": {
                 "text": "What do you think of the cops who are here to “maintain” the peace?"
@@ -429,7 +459,118 @@
                 "text": "How did you say that they are brutal? I think it’s the other way around.\nYou and your organizations are framing them and making them look bad."
             },
             "dan_q5_accuse_talk1": {
-                "text": "We are fighting for our rights peacefully, and here you are, throwing far-fetched accusations."
+                "text": "We are fighting for our rights peacefully, and here you are, throwing\nfar-fetched accusations."
+            },
+            "joe_q6_talk1": {
+                "text": "How many people are actually here? It's hard to tell from the crowd."
+            },
+            "dan_q6_talk1": {
+                "text": "I'd bet there are at least 50,000 students and workers here today."
+            },
+            "joe_q6_doubt_talk1": {
+                "text": "50,000? That seems like an exaggeration. I've seen smaller crowds that looked bigger than this."
+            },
+            "dan_q6_doubt_talk1": {
+                "text": "Count them yourself, Sir Joe. The crowd runs from here all the way to Luneta."
+            },
+            "joe_q6_accuse_clue1": {
+                "text": "You're inflating the numbers to make your cause look more popular than it is!"
+            },
+            "dan_q6_accuse_clue1": {
+                "text": "Look at the streets! How can you say we're a minority?"
+            },
+            "joe_q6_accuse_success1": {
+                "text": "My own estimates place the crowd much closer to 20,000."
+            },
+            "dan_q6_accuse_success1": {
+                "text": "Fine... maybe my enthusiasm got the better of me. 20,000 is still a force to be reckoned with."
+            },
+            "joe_q6_fact_talk1": {
+                "text": "A sizable crowd, certainly. But let's hope it stays manageable."
+            },
+            "dan_q6_fact_talk1": {
+                "text": "We're here to be heard, not to cause trouble."
+            },
+            "joe_q7_talk1": {
+                "text": "Who is leading this whole thing? I heard someone speaking through the PA earlier."
+            },
+            "dan_q7_talk1": {
+                "text": "Just some students who care about their country. We don't have 'leaders' in the way you think."
+            },
+            "joe_q7_doubt_talk1": {
+                "text": "A rally this organized doesn't just happen by itself. There's a brain behind all this."
+            },
+            "dan_q7_doubt_talk1": {
+                "text": "The people's will is the brain, sir."
+            },
+            "joe_q7_accuse_clue1": {
+                "text": "I think you're hiding the names of your coordinators to protect them from the police."
+            },
+            "joe_q7_accuse_success1": {
+                "text": "I know Edgar Jopson is the one on that podium. He's the NUSP president, isn't he?"
+            },
+            "dan_q7_accuse_success1": {
+                "text": "Yes... Edgar is our president. But he's just one of many voices."
+            },
+            "dan_q7_accuse_clue1": {
+                "text": "We are not hiding anyone, Sir Joe. Our leaders stand at that podium for all to see."
+            },
+            "joe_q7_fact_talk1": {
+                "text": "A leaderless movement is a dangerous thing, but so is one with too many heads."
+            },
+            "dan_q7_fact_talk1": {
+                "text": "We're well-organized, Sir Joe. Don't worry about us."
+            },
+            "joe_q8_talk1": {
+                "text": "I saw a jeepney with loudspeakers following the crowd. Is that yours?"
+            },
+            "dan_q8_talk1": {
+                "text": "A jeepney? I haven't seen one. We're all on foot."
+            },
+            "joe_q8_doubt_talk1": {
+                "text": "It was surrounded by your members. Hard to miss."
+            },
+            "dan_q8_doubt_talk1": {
+                "text": "Then it wasn't ours. We came here on foot, same as the others."
+            },
+            "joe_q8_accuse_clue1": {
+                "text": "That jeep is a mobile command center for your leaders!"
+            },
+            "joe_accuse_backdown": {
+                "text": "No, I can't make that stick. Let's move on."
+            },
+            "dan_q8_accuse_clue1": {
+                "text": "You're seeing conspiracies where there are only students."
+            },
+            "joe_q8_fact_talk1": {
+                "text": "A mobile PA system. Wise move for such a long march."
+            },
+            "dan_q8_fact_talk1": {
+                "text": "It helps keep everyone's spirits up."
+            },
+            "joe_q9_talk1": {
+                "text": "It's a peaceful demonstration then? No weapons?"
+            },
+            "dan_q9_talk1": {
+                "text": "None at all. We're here to protest, not to fight."
+            },
+            "joe_q9_fact_talk1": {
+                "text": "Peaceful methods. I hope the police share that sentiment."
+            },
+            "dan_q9_fact_talk1": {
+                "text": "We can only hope, Sir Joe."
+            },
+            "joe_q9_doubt_talk1": {
+                "text": "Are you sure no one here is carrying anything? A crowd this size is hard to control."
+            },
+            "dan_q9_doubt_talk1": {
+                "text": "I assure you, Sir Joe. We left our weapons at home because we have none to bring."
+            },
+            "joe_q9_accuse_talk1": {
+                "text": "I think your group has weapons hidden somewhere in that crowd."
+            },
+            "dan_q9_accuse_talk1": {
+                "text": "That is a very serious accusation, Sir Joe. Search every one of us if you want."
             }
         },
         "m6": {
