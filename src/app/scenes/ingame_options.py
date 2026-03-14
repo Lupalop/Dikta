@@ -160,6 +160,14 @@ class InGameOptionsOverlay(Scene):
                 }
             }
         ]
+
+        if prefs.IS_WASM:
+            unsupported_prefs = [
+                "app.display.use_smoothscale",
+                "app.display.resizable"
+            ]
+            self._dataset = [item for item in self._dataset if item["value"].get("pref") not in unsupported_prefs]
+
         listbox = ListBox(self, (450, 95), "OPTIONS", self._dataset)
         listbox.marked += self._listbox_on_marked
         listbox.selected += self._listbox_on_selected

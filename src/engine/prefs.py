@@ -1,4 +1,7 @@
+import sys
 from engine import content
+
+IS_WASM = (sys.platform == "emscripten")
 
 PF_DEFAULT = "prefs"
 PF_SAVEDGAME = "savedgame"

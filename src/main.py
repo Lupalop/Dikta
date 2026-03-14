@@ -1,3 +1,4 @@
+# pygbag: name=dikta, width=1360, height=765
 import asyncio
 import pygame
 import pygame.freetype

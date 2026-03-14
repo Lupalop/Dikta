@@ -67,6 +67,13 @@ class MainMenuScene(Scene):
         btn_exit = FadeButton(self, utils.load_mm_image("btn-exit"), (1280, 280))
         btn_exit.click += lambda sender, button: game.exit()
 
+        if prefs.IS_WASM:
+            btn_load.disabled = True
+            btn_load.get_surface().set_alpha(50)
+
+            btn_exit.disabled = True
+            btn_exit.get_surface().set_alpha(50)
+
         self.entities = {
             "background": background,
             "logo": logo,
