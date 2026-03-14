@@ -55,13 +55,14 @@ class InterrogationBase(Mission):
         super().update(game, events)
         if self._btn_clues:
             self._btn_clues.update(game, events)
+            self._call_captured()
 
     def draw(self, layer):
         super().draw(layer)
         if self._btn_clues:
             self._btn_clues.draw(layer)
 
-    def _emit_node(self, node, callbacks):
+    def _emit_node(self, node, callbacks, repeat_override=None):
         cb_name = node.get("callback")
         cb = callbacks.get(cb_name) if cb_name else None
         clue_id = node.get("grants_clue")
@@ -75,7 +76,7 @@ class InterrogationBase(Mission):
         self.emitter.add(
             node["character"], node["text_id"],
             callback=cb,
-            repeat=node.get("repeat", True)
+            repeat=(node.get("repeat", True) if repeat_override is None else repeat_override)
         )
 
     def _run_dialog_tree(self, branch, callbacks):
@@ -102,8 +103,11 @@ class InterrogationBase(Mission):
         
         choice = self.find_switch(self.SW_FDA_CHOICE)
         q_data = tree[branch]["questions"][q]
+        replay_initial = (choice is None)
         for node in q_data["initial"]:
-            self._emit_node(node, callbacks)
+            # Replay initial nodes only when the question has no selected FDA
+            # choice yet (save-load recovery path).
+            self._emit_node(node, callbacks, repeat_override=(True if replay_initial else None))
 
         choice_key = CHOICE_KEYS.get(choice) if isinstance(choice, int) else None
         choice_data = q_data["choices"].get(choice_key) if choice_key else None
@@ -131,7 +135,7 @@ class InterrogationBase(Mission):
                     nodes = responses.get("else", [])
 
         for node in nodes:
-            self._emit_node(node, callbacks)
+            self._emit_node(node, callbacks, repeat_override=True)
 
     def _show_result_and_switch(self, next_scene):
         if self.find_switch(self.SW_RESULT_PENDING):
@@ -231,9 +235,11 @@ class InterrogationConversation(InterrogationBase):
         self.interrogator_branch = interrogator_branch
         self.respondent_branch = respondent_branch
         self.SW_ACTIVE_BRANCH = "e{}m{}_fda_active_branch".format(episode_id, mission_id)
+        self._pending_return_to_questions = False
 
     def load_content(self):
         super().load_content()
+        self._pending_return_to_questions = False
 
         # Match original split-scene behavior: every entry from question select
         # starts on the interrogator side.
@@ -242,6 +248,11 @@ class InterrogationConversation(InterrogationBase):
 
         self._apply_outro_cutout(active_branch)
         self._run_dialog_tree(active_branch, self._get_callbacks())
+
+        # Save-load fallback: if all repeat=false nodes were already viewed,
+        # the emitter can end up with no dialog and no selector.
+        if not self.emitter.current_dialog and not self.emitter.current_selector:
+            self._pending_return_to_questions = True
 
     def _get_callbacks(self):
         def finish_question():
@@ -276,12 +287,15 @@ class InterrogationConversation(InterrogationBase):
     def update(self, game, events):
         super().update(game, events)
 
+        if self._pending_return_to_questions:
+            self._pending_return_to_questions = False
+            self._to_questions()
+            return
+
         selector = self.emitter.current_selector
         if not isinstance(selector, ListBox):
             return
 
-        # Scene-owned behavior: right-click cancels the interrogation clue
-        # selector (backdown path), but ListBox itself stays generic.
         for event in events:
             if event.type == pygame.MOUSEBUTTONUP and event.button == pygame.BUTTON_RIGHT:
                 selector._on_cancelled()
