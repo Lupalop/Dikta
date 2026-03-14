@@ -17,7 +17,7 @@ class SceneManager:
     def _toggle_switching(self):
         self._switching = not self._switching
 
-    def get_scene(self):
+    def get_scene(self) -> Scene | None:
         return self._scene
 
     def set_scene(self, scene, delay = None):
