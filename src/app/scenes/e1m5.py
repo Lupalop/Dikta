@@ -35,7 +35,7 @@ scene_list.add_mission(E1M5Scene())
 
 class E1M5Joe(InterrogationInterrogator):
     def __init__(self):
-        super().__init__(1, 5, "talk_joe", "Interrogation - Joe", "e1m5_tree", "e1m5talk_dan")
+        super().__init__(1, 5, "talk_joe", "Interrogation - Joe", "e1m5_tree", "e1m5talk_dan", "e1m5questions", "e1m5comic")
         self.interrogator_branch = "joe"
 
     def load_content(self):
