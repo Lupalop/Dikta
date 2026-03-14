@@ -395,9 +395,9 @@
                         { "character": "dan", "text_id": "q8_fact_talk1" },
                         { "character": "dan", "text_id": "q8_fact_talk2", "callback": "finish_question" }
                     ] },
-                    "doubt":  { "correct": false, "nodes": [
+                    "doubt":  { "correct": true, "nodes": [
                         { "character": "dan", "text_id": "q8_doubt_talk1" },
-                        { "character": "dan", "text_id": "q8_doubt_talk2", "callback": "finish_question" }
+                        { "character": "dan", "text_id": "q8_doubt_talk2", "callback": "mark_correct" }
                     ]},
                     "accuse": { "correct": false, "nodes": [
                         { "character": "dan", "text_id": "q8_accuse_clue1" },
