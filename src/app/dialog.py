@@ -54,7 +54,7 @@ class Dialog(ClickableEntity):
         # Speech
         self._played = False
         self._vox_key = vox_key
-        self._vox = utils.load_vox(self._vox_key)
+        self._vox = utils.load_vox(self._vox_key) if self._vox_key else None
 
         rect_speech_final = RECT_SPEECH
         rect_name_final = RECT_NAME
@@ -282,9 +282,13 @@ class DialogEmitter():
             self.current_popup_image.draw(layer)
 
     def get_all_viewed(self):
+        if not hasattr(self.owner, "dialog_key"):
+            return []
         return prefs.savedgame.get(self.owner.dialog_key, [])
 
     def set_viewed(self, text_key):
+        if not hasattr(self.owner, "dialog_key"):
+            return False
         all_viewed = self.get_all_viewed()
         if text_key in all_viewed:
             return False
