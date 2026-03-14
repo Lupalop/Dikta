@@ -254,6 +254,35 @@ class InterrogationConversation(InterrogationBase):
         if not self.emitter.current_dialog and not self.emitter.current_selector:
             self._pending_return_to_questions = True
 
+    def _resolve_generic_vox(self, character_id, text_key):
+        if character_id == self.interrogator_branch:
+            options = ["joe_generic1", "joe_generic2"]
+        elif character_id == self.respondent_branch:
+            options = ["respondent_generic1", "respondent_generic2", "respondent_generic3"]
+        else:
+            return None
+
+        available = [key for key in options if utils.load_vox(key)]
+        if not available:
+            return None
+
+        # Keep fallback selection deterministic per text key.
+        stable_index = sum(ord(ch) for ch in text_key) % len(available)
+        return available[stable_index]
+
+    def get_string(self, character_id, text_id):
+        name, text, text_key, vox_key = super().get_string(character_id, text_id)
+
+        # Prefer authored VOX line when available.
+        if utils.load_vox(vox_key):
+            return (name, text, text_key, vox_key)
+
+        generic_vox = self._resolve_generic_vox(character_id, text_key)
+        if generic_vox:
+            return (name, text, text_key, generic_vox)
+
+        return (name, text, text_key, vox_key)
+
     def _get_callbacks(self):
         def finish_question():
             q = self.find_switch(self.SW_QUESTION_CURRENT)
