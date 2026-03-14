@@ -46,19 +46,19 @@
             "desc": "The student activists are at it again with\ntheir effigies.\n\nWhat could the coffin represent?"
         },
         "demo_objective": {
-            "name": "Demonstration objective",
+            "name": "Rally demands",
             "desc": "The NUSP is here to appeal for a nonpartisan\nConstitutional Convention from the president\nand to ask him to refrain from running for a third term."
         },
         "effigies_meaning": {
-            "name": "Effigies meaning",
+            "name": "Effigy symbolism",
             "desc": "The cardboard coffin represents the death of democracy.\nThe cardboard crocodile symbolizes the cronies and\ngreed of congressmen for money."
         },
         "invited_orgs": {
-            "name": "Invited organizations",
+            "name": "Allied youth groups",
             "desc": "Other organizations present include KM\n(Kabataan Makabayan) and the SDK\n(Samahang Demokratiko ng Kabataan)."
         },
         "cops_reputation": {
-            "name": "Police reputation",
+            "name": "Police street rep",
             "desc": "Two words – corrupt and brutal.\nThey serve only the interests of the rich and powerful."
         }
     },
@@ -330,31 +330,43 @@
                 "text": "Maybe I should speak with one of the demonstrators instead."
             },
             "joe_talk1": {
-                "text": "I'm from The Times, and I’d like to get your thoughts about this demonstration."
+                "text": "I am with The Times, and I would like your view of this demonstration."
+            },
+            "joe_talk2": {
+                "text": "I want your side recorded accurately, so let us keep this direct."
             },
             "dan_talk1": {
                 "text": "Yeah, all right. Ask what you need."
             },
+            "dan_talk2": {
+                "text": "Ask straight, and I'll answer straight."
+            },
             "joe_q1_text1": {
                 "text": "You’re a member of what organization?"
+            },
+            "joe_q1_text2": {
+                "text": "I need the exact name for my notes."
             },
             "dan_q1_text1": {
                 "text": "I’m from the NUSP."
             },
+            "dan_q1_text2": {
+                "text": "National Union of Students of the Philippines."
+            },
             "joe_q1_doubt_talk1": {
-                "text": "You sure?"
+                "text": "Are you certain?"
             },
             "dan_q1_doubt_talk1": {
                 "text": "Of course. NUSP's why I'm here."
             },
             "joe_q1_fact_talk1": {
-                "text": "The NUSP. I've seen your group's posters around the university."
+                "text": "NUSP, understood. I have seen your posters around the university."
             },
             "dan_q1_fact_talk1": {
                 "text": "We're trying to reach as many people as possible, sir."
             },
             "joe_q1_accuse_talk1": {
-                "text": "You’re lying. The truth is, you’re an undercover communist seeking to\ndestabilize the government!"
+                "text": "Let me be direct: are you linked to any underground cadre?"
             },
             "dan_q1_accuse_talk1": {
                 "text": "How will you prove that?"
@@ -365,23 +377,29 @@
             "joe_q2_talk1": {
                 "text": "What’s the objective of this demonstration?"
             },
+            "joe_q2_talk2": {
+                "text": "What are you asking the president to do, specifically?"
+            },
             "dan_q2_talk1": {
                 "text": "We are here to appeal for a nonpartisan Constitutional Convention from\nthe president and to ask him to refrain from running for a third term."
             },
+            "dan_q2_talk2": {
+                "text": "That's the demand, and we've been clear about it all afternoon."
+            },
             "joe_q2_doubt_talk1": {
-                "text": "That’s all? There must be something more to your cause. You’re not\nplanning on overthrowing the government aren’t you?"
+                "text": "That is the public line. Is there anything beyond it?"
             },
             "dan_q2_doubt_talk1": {
                 "text": "Not true, Sir Joe. We have said exactly what we came here for."
             },
             "joe_q2_fact_talk1": {
-                "text": "A nonpartisan convention. It's a clear demand, if nothing else."
+                "text": "A nonpartisan convention and term limits. That is clear enough."
             },
             "dan_q2_fact_talk1": {
                 "text": "We won't settle for less."
             },
             "joe_q2_accuse_talk1": {
-                "text": "The real objective of your demonstration is to manipulate the people's minds!"
+                "text": "Critics say this rally is built to inflame rather than negotiate."
             },
             "dan_q2_accuse_talk1": {
                 "text": "Our demands are printed on every banner here, Sir Joe. There is nothing hidden."
@@ -389,44 +407,56 @@
             "joe_q3_talk1": {
                 "text": "For you, what does the effigies symbolize?"
             },
+            "joe_q3_talk2": {
+                "text": "Start with the coffin. People can read that in many ways."
+            },
             "dan_q3_talk1": {
                 "text": "The cardboard coffin represents the death of democracy."
             },
             "dan_q3_talk2": {
                 "text": "While the cardboard crocodile symbolizes his cronies and the greed of\ncongressmen for money."
             },
+            "dan_q3_talk3": {
+                "text": "They're warnings, not threats."
+            },
             "joe_q3_doubt_talk1": {
-                "text": "The coffin… You’re not planning on placing the president inside it, no?"
+                "text": "That coffin image can be read as a threat by some."
             },
             "dan_q3_doubt_talk1": {
                 "text": "It's papier-mâché, Sir Joe. A symbol of democracy's death — nothing more."
             },
             "joe_q3_accuse_talk1": {
-                "text": "The coffin… You’re not planning on placing the president inside it, no?"
+                "text": "That coffin imagery can be taken as incitement, whether intended or not."
             },
             "dan_q3_accuse_talk1": {
                 "text": "The coffin stands for dead democracy, not a person. Surely a journalist can read a symbol."
             },
             "joe_q4_talk1": {
-                "text": "How about the other organizations?"
+                "text": "What of the other organizations?"
+            },
+            "joe_q4_talk2": {
+                "text": "Who else is coordinating with your group on the ground?"
             },
             "dan_q4_talk1": {
                 "text": "I’m not really that familiar with everyone here, but there’s KM\n(Kabataan Makabayan) and the SDK (Samahang Demokratiko ng Kabataan)."
             },
+            "dan_q4_talk2": {
+                "text": "Big crowd, many banners. I only know some of them by name."
+            },
             "joe_q4_doubt_talk1": {
-                "text": "I don’t think so. You know them because you’re with them."
+                "text": "In a coalition this visible, someone keeps track of who is who."
             },
             "dan_q4_doubt_talk1": {
                 "text": "Sharing a rallyground doesn't mean I know every organization here by heart."
             },
             "joe_q4_accuse_talk1": {
-                "text": "I don’t think so. You know them because you’re with them."
+                "text": "You’re withholding names, and that raises questions."
             },
             "dan_q4_accuse_talk1": {
                 "text": "Attending the same rally does not make me their spokesman, Sir Joe."
             },
             "joe_q4_fact_talk1": {
-                "text": "Youth groups and student unions. It's a miracle you're all working together."
+                "text": "Youth groups and student unions. It is notable that you are working together."
             },
             "dan_q4_fact_talk1": {
                 "text": "Unity is our only strength against the administration."
@@ -438,43 +468,55 @@
                 "text": "Exactly. We want people to see what this government is doing to the country."
             },
             "joe_q5_fact_talk1": {
-                "text": "They certainly seem ready for trouble."
+                "text": "From where you stand, you see the police as a threat."
             },
             "dan_q5_fact_talk1": {
                 "text": "They're usually the ones who start it."
             },
             "joe_q5_talk1": {
-                "text": "What do you think of the cops who are here to “maintain” the peace?"
+                "text": "What is your view of the police here to maintain order?"
+            },
+            "joe_q5_talk2": {
+                "text": "From your position, how are they handling the crowd?"
             },
             "dan_q5_talk1": {
                 "text": "Two words – corrupt and brutal. They are here to serve only the interests of\nthe rich and powerful."
             },
+            "dan_q5_talk2": {
+                "text": "They don't protect us. They pressure us."
+            },
             "joe_q5_doubt_talk1": {
-                "text": "How did you say that they are brutal? I think it’s the other way around.\nYou and your organizations are framing them and making them look bad."
+                "text": "Police spokesmen say they are here to contain, not provoke."
             },
             "dan_q5_doubt_talk1": {
                 "text": "Sir Joe, if you’re here to defend the police, please just go away."
             },
             "joe_q5_accuse_talk1": {
-                "text": "How did you say that they are brutal? I think it’s the other way around.\nYou and your organizations are framing them and making them look bad."
+                "text": "If those claims are overstated, this line could react to the wrong signal."
             },
             "dan_q5_accuse_talk1": {
                 "text": "We are fighting for our rights peacefully, and here you are, throwing\nfar-fetched accusations."
             },
             "joe_q6_talk1": {
-                "text": "How many people are actually here? It's hard to tell from the crowd."
+                "text": "How many people are here, in your estimate? It is difficult to tell from this distance."
+            },
+            "joe_q6_talk2": {
+                "text": "Give me your best estimate, not a slogan."
             },
             "dan_q6_talk1": {
                 "text": "I'd bet there are at least 50,000 students and workers here today."
             },
+            "dan_q6_talk2": {
+                "text": "Every street near Congress is packed."
+            },
             "joe_q6_doubt_talk1": {
-                "text": "50,000? That seems like an exaggeration. I've seen smaller crowds that looked bigger than this."
+                "text": "Fifty thousand? That seems high. I have seen smaller crowds look larger than this."
             },
             "dan_q6_doubt_talk1": {
                 "text": "Count them yourself, Sir Joe. The crowd runs from here all the way to Luneta."
             },
             "joe_q6_accuse_clue1": {
-                "text": "You're inflating the numbers to make your cause look more popular than it is!"
+                "text": "This estimate looks inflated for effect."
             },
             "dan_q6_accuse_clue1": {
                 "text": "Look at the streets! How can you say we're a minority?"
@@ -486,28 +528,34 @@
                 "text": "Fine... maybe my enthusiasm got the better of me. 20,000 is still a force to be reckoned with."
             },
             "joe_q6_fact_talk1": {
-                "text": "A sizable crowd, certainly. But let's hope it stays manageable."
+                "text": "It is a large turnout, whichever estimate we use."
             },
             "dan_q6_fact_talk1": {
                 "text": "We're here to be heard, not to cause trouble."
             },
             "joe_q7_talk1": {
-                "text": "Who is leading this whole thing? I heard someone speaking through the PA earlier."
+                "text": "Who is leading this effort? I heard someone speaking over the PA earlier."
+            },
+            "joe_q7_talk2": {
+                "text": "Someone planned this route and timing. Who?"
             },
             "dan_q7_talk1": {
                 "text": "Just some students who care about their country. We don't have 'leaders' in the way you think."
             },
+            "dan_q7_talk2": {
+                "text": "Different groups handle different tasks."
+            },
             "joe_q7_doubt_talk1": {
-                "text": "A rally this organized doesn't just happen by itself. There's a brain behind all this."
+                "text": "A rally this coordinated usually has identifiable organizers."
             },
             "dan_q7_doubt_talk1": {
                 "text": "The people's will is the brain, sir."
             },
             "joe_q7_accuse_clue1": {
-                "text": "I think you're hiding the names of your coordinators to protect them from the police."
+                "text": "You may be shielding your coordinators from scrutiny."
             },
             "joe_q7_accuse_success1": {
-                "text": "I know Edgar Jopson is the one on that podium. He's the NUSP president, isn't he?"
+                "text": "I recognize Edgar Jopson on that podium. He is NUSP president, is he not?"
             },
             "dan_q7_accuse_success1": {
                 "text": "Yes... Edgar is our president. But he's just one of many voices."
@@ -516,16 +564,22 @@
                 "text": "We are not hiding anyone, Sir Joe. Our leaders stand at that podium for all to see."
             },
             "joe_q7_fact_talk1": {
-                "text": "A leaderless movement is a dangerous thing, but so is one with too many heads."
+                "text": "So leadership is distributed, not centered on one person."
             },
             "dan_q7_fact_talk1": {
                 "text": "We're well-organized, Sir Joe. Don't worry about us."
             },
             "joe_q8_talk1": {
-                "text": "I saw a jeepney with loudspeakers following the crowd. Is that yours?"
+                "text": "I saw a jeepney with loudspeakers moving with the crowd. Is that yours?"
+            },
+            "joe_q8_talk2": {
+                "text": "It looked organized, not random transport."
             },
             "dan_q8_talk1": {
                 "text": "A jeepney? I haven't seen one. We're all on foot."
+            },
+            "dan_q8_talk2": {
+                "text": "If there was one, it wasn't under my control."
             },
             "joe_q8_doubt_talk1": {
                 "text": "It was surrounded by your members. Hard to miss."
@@ -534,7 +588,7 @@
                 "text": "Then it wasn't ours. We came here on foot, same as the others."
             },
             "joe_q8_accuse_clue1": {
-                "text": "That jeep is a mobile command center for your leaders!"
+                "text": "That jeep moved like a command post, not simple transport."
             },
             "joe_accuse_backdown": {
                 "text": "No, I can't make that stick. Let's move on."
@@ -543,19 +597,25 @@
                 "text": "You're seeing conspiracies where there are only students."
             },
             "joe_q8_fact_talk1": {
-                "text": "A mobile PA system. Wise move for such a long march."
+                "text": "A mobile PA setup. Practical for a crowd this size."
             },
             "dan_q8_fact_talk1": {
                 "text": "It helps keep everyone's spirits up."
             },
             "joe_q9_talk1": {
-                "text": "It's a peaceful demonstration then? No weapons?"
+                "text": "So this is a peaceful demonstration? No weapons?"
+            },
+            "joe_q9_talk2": {
+                "text": "Not even improvised ones hidden in bags?"
             },
             "dan_q9_talk1": {
                 "text": "None at all. We're here to protest, not to fight."
             },
+            "dan_q9_talk2": {
+                "text": "People brought placards, food, and water. That's it."
+            },
             "joe_q9_fact_talk1": {
-                "text": "Peaceful methods. I hope the police share that sentiment."
+                "text": "Peaceful intent noted. I hope all sides hold to it."
             },
             "dan_q9_fact_talk1": {
                 "text": "We can only hope, Sir Joe."
@@ -567,10 +627,175 @@
                 "text": "I assure you, Sir Joe. We left our weapons at home because we have none to bring."
             },
             "joe_q9_accuse_talk1": {
-                "text": "I think your group has weapons hidden somewhere in that crowd."
+                "text": "Witnesses insist there are concealed weapons in the crowd."
             },
             "dan_q9_accuse_talk1": {
                 "text": "That is a very serious accusation, Sir Joe. Search every one of us if you want."
+            },
+            "joe_q1_fact_talk2": {
+                "text": "All right, NUSP noted in my draft."
+            },
+            "joe_q1_doubt_talk2": {
+                "text": "I need a precise answer, not a slogan."
+            },
+            "joe_q1_accuse_talk2": {
+                "text": "If not, give me names and details I can verify in print."
+            },
+            "joe_q2_fact_talk2": {
+                "text": "That is concrete and reportable."
+            },
+            "joe_q2_doubt_talk2": {
+                "text": "Convince me there is no second track."
+            },
+            "joe_q2_accuse_talk2": {
+                "text": "If that is false, show me where your actions prove otherwise."
+            },
+            "joe_q3_fact_talk2": {
+                "text": "Symbolic protest, then, not direct threat."
+            },
+            "joe_q3_doubt_talk2": {
+                "text": "In a tense crowd, symbols can be misread quickly."
+            },
+            "joe_q3_accuse_talk2": {
+                "text": "If you keep that image, people may read threat into it."
+            },
+            "joe_q4_fact_talk2": {
+                "text": "A broad coalition, even with internal differences."
+            },
+            "joe_q4_doubt_talk2": {
+                "text": "You likely know more names than that."
+            },
+            "joe_q4_accuse_talk2": {
+                "text": "Right now, it reads like protection of your network."
+            },
+            "joe_q5_fact_talk2": {
+                "text": "I will record that as your account."
+            },
+            "joe_q5_doubt_talk2": {
+                "text": "I need specific incidents, not only impressions."
+            },
+            "joe_q5_accuse_talk2": {
+                "text": "That language can harden both sides before facts are checked."
+            },
+            "joe_q6_fact_talk2": {
+                "text": "Large enough to matter politically."
+            },
+            "joe_q6_doubt_talk2": {
+                "text": "I cannot print numbers I cannot defend."
+            },
+            "joe_q6_accuse_clue2": {
+                "text": "Those numbers shift too easily for me to trust."
+            },
+            "joe_q7_fact_talk2": {
+                "text": "Loose leadership can still coordinate a movement."
+            },
+            "joe_q7_doubt_talk2": {
+                "text": "Movements this coordinated rarely run leaderless."
+            },
+            "joe_q7_accuse_clue2": {
+                "text": "Name the coordinators, and we can test the claim."
+            },
+            "joe_q8_fact_talk2": {
+                "text": "That explains how messages traveled through the line."
+            },
+            "joe_q8_doubt_talk2": {
+                "text": "Then who was operating that vehicle?"
+            },
+            "joe_q8_accuse_clue2": {
+                "text": "Treating that loudspeaker jeep as incidental is not credible."
+            },
+            "joe_q9_fact_talk2": {
+                "text": "Good. I would rather report restraint than blood."
+            },
+            "joe_q9_doubt_talk2": {
+                "text": "In this chaos, one hidden weapon changes everything."
+            },
+            "joe_q9_accuse_talk2": {
+                "text": "If weapons surface, the peaceful claim fails."
+            },
+            "dan_q1_fact_talk2": {
+                "text": "Write that we are students, not infiltrators."
+            },
+            "dan_q1_doubt_talk2": {
+                "text": "You can ask anyone here and get the same answer."
+            },
+            "dan_q2_fact_talk2": {
+                "text": "Con-Con in 1971, and no third term."
+            },
+            "dan_q2_doubt_talk2": {
+                "text": "The banners already say exactly that."
+            },
+            "dan_q2_accuse_talk2": {
+                "text": "Read the placards first, Sir Joe, before you accuse us of hidden plans."
+            },
+            "dan_q3_fact_talk2": {
+                "text": "The symbols criticize power, not people in this crowd."
+            },
+            "dan_q3_doubt_talk2": {
+                "text": "If we wanted violence, we would not use cardboard."
+            },
+            "dan_q3_accuse_talk2": {
+                "text": "You are twisting protest symbols into a threat."
+            },
+            "dan_q4_fact_talk2": {
+                "text": "Different groups, shared demands."
+            },
+            "dan_q4_doubt_talk2": {
+                "text": "This is a rallyground, not a roll call."
+            },
+            "dan_q4_accuse_talk2": {
+                "text": "Knowing names does not make me a handler."
+            },
+            "dan_q5_fact_talk2": {
+                "text": "Watch their batons and tell me I am wrong."
+            },
+            "dan_q5_doubt_talk2": {
+                "text": "Restraint is not what we are seeing from this line."
+            },
+            "dan_q5_accuse_talk2": {
+                "text": "Calling abuse by its name is not incitement, Sir Joe."
+            },
+            "dan_q6_fact_talk2": {
+                "text": "Numbers aside, this is still a massive turnout."
+            },
+            "dan_q6_doubt_talk2": {
+                "text": "The avenue is full from one end to the other."
+            },
+            "dan_q6_accuse_clue2": {
+                "text": "You are quibbling over figures to dodge the message."
+            },
+            "dan_q6_accuse_success2": {
+                "text": "Fine, print 20,000 then. The demand still stands."
+            },
+            "dan_q7_fact_talk2": {
+                "text": "Coordination is collective, not secret command."
+            },
+            "dan_q7_doubt_talk2": {
+                "text": "Organization is visible if you actually look around."
+            },
+            "dan_q7_accuse_clue2": {
+                "text": "You keep asking for a hidden chief because it fits the story you came with."
+            },
+            "dan_q7_accuse_success2": {
+                "text": "Yes, Edgar is prominent, but he does not speak alone."
+            },
+            "dan_q8_fact_talk2": {
+                "text": "A sound system helps people hear, not attack."
+            },
+            "dan_q8_doubt_talk2": {
+                "text": "Crowds merge and split. Not every jeep belongs to us."
+            },
+            "dan_q8_accuse_clue2": {
+                "text": "A loudspeaker jeep does not make a conspiracy."
+            },
+            "dan_q9_fact_talk2": {
+                "text": "Our point is to be seen and heard, not armed."
+            },
+            "dan_q9_doubt_talk2": {
+                "text": "Search us and you will find leaflets and raincoats."
+            },
+            "dan_q9_accuse_talk2": {
+                "text": "Do not turn fear into evidence, Sir Joe."
             }
         },
         "m6": {
