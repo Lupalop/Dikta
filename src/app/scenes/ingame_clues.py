@@ -43,7 +43,6 @@ class InGameCluesOverlay(Scene):
         # Prevent the menu from showing up on situations where it's blocked.
         if current_scene.menu_blocked or \
            current_scene.emitter.current_dialog or \
-           current_scene.emitter.current_selector or \
            scene_list.all["ig_escmenu"].visible or \
            scene_list.all["ig_options"].visible or \
            game.scenes._switching:
