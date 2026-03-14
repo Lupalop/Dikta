@@ -31,14 +31,11 @@ class GameManager():
             for event in events:
                 if event.type == pygame.MOUSEMOTION:
                     self._mouse_pos = event.pos
-                    break
                 elif event.type == pygame.QUIT:
                     self.running = False
-                    break
                 elif event.type == pygame.VIDEORESIZE:
                     self.window_size = event.size
                     self.update_display(True, False)
-                    break
 
             for component in self.updateable:
                 component.update(self, events)
@@ -48,9 +45,13 @@ class GameManager():
             for component in self.drawable:
                 component.draw(self.render_layer)
             
-            self.scaler(self.render_layer,
-                        self.window.get_rect().size,
-                        self.window)
+            # If the sizes are the same, a simple blit is much faster than scaling.
+            if self.render_layer.get_size() == self.window.get_size():
+                self.window.blit(self.render_layer, (0, 0))
+            else:
+                self.scaler(self.render_layer,
+                            self.window.get_rect().size,
+                            self.window)
 
             pygame.display.update()
             self.clock.tick(self.fps_limit)
