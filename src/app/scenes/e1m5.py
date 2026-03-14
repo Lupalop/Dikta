@@ -1,23 +1,16 @@
-from engine import *
+from engine import game
 from app import defaults, scene_list, utils
-from app.entities import *
+from app.entities import Image, TargetItem, KeyedButton, TargetMask
 from app.mission import Mission
-from app.dialog import DialogSide, DialogFlags
+from app.dialog import DialogSide
+
+from .interrogation import InterrogationInterrogator, InterrogationRespondent, InterrogationMenu
 
 import pygame
-
-def _toggle_clues(sender):
-    scene_list.all["ig_clues"].toggle_visibility()
 
 class E1M5Scene(Mission):
     def __init__(self):
         super().__init__(1, 5, "", "Congress - Outside 2", DialogSide.TOP)
-
-    def update(self, game, events):
-        super().update(game, events)
-
-    def draw(self, layer):
-        super().draw(layer)
 
     def load_content(self):
         super().load_content()
@@ -40,243 +33,61 @@ class E1M5Scene(Mission):
 
 scene_list.add_mission(E1M5Scene())
 
-SW_TALK1 = "e1m5_talk1"
-SW_TALK2 = "e1m5_talk2"
-
-_tree_cache = None
-
-def _load_tree():
-    global _tree_cache
-    if _tree_cache is None:
-        _tree_cache = utils.load_json_asset("e1m5_tree")
-    return _tree_cache
-
-class E1M5Joe(Mission):
+class E1M5Joe(InterrogationInterrogator):
     def __init__(self):
-        super().__init__(1, 5, "talk_joe", "Interrogation - Joe", DialogSide.BOTTOM)
+        super().__init__(1, 5, "talk_joe", "Interrogation - Joe", "e1m5_tree", "e1m5talk_dan")
+        self.interrogator_branch = "joe"
 
     def load_content(self):
         super().load_content()
         utils.set_music("e1m5", 0.15)
         self.background.set_surface(self.get_image("joe-bg"))
+        self.entities["ca_joe"] = Image(self, utils.load_ca_image("joe-talk2"), (474, 90))
 
-        ca_joe = Image(self, utils.load_ca_image("joe-talk2"), (474, 90))
-        self.entities = {
-            "ca_joe": ca_joe,
-        }
-
-        callbacks = {
-            "to_dan": self._to_dan,
-            "accuse": self._accuse,
-        }
-        self._run_dialog_tree("joe", callbacks)
-
-    def _run_dialog_tree(self, branch, callbacks):
-        tree = _load_tree()
-        talk1 = self.find_switch(SW_TALK1)
-        if not talk1:
-            for node in tree[branch]["intro"]:
-                self._emit_node(node, callbacks)
-            return
-        q = self.find_switch(SW_QUESTION_CURRENT)
-        choice = self.find_switch(SW_FDA_CHOICE)
-        q_data = tree[branch]["questions"][q]
-        for node in q_data["initial"]:
-            self._emit_node(node, callbacks)
-        choice_key = {1: "fact", 2: "doubt", 3: "accuse"}.get(choice)
-        if choice_key and choice_key in q_data["choices"]:
-            for node in q_data["choices"][choice_key]:
-                self._emit_node(node, callbacks)
-
-    def _emit_node(self, node, callbacks):
-        cb_name = node.get("callback")
-        cb = callbacks.get(cb_name) if cb_name else None
-        self.emitter.add(
-            node["character"], node["text_id"],
-            callback=cb,
-            repeat=node.get("repeat", True)
-        )
-
-    def _to_dan(self):
-        game.scenes.set_scene("e1m5talk_dan")
-
-    def _accuse(self):
-        items = self.emitter.add_clues_selector()
-        # XXX we're not processing the clue result here, so default to the
-        # negative response from the interviewee. This is fine, since E1M5
-        # correct choices for FDA are all truth.
-        items.selected += lambda sender, data: self._to_dan()
-
-    def _next(self):
-        game.scenes.set_scene("e1m5")
-
-scene_list.add_mission(E1M5Joe())
-
-class E1M5Dan(Mission):
+class E1M5Dan(InterrogationRespondent):
     def __init__(self):
-        super().__init__(1, 5, "talk_dan", "Interrogation - Dan", DialogSide.BOTTOM)
+        super().__init__(1, 5, "talk_dan", "Interrogation - Dan", "e1m5_tree", "e1m5talk_joe", "e1m5questions", "e1m5comic", side=DialogSide.BOTTOM)
+        self.respondent_branch = "dan"
 
     def load_content(self):
         super().load_content()
         utils.set_music("e1m5", 0.15)
         self.background.set_surface(self.get_image("dan-bg"))
+        prop_people = Image(self, self.get_image("dan-prop-people"), (205, 103))
+        self.entities["prop_people"] = prop_people
+        self.entities["ca_dan"] = Image(self, utils.load_ca_image("dan-talk1"), (550, 70))
 
-        prop_people = Image(
-            self,
-            self.get_image("dan-prop-people"),
-            (205, 103)
-        )
-        ca_dan = Image(self, utils.load_ca_image("dan-talk1"), (550, 70))
-        self.entities = {
-            "prop_people": prop_people,
-            "ca_dan": ca_dan,
-        }
-
-        callbacks = {
-            "show_fda": self._show_fda,
-            "to_questions": self._to_questions,
-        }
-        talk1 = self.find_switch(SW_TALK1)
-        if not talk1:
-            for node in _load_tree()["dan"]["intro"]:
-                self._emit_node(node, callbacks)
-            self.set_switch(SW_TALK1, True)
-            return
-        self._run_dialog_tree("dan", callbacks)
-
-    def _run_dialog_tree(self, branch, callbacks):
-        tree = _load_tree()
-        q = self.find_switch(SW_QUESTION_CURRENT)
-        choice = self.find_switch(SW_FDA_CHOICE)
-        q_data = tree[branch]["questions"][q]
-        for node in q_data["initial"]:
-            self._emit_node(node, callbacks)
-        choice_key = {1: "fact", 2: "doubt", 3: "accuse"}.get(choice)
-        if choice_key and choice_key in q_data["choices"]:
-            for node in q_data["choices"][choice_key]:
-                self._emit_node(node, callbacks)
-
-    def _emit_node(self, node, callbacks):
-        cb_name = node.get("callback")
-        cb = callbacks.get(cb_name) if cb_name else None
-        self.emitter.add(
-            node["character"], node["text_id"],
-            callback=cb,
-            repeat=node.get("repeat", True)
-        )
-
-    def _show_fda(self):
-        choiceset = ChoiceSet.from_entity(self, defaults.FDA_CHOICESET)
-        choiceset.selected += self._handle_choice
-        self.entities["fda"] = choiceset
-        btn_clues = KeyedButton(self, (64, 64), "Review clues", pygame.K_F12, "TAB")
-        btn_clues.leftclick += _toggle_clues
-        self.entities["btn_clues"] = btn_clues
-
-    def _handle_choice(self, sender, value):
-        i = value[0]
-        self.set_switch(SW_FDA_CHOICE, i)
-        # XXX since all fact dialog trees don't have any speech, we will
-        # skip to the question selection instead.
-        def _to_scene(sender):
-            if i == 1:
-                self._to_questions()
-            else:
-                self._to_joe()
-        self.entities["fda"].hidden += _to_scene
-
-    def _to_joe(self):
-        game.scenes.set_scene("e1m5talk_joe")
-
-    def _to_questions(self):
-        questions = self.find_switch(SW_QUESTIONS)
-        has_remaining_questions = True
-        if questions:
-            for item in questions:
-                has_remaining_questions = not ("disabled" in item)
-                if has_remaining_questions:
-                    break
-        if not questions or has_remaining_questions:
-            game.scenes.set_scene("e1m5questions")
-        else:
-            self._next()
-
-    def _next(self):
-        game.scenes.set_scene("e1m5comic")
-
-scene_list.add_mission(E1M5Dan())
-
-SW_QUESTIONS = "e1m5_fda_questions"
-SW_QUESTION_CURRENT = "e1m5_fda_question_id"
-SW_FDA_CHOICE = "e1m5_fda_choice"
-
-class E1M5Questions(Mission):
+class E1M5Questions(InterrogationMenu):
     def __init__(self):
-        super().__init__(1, 5, "questions", "Interrogation - IGQ", DialogSide.TOP)
-        self.questions = []
+        super().__init__(1, 5, "questions", "Interrogation - IGQ", "e1m5_tree", "e1m5talk_joe", pos=(450, 95))
 
     def load_content(self):
+        self.entities["hand"] = defaults.hand_left
         super().load_content()
         utils.set_music("e1m5", 0.15)
         self.background.set_surface(self.get_image("main-bg"))
-
-        self._load_questions()
-        listbox = ListBox(self, (450, 95), "QUESTIONS", self.questions)
-        listbox.selected += self._listbox_on_selected
-
         btn_clues = KeyedButton(self, (64, 64), "Review clues", pygame.K_F12, "TAB")
+        from .interrogation import _toggle_clues
         btn_clues.leftclick += _toggle_clues
+        self.entities["btn_clues"] = btn_clues
 
-        self.entities = {
-            "hand": defaults.hand_left,
-            "listbox": listbox,
-            "btn_clues": btn_clues,
-        }
-
-    def update(self, game, events):
-        super().update(game, events)
-
-    def draw(self, layer):
-        super().draw(layer)
-
-    def _load_questions(self):
-        self.questions = self.find_switch(SW_QUESTIONS)
-        if not self.questions:
-            self.questions = _load_tree()["questions"]
-            self.set_switch(SW_QUESTIONS, self.questions)
-
-    def _listbox_on_selected(self, sender, data):
-        self.questions[data["value"]]["disabled"] = True
-        self.set_switch(SW_QUESTION_CURRENT, data["value"])
-        self.set_switch(SW_QUESTIONS, self.questions)
-        self.set_switch(SW_FDA_CHOICE, None)
-        game.scenes.set_scene("e1m5talk_joe")
-
+scene_list.add_mission(E1M5Joe())
+scene_list.add_mission(E1M5Dan())
 scene_list.add_mission(E1M5Questions())
-
 
 class E1M5Comic(Mission):
     def __init__(self):
         super().__init__(1, 5, "comic", "Comic", menu_blocked = True)
         self.fade_timer = None
 
-    def update(self, game, events):
-        super().update(game, events)
-
-    def draw(self, layer):
-        super().draw(layer)
-
     def load_content(self):
         super().load_content()
         utils.set_music("e1m5comic", 0.5)
-        slice1 = Image(
-            self, self.get_image("comic-1"), (-11.333, -21.943))
-        slice2 = Image(
-            self, self.get_image("comic-2"), (29.495, 298.054))
-        slice3 = Image(
-            self, self.get_image("comic-3"), (757.344, 16.017))
-        slice4 = Image(
-            self, self.get_image("comic-4"), (797.388, 432.636))
+        slice1 = Image(self, self.get_image("comic-1"), (-11.333, -21.943))
+        slice2 = Image(self, self.get_image("comic-2"), (29.495, 298.054))
+        slice3 = Image(self, self.get_image("comic-3"), (757.344, 16.017))
+        slice4 = Image(self, self.get_image("comic-4"), (797.388, 432.636))
+        
         slice1.get_surface().set_alpha(0)
         slice2.get_surface().set_alpha(0)
         slice3.get_surface().set_alpha(0)
@@ -288,35 +99,16 @@ class E1M5Comic(Mission):
             self.entities["target1"] = target1
 
         def fadein_slice4():
-            self.fade_timer = self.animator.fadein(
-                slice4,
-                750,
-                allow_next
-            )
+            self.fade_timer = self.animator.fadein(slice4, 750, allow_next)
 
         def fadein_slice3():
-            self.fade_timer = self.animator.fadein(
-                slice3,
-                750,
-                fadein_slice4,
-                5000
-            )
+            self.fade_timer = self.animator.fadein(slice3, 750, fadein_slice4, 5000)
 
         def fadein_slice2():
-            self.fade_timer = self.animator.fadein(
-                slice2,
-                750,
-                fadein_slice3,
-                5000
-            )
+            self.fade_timer = self.animator.fadein(slice2, 750, fadein_slice3, 5000)
 
         def fadein_slice1():
-            self.fade_timer = self.animator.fadein(
-                slice1,
-                750,
-                fadein_slice2,
-                5000
-            )
+            self.fade_timer = self.animator.fadein(slice1, 750, fadein_slice2, 5000)
 
         fadein_slice1()
 
