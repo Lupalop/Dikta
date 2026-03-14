@@ -81,7 +81,7 @@
             }, {
                 "title": "Session Hall Doors",
                 "description": "The doors of the session hall were [?].",
-                "choices": ["OPEN, LOCKED"],
+                "choices": ["OPEN", "LOCKED"],
                 "answer": 1
             }, {
                 "title": "Crowd Estimate",
@@ -115,7 +115,7 @@
                 "answer": 0
             }, {
                 "title": "Weapons in the Chaos",
-                "description": "The demonstrators who got as far as the sidewalk that led\nto the Muni golf links started to pick up pebbles and rocks with\nwhich they pelted the police. Very soon, placards had\nturned into missiles, and the sound of broken glass punctuated the yelling [?] were flying, too. The effigy was down on the ground, still burning.",
+                "description": "The demonstrators who got as far as the sidewalk that led\nto the Muni golf links started to pick up pebbles and rocks with\nwhich they pelted the police. Very soon, placards had\nturned into missiles, and the sound of broken glass punctuated the yelling [?] were flying, too.\nThe effigy was down on the ground, still burning.",
                 "choices": ["soft-drink bottles", "pebbles", "placards"],
                 "answer": 0
             }, {
@@ -126,7 +126,7 @@
             }, {
                 "title": "Demonstartors' vehicle",
                 "description": "The demonstrators had hired a [?] in which rode some of\ntheir leaders. It had two loudspeakers on its roof,\nwas surrounded by students, and inched its way\nforward and backward throughout the melee.",
-                "choices": ["corrupt and brutal", "kind and honest", "trustworthy and protective"],
+                "choices": ["jeepney", "taxi", "van"],
                 "answer": 0
             }, {
                 "title": "Cops actions",
