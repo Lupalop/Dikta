@@ -174,8 +174,6 @@ class ListBox(Entity):
             target = self._get_next_enabled_index(self.index + 1, 1)
             if target is not None:
                 self._mark_listitems(target)
-        elif key == pygame.K_ESCAPE:
-            self._on_cancelled()
 
     def update(self, game, events):
         # Stop updating the listbox if we're hiding.
