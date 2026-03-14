@@ -1,4 +1,3 @@
-from asyncio import events
 from engine import prefs, game
 from engine.overlay import Overlay
 from app import utils, scene_list
