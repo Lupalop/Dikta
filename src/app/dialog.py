@@ -17,6 +17,7 @@ RECT_PORTRAIT = pygame.Rect(RECT_DIALOG.x, RECT_DIALOG.y, RECT_DIALOG.height, RE
 RECT_NAME_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_NAME.y, RECT_NAME.width, RECT_NAME.height)
 RECT_SPEECH_WP = pygame.Rect(RECT_PORTRAIT.width, RECT_SPEECH.y, RECT_SPEECH.width, RECT_SPEECH.height)
 RECT_POPUP = pygame.Rect(0, 0, 380, 40)
+RECT_SIDENOTE = pygame.Rect(0, 0, 340, 72)
 
 TITLE_CLUES = "CLUES"
 
@@ -157,7 +158,7 @@ class Dialog(ClickableEntity):
         return True
 
 class Popup(ClickableEntity):
-    def __init__(self, emitter, position, clue_name):
+    def __init__(self, emitter, position, clue_name = None, text = None, callback = None, play_sfx = True):
         super().__init__(
             emitter.owner,
             position,
@@ -166,6 +167,8 @@ class Popup(ClickableEntity):
         )
 
         self.clue_name = clue_name
+        self.callback = callback
+        self.play_sfx = play_sfx
         self.emitter = emitter
 
         # Draw boxes to entity surface
@@ -173,7 +176,8 @@ class Popup(ClickableEntity):
         if self._surface and self.box_base:
             self._surface.blit(self.box_base, RECT_POPUP)
         # Initialize speech text and its position
-        text = "New clue: {}".format(clue_name)
+        if text is None:
+            text = "New clue: {}".format(clue_name)
         self.label_item = SequenceLabel(self.owner, text, utils.get_font(24), pygame.Color("white"))
         label_item_pos = (
             position[0] + 55,
@@ -220,6 +224,8 @@ class Popup(ClickableEntity):
     def next_or_skip(self):
         if self.label_item.is_completed:
             utils.reset_cursor()
+            if self.callback:
+                self.callback()
             self.emitter.next_popup()
             return
         self.label_item.skip()
@@ -246,7 +252,8 @@ class DialogEmitter():
             self.current_popup = None
         else:
             self.current_popup = self.popup_queue.pop(0)
-            utils.play_sfx("clue", 0.5)
+            if getattr(self.current_popup, "play_sfx", True):
+                utils.play_sfx("clue", 0.5)
 
     def next_popup_image(self):
         self.current_popup_image = None
@@ -371,7 +378,15 @@ class DialogEmitter():
     def add_popup(self, clue_id, side = DialogSide.BOTTOM_LEFT):
         clue_name = utils.get_clue_data(clue_id)["name"]
         position = self.compute_position(RECT_POPUP, side)
-        popup = Popup(self, position, clue_name)
+        popup = Popup(self, position, clue_name=clue_name)
+        self.popup_queue.append(popup)
+        if not self.current_popup:
+            self.next_popup()
+        return popup
+
+    def add_note(self, text, side = DialogSide.TOP_RIGHT, callback = None, duration_ms = 2800):
+        position = self.compute_position(RECT_SIDENOTE, side)
+        popup = SideNote(self, position, text, callback=callback, duration_ms=duration_ms)
         self.popup_queue.append(popup)
         if not self.current_popup:
             self.next_popup()
@@ -398,3 +413,149 @@ class DialogEmitter():
         listbox = ListBox(self.owner, position, TITLE_CLUES, dataset, True)
         self.current_selector = listbox
         return listbox
+
+class SideNote(ClickableEntity):
+    def __init__(self, emitter, position, text, callback = None, duration_ms = 2800):
+        super().__init__(
+            emitter.owner,
+            position,
+            RECT_SIDENOTE.size,
+            pygame.Surface(RECT_SIDENOTE.size, pygame.SRCALPHA, 32)
+        )
+
+        self.emitter = emitter
+        self.callback = callback
+        self.play_sfx = False
+        self._duration_ms = duration_ms
+        self._fade_in_ms = 320
+        self._fade_out_ms = 420
+        self._finished = False
+        self._detail_shadow = None
+        self._detail_shadow_soft = None
+        self._detail_label = None
+        self._panel = None
+        self._panel_rect = pygame.Rect(0, 0, 0, 0)
+
+        title = "QUESTIONS"
+        subtitle = text
+        detail = None
+        if isinstance(text, str) and ":" in text:
+            parts = text.split(":", 1)
+            title = parts[0].strip().upper()
+            subtitle = parts[1].strip().replace("correct", "Correct")
+        if isinstance(subtitle, str) and "|" in subtitle:
+            details = subtitle.split("|", 1)
+            subtitle = details[0].strip()
+            detail = details[1].strip()
+
+        # Layered shadows provide a stronger soft blur behind text.
+        self._title_shadow = Label(self.owner, title, utils.get_font(24), pygame.Color(0, 0, 0, 215))
+        self._title_shadow_soft = Label(self.owner, title, utils.get_font(24), pygame.Color(0, 0, 0, 120))
+        self._title_label = Label(self.owner, title, utils.get_font(24), pygame.Color("white"))
+        self._subtitle_shadow = Label(self.owner, subtitle, utils.get_comic_font(20), pygame.Color(0, 0, 0, 205), ignore_newline = True)
+        self._subtitle_shadow_soft = Label(self.owner, subtitle, utils.get_comic_font(20), pygame.Color(0, 0, 0, 115), ignore_newline = True)
+        self._subtitle_label = Label(self.owner, subtitle, utils.get_comic_font(20), pygame.Color(225, 225, 225), ignore_newline = True)
+        if detail:
+            self._detail_shadow = Label(self.owner, detail, utils.get_comic_font(16), pygame.Color(0, 0, 0, 190), ignore_newline = True)
+            self._detail_shadow_soft = Label(self.owner, detail, utils.get_comic_font(16), pygame.Color(0, 0, 0, 100), ignore_newline = True)
+            self._detail_label = Label(self.owner, detail, utils.get_comic_font(16), pygame.Color(210, 210, 210), ignore_newline = True)
+
+        self._icon = self._build_note_icon()
+        self._icon_rect = pygame.Rect(0, 0, 0, 0)
+        if self._icon:
+            self._icon_rect = self._icon.get_rect()
+            self._icon_rect.x = 8
+            self._icon_rect.y = 8
+
+        text_left = 36
+        self._title_shadow.set_position((text_left + 1, 9))
+        self._title_shadow_soft.set_position((text_left + 2, 10))
+        self._title_label.set_position((text_left, 8))
+        self._subtitle_shadow.set_position((text_left + 1, 39))
+        self._subtitle_shadow_soft.set_position((text_left + 2, 40))
+        self._subtitle_label.set_position((text_left, 38))
+        if self._detail_shadow and self._detail_label:
+            self._detail_shadow.set_position((text_left + 1, 57))
+            if self._detail_shadow_soft:
+                self._detail_shadow_soft.set_position((text_left + 2, 58))
+            self._detail_label.set_position((text_left, 56))
+
+        panel_width = text_left + self._title_label.get_rect().width + 16
+        row_top = 8
+        row_height = max(self._title_label.get_rect().height, self._icon_rect.height if self._icon else 0)
+        panel_height = row_height - 4
+        self._panel_rect = pygame.Rect(4, row_top, panel_width, panel_height)
+        self._panel = self._build_gradient_panel(self._panel_rect.width, self._panel_rect.height)
+
+        hold_ms = max(0, self._duration_ms - self._fade_in_ms - self._fade_out_ms)
+        if self._surface:
+            self._surface.set_alpha(0)
+            self.owner.animator.fadein(
+                self,
+                self._fade_in_ms,
+                callback=self._start_fadeout,
+                callback_delay=hold_ms
+            )
+        else:
+            self._on_done(None)
+
+    def _build_gradient_panel(self, width, height):
+        # Soft-edge blur: draw in a downscaled surface then smoothscale back up.
+        # The 1-pixel transparent border in small space becomes ~6px soft edges.
+        SCALE = 6
+        pad = 1
+        sw = max(pad * 2 + 1, width // SCALE + pad * 2)
+        sh = max(pad * 2 + 1, height // SCALE + pad * 2)
+        small = pygame.Surface((sw, sh), pygame.SRCALPHA, 32)
+        pygame.draw.rect(small, (0, 0, 0, 220), (pad, pad, sw - pad * 2, sh - pad * 2))
+        panel = pygame.transform.smoothscale(small, (width, height))
+        return panel
+
+    def _build_note_icon(self):
+        icon = pygame.Surface((24, 24), pygame.SRCALPHA, 32)
+
+        # Outline speech bubble.
+        bubble_rect = pygame.Rect(2, 2, 19, 15)
+        pygame.draw.rect(icon, pygame.Color(235, 235, 235), bubble_rect, 2, border_radius=4)
+        tail_points = [(9, 17), (11, 22), (14, 17)]
+        pygame.draw.polygon(icon, pygame.Color(235, 235, 235), tail_points, 2)
+
+        # Tiny check mark to suggest "correct" results.
+        check_points = [(6, 10), (9, 13), (15, 7)]
+        pygame.draw.lines(icon, pygame.Color(235, 235, 235), False, check_points, 2)
+
+        return icon
+
+    def _on_done(self, sender):
+        if self._finished:
+            return
+        self._finished = True
+        if self.callback:
+            self.callback()
+        self.emitter.next_popup()
+
+    def _start_fadeout(self):
+        self.owner.animator.fadeout(self, self._fade_out_ms, callback=lambda: self._on_done(None))
+
+    def draw(self, layer):
+        if not self._surface:
+            return
+
+        self._surface.fill((0, 0, 0, 0))
+        if self._panel:
+            self._surface.blit(self._panel, self._panel_rect.topleft)
+        if self._icon:
+            self._surface.blit(self._icon, self._icon_rect)
+        self._title_shadow.draw(self._surface)
+        self._title_shadow_soft.draw(self._surface)
+        self._title_label.draw(self._surface)
+        self._subtitle_shadow.draw(self._surface)
+        self._subtitle_shadow_soft.draw(self._surface)
+        self._subtitle_label.draw(self._surface)
+        if self._detail_shadow and self._detail_label:
+            self._detail_shadow.draw(self._surface)
+            if self._detail_shadow_soft:
+                self._detail_shadow_soft.draw(self._surface)
+            self._detail_label.draw(self._surface)
+
+        layer.blit(self._surface, self._rect)
