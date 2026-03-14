@@ -1,10 +1,7 @@
-from engine import *
+from engine import game
 from app import utils, scene_list
-from app.entities import *
+from app.entities import Image
 from app.mission import Mission
-from app.dialog import DialogSide, DialogFlags
-
-import pygame
 
 class E1M0Scene(Mission):
     def __init__(self):
@@ -24,8 +21,12 @@ class E1M0Scene(Mission):
             self, utils.load_em_image(1, 0, "intro-1"))
         intro2 = Image(
             self, utils.load_em_image(1, 0, "intro-2"))
-        intro1.get_surface().set_alpha(0)
-        intro2.get_surface().set_alpha(0)
+        intro1_surface = intro1.get_surface()
+        if intro1_surface:
+            intro1_surface.set_alpha(0)
+        intro2_surface = intro2.get_surface()
+        if intro2_surface:
+            intro2_surface.set_alpha(0)
 
         def fadeout_intro2():
             self.fade_timer = self.animator.fadeout(

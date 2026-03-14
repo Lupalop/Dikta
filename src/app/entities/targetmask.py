@@ -1,9 +1,6 @@
 from engine import ClickableEntity
-from engine.enums import MouseButton, ClickState
-from engine.event_handler import EventHandler
+from engine.enums import ClickState
 from app import utils
-
-import pygame
 
 class TargetMask(ClickableEntity):
     def __init__(self, owner, surface, position_or_rect = (0, 0), size = None, zoomin = True):

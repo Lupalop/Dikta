@@ -1,4 +1,3 @@
-from engine import Entity
 from app.entities import Label
 from engine.event_handler import EventHandler
 
@@ -48,14 +47,16 @@ class SequenceLabel(Label):
             # Blit outline first (if enabled)
             if self._outline_width > 0:
                 for dx, dy in Label._get_circle_points(self._outline_width):
-                    self._surface.blit(
-                        self._outline_renders[i][0],
-                        (dest.x + dx, dest.y + dy),
-                        clip_area
-                    )
+                    if self._surface:
+                        self._surface.blit(
+                            self._outline_renders[i][0],
+                            (dest.x + dx, dest.y + dy),
+                            clip_area
+                        )
 
             # Blit the text
-            self._surface.blit(self._renders[i][0], dest, clip_area)
+            if self._surface:
+                self._surface.blit(self._renders[i][0], dest, clip_area)
             chars_remaining -= chars_in_line
 
     def _add_char_to_surface(self, sender):

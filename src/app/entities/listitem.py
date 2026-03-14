@@ -1,7 +1,7 @@
 from engine import ClickableEntity
-from engine.enums import MouseButton, ClickState
+from engine.enums import ClickState
 from app import utils
-from app.entities import Image, Label
+from app.entities import Label
 
 import pygame
 
@@ -65,8 +65,8 @@ class ListItem(ClickableEntity):
         self._redraw_surface()
 
     @classmethod
-    def from_entity(cls, owner, entity):
-        entity_copy = cls(owner, entity.get_surface(), entity._rect)
+    def from_entity(cls, owner, entity, copy_handlers = False):
+        entity_copy = cls(owner, entity.get_position(), entity.data, entity.strike_disabled)
         return entity_copy
 
     def _close_anim(self):

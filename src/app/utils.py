@@ -1,4 +1,4 @@
-from engine import *
+from engine import prefs, content
 
 import pygame
 
@@ -127,12 +127,14 @@ def play_sfx(file_name, volume = 1.0, looping = False):
 
     file_name = file_name + content.AUDIO_EXT
     sound = content.load_sound(file_name, "sfx")
-    sound.set_volume(volume)
+    if sound:
+        sound.set_volume(volume)
 
     loop_count = 0
     if looping:
         loop_count = -1
-    sound.play(loops=loop_count)
+    if sound:
+        sound.play(loops=loop_count)
     return sound
 
 # PyGame's color cursors don't scale properly. Instead, we draw our own cursor

@@ -1,10 +1,8 @@
-from engine import *
-from app import defaults, scene_list, utils
-from app.entities import *
+from engine import game
+from app import scene_list, utils
+from app.entities import TargetMask
 from app.mission import Mission
-from app.dialog import DialogSide, DialogFlags
-
-import pygame
+from app.dialog import DialogSide
 
 class E1M7Joe(Mission):
     def __init__(self):

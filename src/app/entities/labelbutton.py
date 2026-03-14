@@ -1,9 +1,7 @@
 from engine import ClickableEntity
-from engine.enums import MouseButton, ClickState
 from app.entities import Label
 from app import utils
 
-import pygame
 
 class LabelButton(ClickableEntity):
     def __init__(self, owner, label, position_or_rect = (0, 0), size = None):
@@ -13,7 +11,7 @@ class LabelButton(ClickableEntity):
         self.hit_rect = True
 
     @classmethod
-    def from_entity(cls, owner, entity, text, copy_handlers = False):
+    def from_entity(cls, owner, entity, copy_handlers = False, text = None):
         label = Label.from_entity(owner, entity.get_label())
         if text:
             label.set_text(text)
@@ -56,7 +54,7 @@ class LabelButton(ClickableEntity):
     def get_surface(self):
         return self.get_label().get_surface()
 
-    def set_surface(self, texture):
+    def set_surface(self, surface, resize = True):
         print("Changing the surface of a LabelButton entity is not allowed.")
 
     def draw(self, layer):

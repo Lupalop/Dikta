@@ -1,7 +1,7 @@
 from engine import Scene, prefs, game
 from app import utils, scene_list
 from app.mission import Mission
-from app.entities import *
+from app.entities import Image, FadeButton
 
 import pygame
 

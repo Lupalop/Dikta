@@ -1,6 +1,6 @@
 from engine import Scene, prefs
 from app import utils, defaults, scene_list
-from app.entities import *
+from app.entities import Button, LabelButton, Label
 from app.dialog import DialogEmitter, DialogSide
 
 import pygame
@@ -44,7 +44,7 @@ class DebugOverlay(Scene):
         self.emitter.draw(layer)
 
     def generate_test_button(self):
-        btn_test = Button.from_entity(self, defaults.button_default, "Test")
+        btn_test = Button.from_entity(self, defaults.button_default, text="Test")
         btn_test.set_position((510, 100))
         def on_btn_test_click(sender, button):
             import uuid

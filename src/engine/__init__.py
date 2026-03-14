@@ -3,12 +3,13 @@ from .clickable_entity import ClickableEntity
 
 from . import content
 
-from .enums import *
+from .enums import MouseButton, ClickState
 from .scene import Scene
 from .event_handler import EventHandler
 
 from . import timer
 from .scene_manager import SceneManager
+from . import prefs
 from .game_manager import GameManager
 
 game = GameManager()

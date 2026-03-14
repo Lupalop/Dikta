@@ -1,6 +1,6 @@
-from engine import *
+from engine import game
 from app import utils, scene_list
-from app.entities import *
+from app.entities import Image, Label, ListItem, ListBox, ChoiceButton, ChoiceSet
 from app.mission import Mission
 from app.dialog import DialogSide, DialogFlags
 

@@ -1,4 +1,4 @@
-from enum import Enum, IntEnum
+from enum import IntEnum
 
 class MouseButton(IntEnum):
     LEFT = 1

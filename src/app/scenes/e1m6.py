@@ -1,8 +1,8 @@
-from engine import *
-from app import defaults, scene_list, utils
-from app.entities import *
+from engine import game
+from app import scene_list, utils
+from app.entities import TargetItem
 from app.mission import Mission
-from app.dialog import DialogSide, DialogFlags
+from app.dialog import DialogSide
 
 import pygame
 

@@ -1,10 +1,25 @@
 from engine import prefs
+from typing import Any, TYPE_CHECKING
+if TYPE_CHECKING:
+    from engine.scene_manager import SceneManager
 
 import pygame
 import os
 import asyncio
 
 class GameManager():
+    scenes: 'SceneManager'
+    window: pygame.Surface
+    render_layer: pygame.Surface
+    scaler: Any
+    ratio: tuple[float, float]
+    window_size: tuple[int, int]
+    layer_size: tuple[int, int]
+    is_fullscreen: bool
+    is_resizable: bool
+    is_dpi_aware: bool
+    is_scale_smooth: bool
+
     def __init__(self):
         print("Initialized: Game Manager")
         prefs.default.load()

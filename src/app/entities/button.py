@@ -1,6 +1,5 @@
 from engine import ClickableEntity
-from engine.enums import MouseButton, ClickState
-from engine.event_handler import EventHandler
+from engine.enums import ClickState
 from app.entities import Label
 from app import utils
 
@@ -10,7 +9,7 @@ class Button(ClickableEntity):
     def __init__(self, owner, bg_list, label, position_or_rect = (0, 0), size = None):
         super().__init__(owner, position_or_rect, size)
 
-        if not "normal" in bg_list:
+        if "normal" not in bg_list:
             raise ValueError("A 'normal' state should be present in the specified button states.")
 
         self._bg_list = bg_list
@@ -24,7 +23,7 @@ class Button(ClickableEntity):
         self._on_entity_dirty(is_zero_size)
 
     @classmethod
-    def from_entity(cls, owner, entity, text, copy_handlers = False):
+    def from_entity(cls, owner, entity, copy_handlers = False, text = None):
         label = Label.from_entity(owner, entity.get_label())
         if text:
             label.set_text(text)
@@ -69,7 +68,7 @@ class Button(ClickableEntity):
     def get_surface(self):
         return self._bg_list[self._bg_current]
 
-    def set_surface(self, texture):
+    def set_surface(self, surface, resize = True):
         print("Changing the surface of a Button entity is not allowed.")
 
     # Event handlers

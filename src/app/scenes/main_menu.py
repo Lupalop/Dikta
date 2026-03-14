@@ -1,6 +1,6 @@
-from engine import *
+from engine import Scene, content, prefs, game
 from app import utils, scene_list
-from app.entities import *
+from app.entities import Image, Label, FadeButton
 
 import pygame
 
@@ -69,10 +69,14 @@ class MainMenuScene(Scene):
 
         if prefs.IS_WASM:
             btn_load.disabled = True
-            btn_load.get_surface().set_alpha(50)
+            btn_load_surface = btn_load.get_surface()
+            if btn_load_surface:
+                btn_load_surface.set_alpha(50)
 
             btn_exit.disabled = True
-            btn_exit.get_surface().set_alpha(50)
+            btn_exit_surface = btn_exit.get_surface()
+            if btn_exit_surface:
+                btn_exit_surface.set_alpha(50)
 
         self.entities = {
             "background": background,

@@ -104,16 +104,18 @@ class Label(Entity):
                         render[1][0] + dx,
                         render[1][1] + dy
                     )
-                    self._surface.blit(
-                        render[0],
-                        render_position
-                    )
+                    if self._surface:
+                        self._surface.blit(
+                            render[0],
+                            render_position
+                        )
         # Render text
-        for text_render in self._renders:
-            self._surface.blit(
-                text_render[0],
-                text_render[1]
-            )
+        if self._surface:
+            for text_render in self._renders:
+                self._surface.blit(
+                    text_render[0],
+                    text_render[1]
+                )
 
     def _on_entity_dirty(self, resize = True):
         self._render_lines()
@@ -128,7 +130,7 @@ class Label(Entity):
     def get_surface(self):
         return self._surface
 
-    def set_surface(self, texture):
+    def set_surface(self, surface, resize = True):
         print("Changing the surface of a Label entity is not allowed.")
 
     def set_text(self, text):

@@ -1,5 +1,4 @@
-from engine.enums import MouseButton, ClickState
-from engine.event_handler import EventHandler
+from engine.enums import ClickState
 from engine import game, ClickableEntity, prefs
 
 from app import utils
@@ -66,9 +65,11 @@ class Dialog(ClickableEntity):
             rect_name_final = RECT_NAME_WP
         # Draw boxes to entity surface
         self.box_name = utils.load_ui_image("dialog-box-nametag")
-        self._surface.blit(self.box_name, rect_name_final)
+        if self._surface and self.box_name:
+            self._surface.blit(self.box_name, rect_name_final)
         self.box_base = utils.load_ui_image("dialog-box-main")
-        self._surface.blit(self.box_base, RECT_BASE)
+        if self._surface and self.box_base:
+            self._surface.blit(self.box_base, RECT_BASE)
         # Initialize name tag and its position
         self.label_name = Label(self.owner, name, utils.get_font(28), pygame.Color("white"))
         label_name_pos = (
@@ -92,16 +93,16 @@ class Dialog(ClickableEntity):
             self.portrait.draw(self._surface)
 
     def set_position(self, position):
-        raise("Changing the position of a dialog is not allowed.")
+        raise Exception("Changing the position of a dialog is not allowed.")
 
-    def set_rect(self, rect):
-        raise("Changing the rectangle of a dialog is not allowed.")
+    def set_rect(self, rect, resize = True):
+        raise Exception("Changing the rectangle of a dialog is not allowed.")
 
-    def set_size(self, size):
-        raise("Changing the size of a dialog is not allowed.")
+    def set_size(self, size, resize = True):
+        raise Exception("Changing the size of a dialog is not allowed.")
 
-    def set_surface(self, texture):
-        raise("Changing the surface of a dialog is not allowed.")
+    def set_surface(self, surface, resize = True):
+        raise Exception("Changing the surface of a dialog is not allowed.")
 
     # Event handlers
     def _on_state_changed(self, state):
@@ -141,7 +142,7 @@ class Dialog(ClickableEntity):
            (self.flags & DialogFlags.CLOSEABLE):
             if self.callback:
                 self.callback()
-            if self._played:
+            if self._played and self._vox:
                 self._vox.stop()
             utils.reset_cursor()
             self.emitter.set_viewed(self.text_key)
@@ -169,7 +170,8 @@ class Popup(ClickableEntity):
 
         # Draw boxes to entity surface
         self.box_base = utils.load_ui_image("popup-box")
-        self._surface.blit(self.box_base, RECT_POPUP)
+        if self._surface and self.box_base:
+            self._surface.blit(self.box_base, RECT_POPUP)
         # Initialize speech text and its position
         text = "New clue: {}".format(clue_name)
         self.label_item = SequenceLabel(self.owner, text, utils.get_font(24), pygame.Color("white"))
@@ -195,16 +197,16 @@ class Popup(ClickableEntity):
         self.label_item.completed += _delay
 
     def set_position(self, position):
-        raise("Changing the position of a dialog is not allowed.")
+        raise Exception("Changing the position of a dialog is not allowed.")
 
-    def set_rect(self, rect):
-        raise("Changing the rectangle of a dialog is not allowed.")
+    def set_rect(self, rect, resize = True):
+        raise Exception("Changing the rectangle of a dialog is not allowed.")
 
-    def set_size(self, size):
-        raise("Changing the size of a dialog is not allowed.")
+    def set_size(self, size, resize = True):
+        raise Exception("Changing the size of a dialog is not allowed.")
 
-    def set_surface(self, texture):
-        raise("Changing the surface of a dialog is not allowed.")
+    def set_surface(self, surface, resize = True):
+        raise Exception("Changing the surface of a dialog is not allowed.")
 
     # Event handlers
     def draw(self, layer):
@@ -329,7 +331,7 @@ class DialogEmitter():
         elif side == DialogSide.BOTTOM_RIGHT:
             position = (dialog_rightx, dialog_bottomy)
         else:
-            raise("unexpected dialog side")
+            raise Exception("unexpected dialog side")
 
         return position
 

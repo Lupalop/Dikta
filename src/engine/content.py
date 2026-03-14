@@ -14,13 +14,13 @@ AUDIO_EXT = ".ogg" if prefs.IS_WASM else ".mp3"
 
 try:
     pygame.mixer.init()
-except:
-    print("Failed to initialize audio mixer")
+except Exception as e:
+    print(f"Failed to initialize audio mixer: {e}")
 
 try:
     pygame.freetype.init()
-except:
-    print("Failed to initialize FreeType")
+except Exception as e:
+    print(f"Failed to initialize FreeType: {e}")
 
 def load_image(image_name, *subdirectories):
     image_path = os.path.join("app", "assets", *subdirectories, image_name);

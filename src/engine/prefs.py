@@ -15,7 +15,7 @@ class PreferencesManager:
         try:
             self.all = content.load_json(self.file_name)
             print("Loading preferences file: {}".format(self.file_name))
-        except:
+        except Exception:
             print("Failed to load preferences file: {}".format(self.file_name))
             self.all = {}
 
@@ -28,9 +28,9 @@ class PreferencesManager:
 
         try:
             value = self.all[name]
-        except:
+        except Exception:
             if default_value is None:
-                raise("unexpected preference name")
+                raise Exception("unexpected preference name")
             self.all[name] = default_value
             return default_value
 

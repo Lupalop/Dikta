@@ -1,6 +1,6 @@
-from engine import *
+from engine import Scene, game, content
 from app import utils, scene_list
-from app.entities import *
+from app.entities import Label, KeyedButton
 
 import pygame
 

@@ -1,8 +1,7 @@
-from engine import *
-from app import defaults, scene_list, utils
-from app.entities import *
+from engine import game
+from app import defaults, scene_list
+from app.entities import Button, KeyedButton
 from app.mission import Mission
-from app.dialog import DialogSide, DialogFlags
 
 import pygame
 import webbrowser
@@ -29,7 +28,7 @@ class E1End(Mission):
         super().load_content()
         self.background.set_surface(self.get_image("bg"))
 
-        btn_view = Button.from_entity(self, defaults.button_default, "View")
+        btn_view = Button.from_entity(self, defaults.button_default, text="View")
         btn_view.set_position((588, 497))
         btn_view.click += self._to_resource
 

@@ -1,10 +1,6 @@
-from engine import *
 from app import utils
-from app.entities import *
+from app.entities import Image
 from app.mission import Mission
-from app.dialog import DialogSide, DialogFlags
-
-import pygame
 
 class E1M8Scene(Mission):
     def __init__(self):
@@ -18,7 +14,7 @@ class E1M8Scene(Mission):
 
     def load_content(self):
         bg_main = Image(
-            utils.load_em_image(1, 1, "bg-main"))
+            self, utils.load_em_image(1, 1, "bg-main"))
 
         self.entities = {
             "bg_main": bg_main,

@@ -1,6 +1,5 @@
 from engine import ClickableEntity
 from engine.enums import MouseButton, ClickState
-from engine.event_handler import EventHandler
 from app.entities import Label, Image
 from app import utils
 
@@ -71,7 +70,7 @@ class KeyedButton(ClickableEntity):
     def get_surface(self):
         return self._bg_list[self._bg_current]
 
-    def set_surface(self, texture):
+    def set_surface(self, surface, resize = True):
         print("Changing the surface of a KeyedButton entity is not allowed.")
 
     # Event handlers

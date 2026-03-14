@@ -1,7 +1,7 @@
 from engine import Scene, prefs, game
 from app import utils, scene_list, defaults
 from app.mission import Mission
-from app.entities import *
+from app.entities import Image, Label, KeyedButton, ListBox
 
 import pygame
 
@@ -24,9 +24,9 @@ class InGameOptionsOverlay(Scene):
         if pref:
             pref_value = prefs.default.get(pref)
             pref_value_string = "N/A"
-            if pref_value == True:
+            if pref_value:
                 pref_value_string = "Enabled"
-            elif pref_value == False:
+            elif not pref_value:
                 pref_value_string = "Disabled"
             value_string = "\n\nCurrent setting: {}".format(pref_value_string)
             description += value_string
@@ -74,7 +74,8 @@ class InGameOptionsOverlay(Scene):
             return
 
         self.set_visibility(not self.visible)
-        current_scene.enabled = (not self.visible)
+        if current_scene:
+            current_scene.enabled = (not self.visible)
         utils.set_cursor("default")
 
     def load_content(self):

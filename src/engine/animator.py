@@ -1,4 +1,3 @@
-import pygame
 from engine import timer, Entity
 
 class Animator:
@@ -57,6 +56,8 @@ class Animator:
 
     # Animator: Alpha
     def tick_to_alpha(self, sender, surface, val_from, val_to):
+        if surface is None:
+            return
         ratio = sender.get_ratio()
         alpha = self._lerp(val_from, val_to, ratio)
         surface.set_alpha(alpha)
@@ -65,6 +66,9 @@ class Animator:
         surface = surface_or_entity
         if isinstance(surface_or_entity, Entity):
             surface = surface_or_entity.get_surface()
+
+        if surface is None:
+            return None
 
         if val_from:
             surface.set_alpha(val_from)

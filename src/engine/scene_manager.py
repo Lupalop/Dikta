@@ -1,11 +1,11 @@
-from engine import animator, prefs
+from engine import animator, prefs, Scene
 
 import pygame
 
 class SceneManager:
     def __init__(self):
         print("Initialized: Scene Manager")
-        self.all = {}
+        self.all: dict[str, Scene] = {}
         self._scene = None
         self._switching = False
         self._overlays = []

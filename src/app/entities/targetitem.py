@@ -1,9 +1,6 @@
 from engine import ClickableEntity
-from engine.enums import MouseButton, ClickState
-from engine.event_handler import EventHandler
+from engine.enums import ClickState
 from app import utils
-
-import pygame
 
 class TargetItem(ClickableEntity):
     def __init__(self, owner, surface, position_or_rect = (0, 0), size = None, removable = True, grabbable = True):
@@ -63,8 +60,9 @@ class TargetItem(ClickableEntity):
 
         if self.get_state() == ClickState.ACTIVE and self.is_ghosting:
             scaled_pos = game.get_mouse_pos()
-            self._ghost_rect.x = scaled_pos[0] - self._ghost_offset[0]
-            self._ghost_rect.y = scaled_pos[1] - self._ghost_offset[1]
+            if self._ghost_rect and self._ghost_offset:
+                self._ghost_rect.x = scaled_pos[0] - self._ghost_offset[0]
+                self._ghost_rect.y = scaled_pos[1] - self._ghost_offset[1]
 
         super().update(game, events)
 

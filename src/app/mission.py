@@ -2,7 +2,7 @@ from engine import Scene, ClickableEntity, prefs, game
 from engine.enums import MouseButton
 
 from app.utils import get_ep_string, get_clue_data, load_em_image, get_clues_key, reset_cursor, create_listitem_data
-from app.dialog import Dialog, DialogSide, DialogEmitter
+from app.dialog import DialogSide, DialogEmitter
 
 import pygame
 
@@ -70,7 +70,7 @@ class Mission(Scene):
 
     def find_switch(self, switch_id):
         switches = self.get_switches()
-        if not switch_id in switches:
+        if switch_id not in switches:
             return None
         return switches[switch_id]
 
@@ -81,7 +81,7 @@ class Mission(Scene):
 
     def clear_switch(self, switch_id):
         switches = self.get_switches()
-        if not switch_id in switches:
+        if switch_id not in switches:
             print("attempted to clear non-existent switch")
             return False
         switches.pop(switch_id)

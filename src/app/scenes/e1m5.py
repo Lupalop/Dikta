@@ -88,15 +88,15 @@ class E1M5Comic(Mission):
         slice3 = Image(self, self.get_image("comic-3"), (757.344, 16.017))
         slice4 = Image(self, self.get_image("comic-4"), (797.388, 432.636))
         
-        slice1.get_surface().set_alpha(0)
-        slice2.get_surface().set_alpha(0)
-        slice3.get_surface().set_alpha(0)
-        slice4.get_surface().set_alpha(0)
+        for slice_item in [slice1, slice2, slice3, slice4]:
+            slice_surface = slice_item.get_surface()
+            if slice_surface:
+                slice_surface.set_alpha(0)
 
         def allow_next():
             target1 = TargetMask(self, self.get_image("comic-tm"))
             target1.leftclick += lambda sender: game.scenes.set_scene("e1m6")
-            self.entities["target1"] = target1
+            self.entities["target1"] = target1 # type: ignore
 
         def fadein_slice4():
             self.fade_timer = self.animator.fadein(slice4, 750, allow_next)

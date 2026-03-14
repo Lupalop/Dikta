@@ -4,7 +4,7 @@ import pygame
 
 # Defines the base class for entities.
 class Entity:
-    def __init__(self, owner, position_or_rect = (0, 0), target_size = None, surface = None, tor = True):
+    def __init__(self, owner, position_or_rect = (0, 0), target_size = None, surface: pygame.Surface | None = None, tor = True):
         # Initialize this entity instance
         self.owner = owner
         self._surface = surface
@@ -39,7 +39,9 @@ class Entity:
 
     def _on_entity_dirty(self, resize):
         if resize and self.transform_on_resize:
-            self._surface = pygame.transform.smoothscale(self.get_surface(), self._rect.size)
+            surface = self.get_surface()
+            if surface:
+                self._surface = pygame.transform.smoothscale(surface, self._rect.size)
             self._mask = None
 
         self.entity_dirty(self, resize)
@@ -76,8 +78,9 @@ class Entity:
             self._mask = None
 
     def get_mask(self):
-        if self.get_surface() and not self._mask:
-            self._mask = pygame.mask.from_surface(self.get_surface(), 0)
+        surface = self.get_surface()
+        if surface and not self._mask:
+            self._mask = pygame.mask.from_surface(surface, 0)
         return self._mask
 
     def intersects(self, point, use_rect = False):
@@ -85,8 +88,9 @@ class Entity:
             return self._rect.collidepoint(point)
 
         intersection_offset = (point[0] - self._rect.x, point[1] - self._rect.y)
+        mask = self.get_mask()
         intersected = self._rect.collidepoint(point) and \
-                      self.get_mask().get_at(intersection_offset)
+                      mask and mask.get_at(intersection_offset)
         # Update the intersection offset only if we did intersect with the
         # given point. Otherwise, it stays the same and provides the last point
         # of intersection.

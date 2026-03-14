@@ -1,4 +1,4 @@
-from engine import ClickableEntity, Entity
+from engine import ClickableEntity
 from app import utils
 from app.entities import Image, Label
 
@@ -44,8 +44,8 @@ class ChoiceButton(ClickableEntity):
         super().__init__(owner, position, None, surface, hit_rect = True)
 
     @classmethod
-    def from_entity(cls, owner, entity):
-        entity_copy = cls(owner, entity.get_surface(), entity._rect)
+    def from_entity(cls, owner, entity, copy_handlers = False):
+        entity_copy = cls(owner, entity.get_position(), entity.number, entity.text, entity.get_surface())
         return entity_copy
 
     # Event handlers

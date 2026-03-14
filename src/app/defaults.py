@@ -1,4 +1,4 @@
-from app.entities import *
+from app.entities import Image, Label, Button, ChoiceSet
 from app import utils
 
 import pygame

@@ -1,8 +1,5 @@
 from engine.event_handler import EventHandler
 
-import pygame
-import time
-
 class TimerManager():
     def __init__(self):
         self.timers = []

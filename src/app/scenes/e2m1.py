@@ -1,14 +1,12 @@
-from engine import *
-from app import defaults, scene_list, utils
-from app.entities import *
+from engine import game
+from app import scene_list
+from app.entities import Image
 from app.mission import Mission
-from app.dialog import DialogSide, DialogFlags
-
-import pygame
 
 class E2M1(Mission):
     def __init__(self):
         super().__init__(2, 1, "", "")
+        self.fade_timer = None
 
     def update(self, game, events):
         super().update(game, events)
@@ -23,7 +21,9 @@ class E2M1(Mission):
         super().load_content()
         intro1 = Image(
             self, self.get_image("bg"))
-        intro1.get_surface().set_alpha(0)
+        intro1_surface = intro1.get_surface()
+        if intro1_surface:
+            intro1_surface.set_alpha(0)
 
         def fadeout_intro1():
             self.fade_timer = self.animator.fadeout(

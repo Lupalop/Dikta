@@ -1,10 +1,9 @@
-from engine import *
-from app import defaults, scene_list, utils
-from app.entities import *
+from engine import game
+from app import scene_list, utils
+from app.entities import Image
 from app.mission import Mission
 from app.dialog import DialogSide, DialogFlags
 
-import pygame
 
 # E1M2 - Intermezzo
 
@@ -39,7 +38,9 @@ class E1M2Intermezzo(Mission):
 
     def _puppet_entertaxi(self):
         self.entities.pop("joe_standing")
-        self.entities["taxi_joe"].get_surface().set_alpha(255)
+        taxi_joe_surface = self.entities["taxi_joe"].get_surface()
+        if taxi_joe_surface:
+            taxi_joe_surface.set_alpha(255)
         delay_timer = self.timers.add(500, True)
         delay_timer.elapsed += lambda sender: self._puppet_taximove_out()
 
@@ -73,7 +74,9 @@ class E1M2Intermezzo(Mission):
         joe_standing = Image(self, self.get_image("outside-prop-joe-waiting"), (540, 265))
         taxi_driver = Image(self, self.get_image("outside-prop-driver"), (-735, 317))
         taxi_joe = Image(self, self.get_image("outside-prop-joe"), (458, 323))
-        taxi_joe.get_surface().set_alpha(0)
+        taxi_joe_surface = taxi_joe.get_surface()
+        if taxi_joe_surface:
+            taxi_joe_surface.set_alpha(0)
         taxi = Image(self, self.get_image("outside-prop-taxi"), (-1360, 105))
 
         self.entities = {
@@ -136,7 +139,10 @@ class E1M2TaxiInsideJoe(Mission):
                 "choice_initial",
                 flags=DialogFlags.SKIPPABLE
             )
-            initial_dialog.label_speech.completed += self._choice_create
+            if initial_dialog:
+                speech = initial_dialog.label_speech
+                if speech:
+                    speech.completed += self._choice_create
             return
 
         taxi_pre_reset = self.find_switch("taxi_pre_reset")
@@ -167,7 +173,8 @@ class E1M2TaxiInsideDriver(Mission):
         self.set_switch("taxi_pay", True)
         game.scenes.set_scene("e1m2taxi_driver", 10000)
         _car_sfx = utils.play_sfx("car")
-        _car_sfx.fadeout(10500)
+        if _car_sfx:
+            _car_sfx.fadeout(10500)
 
     def _to_joe(self):
         taxi_reset = self.find_switch("taxi_reset")

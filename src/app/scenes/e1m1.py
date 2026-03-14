@@ -1,10 +1,8 @@
-from engine import *
+from engine import game
 from app import defaults, scene_list, utils
-from app.entities import *
+from app.entities import TargetMask, TargetItem
 from app.mission import Mission
 from app.dialog import DialogSide, DialogFlags
-
-import pygame
 
 # E1M1 - Introduction
 
