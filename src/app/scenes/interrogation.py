@@ -270,7 +270,7 @@ class InterrogationRespondent(InterrogationBase):
         self.set_switch(self.SW_PRESENTED_CLUE, None) # Clear any previous cancelled state
         choice_key = {1: "fact", 2: "doubt", 3: "accuse"}.get(i)
 
-        if choice_key == "accuse":
+        if choice_key in ("fact", "doubt", "accuse"):
             self.entities["fda"].hidden += lambda sender: self._to_interrogator()
             return
         

@@ -21,7 +21,7 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "joe", "text_id": "q1_fact_talk1", "callback": "mark_correct" }
+                        { "character": "joe", "text_id": "q1_fact_talk1", "callback": "to_respondent" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
                         { "character": "joe", "text_id": "q1_doubt_talk1", "callback": "to_respondent" }
@@ -37,7 +37,7 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "joe", "text_id": "q2_fact_talk1", "callback": "mark_correct" }
+                        { "character": "joe", "text_id": "q2_fact_talk1", "callback": "to_respondent" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
                         { "character": "joe", "text_id": "q2_doubt_talk1", "callback": "to_respondent" }
@@ -53,7 +53,7 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "joe", "text_id": "q9_fact_talk1", "callback": "mark_correct" }
+                        { "character": "joe", "text_id": "q9_fact_talk1", "callback": "to_respondent" }
                     ] },
                         "doubt":  { "correct": false, "nodes": [
                             { "character": "joe", "text_id": "q9_doubt_talk1", "callback": "to_respondent" }
@@ -69,7 +69,7 @@
                 ],
                 "choices": {
                     "fact":   { "correct": false,  "nodes": [
-                        { "character": "joe", "text_id": "q6_fact_talk1", "callback": "mark_correct" }
+                        { "character": "joe", "text_id": "q6_fact_talk1", "callback": "to_respondent" }
                     ] },
                     "doubt":  { "correct": true, "nodes": [
                         { "character": "joe", "text_id": "q6_doubt_talk1", "callback": "to_respondent" }
@@ -85,7 +85,7 @@
                 ],
                 "choices": {
                     "fact":   { "correct": false,  "nodes": [
-                        { "character": "joe", "text_id": "q7_fact_talk1", "callback": "mark_correct" }
+                        { "character": "joe", "text_id": "q7_fact_talk1", "callback": "to_respondent" }
                     ] },
                     "doubt":  { "correct": true, "nodes": [
                         { "character": "joe", "text_id": "q7_doubt_talk1", "callback": "to_respondent" }
@@ -101,7 +101,7 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "joe", "text_id": "q3_fact_talk1", "callback": "mark_correct" }
+                        { "character": "joe", "text_id": "q3_fact_talk1", "callback": "to_respondent" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
                         { "character": "joe", "text_id": "q3_doubt_talk1", "callback": "to_respondent" }
@@ -117,7 +117,7 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "joe", "text_id": "q4_fact_talk1", "callback": "mark_correct" }
+                        { "character": "joe", "text_id": "q4_fact_talk1", "callback": "to_respondent" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
                         { "character": "joe", "text_id": "q4_doubt_talk1", "callback": "to_respondent" }
@@ -133,7 +133,7 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "joe", "text_id": "q5_fact_talk1", "callback": "mark_correct" }
+                        { "character": "joe", "text_id": "q5_fact_talk1", "callback": "to_respondent" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
                         { "character": "joe", "text_id": "q5_doubt_talk1", "callback": "to_respondent" }
@@ -149,7 +149,7 @@
                 ],
                 "choices": {
                     "fact":   { "correct": false,  "nodes": [
-                        { "character": "joe", "text_id": "q8_fact_talk1", "callback": "mark_correct" }
+                        { "character": "joe", "text_id": "q8_fact_talk1", "callback": "to_respondent" }
                     ] },
                     "doubt":  { "correct": true, "nodes": [
                         { "character": "joe", "text_id": "q8_doubt_talk1", "callback": "to_respondent" }
@@ -172,10 +172,10 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "dan", "text_id": "q1_fact_talk1", "callback": "to_interrogator" }
+                        { "character": "dan", "text_id": "q1_fact_talk1", "callback": "mark_correct" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
-                        { "character": "dan", "text_id": "q1_doubt_talk1", "callback": "to_questions" }
+                        { "character": "dan", "text_id": "q1_doubt_talk1", "callback": "finish_question" }
                     ]},
                     "accuse": { "correct": false, "nodes": [
                         { "character": "dan", "text_id": "q1_accuse_talk1", "callback": "finish_question" }
@@ -188,10 +188,10 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "dan", "text_id": "q2_fact_talk1", "callback": "to_interrogator" }
+                        { "character": "dan", "text_id": "q2_fact_talk1", "callback": "mark_correct" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
-                        { "character": "dan", "text_id": "q2_doubt_talk1", "callback": "to_questions" }
+                        { "character": "dan", "text_id": "q2_doubt_talk1", "callback": "finish_question" }
                     ]},
                     "accuse": { "correct": false, "nodes": [
                         { "character": "dan", "text_id": "q2_accuse_talk1", "callback": "finish_question" }
@@ -204,10 +204,10 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "dan", "text_id": "q9_fact_talk1", "callback": "to_interrogator" }
+                        { "character": "dan", "text_id": "q9_fact_talk1", "callback": "mark_correct" }
                     ] },
                         "doubt":  { "correct": false, "nodes": [
-                            { "character": "dan", "text_id": "q9_doubt_talk1", "callback": "to_questions" }
+                            { "character": "dan", "text_id": "q9_doubt_talk1", "callback": "finish_question" }
                         ]},
                         "accuse": { "correct": false, "nodes": [
                             { "character": "dan", "text_id": "q9_accuse_talk1", "callback": "finish_question" }
@@ -220,10 +220,10 @@
                 ],
                 "choices": {
                     "fact":   { "correct": false,  "nodes": [
-                        { "character": "dan", "text_id": "q6_fact_talk1", "callback": "to_interrogator" }
+                        { "character": "dan", "text_id": "q6_fact_talk1", "callback": "finish_question" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
-                        { "character": "dan", "text_id": "q6_doubt_talk1", "callback": "to_questions" }
+                        { "character": "dan", "text_id": "q6_doubt_talk1", "callback": "finish_question" }
                     ]},
                     "accuse": {
                         "correct": false,
@@ -245,10 +245,10 @@
                 ],
                 "choices": {
                     "fact":   { "correct": false,  "nodes": [
-                        { "character": "dan", "text_id": "q7_fact_talk1", "callback": "to_interrogator" }
+                        { "character": "dan", "text_id": "q7_fact_talk1", "callback": "finish_question" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
-                        { "character": "dan", "text_id": "q7_doubt_talk1", "callback": "to_questions" }
+                        { "character": "dan", "text_id": "q7_doubt_talk1", "callback": "finish_question" }
                     ]},
                     "accuse": {
                         "correct": false,
@@ -271,10 +271,10 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "dan", "text_id": "q3_fact_talk1", "callback": "to_interrogator" }
+                        { "character": "dan", "text_id": "q3_fact_talk1", "callback": "mark_correct" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
-                        { "character": "dan", "text_id": "q3_doubt_talk1", "callback": "to_questions" }
+                        { "character": "dan", "text_id": "q3_doubt_talk1", "callback": "finish_question" }
                     ]},
                     "accuse": { "correct": false, "nodes": [
                         { "character": "dan", "text_id": "q3_accuse_talk1", "callback": "finish_question" }
@@ -287,10 +287,10 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "dan", "text_id": "q4_fact_talk1", "callback": "to_interrogator" }
+                        { "character": "dan", "text_id": "q4_fact_talk1", "callback": "mark_correct" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
-                        { "character": "dan", "text_id": "q4_doubt_talk1", "callback": "to_questions" }
+                        { "character": "dan", "text_id": "q4_doubt_talk1", "callback": "finish_question" }
                     ]},
                     "accuse": { "correct": false, "nodes": [
                         { "character": "dan", "text_id": "q4_accuse_talk1", "callback": "finish_question" }
@@ -303,10 +303,10 @@
                 ],
                 "choices": {
                     "fact":   { "correct": true,  "nodes": [
-                        { "character": "dan", "text_id": "q5_fact_talk1", "callback": "to_interrogator" }
+                        { "character": "dan", "text_id": "q5_fact_talk1", "callback": "mark_correct" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
-                        { "character": "dan", "text_id": "q5_doubt_talk1", "callback": "to_questions" }
+                        { "character": "dan", "text_id": "q5_doubt_talk1", "callback": "finish_question" }
                     ]},
                     "accuse": { "correct": false, "nodes": [
                         { "character": "dan", "text_id": "q5_accuse_talk1", "callback": "finish_question" }
@@ -319,10 +319,10 @@
                 ],
                 "choices": {
                     "fact":   { "correct": false,  "nodes": [
-                        { "character": "dan", "text_id": "q8_fact_talk1", "callback": "to_interrogator" }
+                        { "character": "dan", "text_id": "q8_fact_talk1", "callback": "finish_question" }
                     ] },
                     "doubt":  { "correct": false, "nodes": [
-                        { "character": "dan", "text_id": "q8_doubt_talk1", "callback": "to_questions" }
+                        { "character": "dan", "text_id": "q8_doubt_talk1", "callback": "finish_question" }
                     ]},
                     "accuse": { "correct": false, "nodes": [
                         { "character": "dan", "text_id": "q8_accuse_clue1", "callback": "finish_question" }
