@@ -35,7 +35,7 @@ jobs:
 
       - name: Build
         working-directory: src
-        run: pygbag --build .
+        run: pygbag --build --title "Dikta" --icon app/assets/ui/icon.png .
 
       - uses: actions/upload-pages-artifact@v3
         with:
